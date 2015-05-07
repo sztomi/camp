@@ -54,10 +54,10 @@ public:
     /**
      * \brief Construct the property from its description
      *
-     * \param name Name of the property
+     * \param name Name of the property, must stay valid as long as this instance exists
      * \param type Type of the property
      */
-    SimpleProperty(const std::string& name, Type type);
+    SimpleProperty(const char* name, Type type);
 
     /**
      * \brief Destructor

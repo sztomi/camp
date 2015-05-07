@@ -73,21 +73,21 @@ namespace ClassTest
 
     void declare()
     {
-        camp::Class::declare<MyClass>("ClassTest::MyClass")
+        camp::Class::declare<MyClass>()
             .property("prop", &MyClass::prop)
             .function("func", &MyClass::func);
 
-        camp::Class::declare<MyClass2>("ClassTest::MyClass2");
+        camp::Class::declare<MyClass2>();
 
-        camp::Class::declare<Base>("ClassTest::Base");
+        camp::Class::declare<Base>();
 
-        camp::Class::declare<Derived>("ClassTest::Derived")
+        camp::Class::declare<Derived>()
             .base<Base>();
 
-        camp::Class::declare<DerivedNoRtti>("ClassTest::DerivedNoRtti")
+        camp::Class::declare<DerivedNoRtti>()
             .base<Base>();
 
-        camp::Class::declare<Derived2NoRtti>("ClassTest::Derived2NoRtti")
+        camp::Class::declare<Derived2NoRtti>()
             .base<Derived>();
     }
 }

@@ -107,19 +107,19 @@ public:
      *     float length() const;
      * };
      *
-     * camp::Class::declare<Point>("Point")
+     * camp::Class::declare<Point>()
      *     .property("x",      &Point::x);      // getter + setter
      *     .property("y",      &Point::y);      // getter + setter
      *     .property("length", &Point::length); // getter only
      * \endcode
 
-     * \param name Name of the property (must be unique within the metaclass)
+     * \param name Name of the property (must be unique within the metaclass), must stay valid as long as this instance exists
      * \param accessor Accessor to the C++ implementation of the property
      *
      * \return Reference to this, in order to chain other calls
      */
     template <typename F>
-    ClassBuilder<T>& property(const std::string& name, F accessor);
+    ClassBuilder<T>& property(const char* name, F accessor);
 
     /**
      * \brief Declare a new property from a pair of accessors
@@ -143,19 +143,19 @@ public:
      *     Point p;
      * };
      *
-     * camp::Class::declare<Entity>("Entity")
+     * camp::Class::declare<Entity>()
      *     .property("x", &Point::x, &Entity::p); // will internally resolve to e.p.x
      *     .property("y", &Point::y, &Entity::p); // will internally resolve to e.p.y
      * \endcode
      *
-     * \param name Name of the property (must be unique within the metaclass)
+     * \param name Name of the property (must be unique within the metaclass), must stay valid as long as this instance exists
      * \param accessor1 First accessor to the C++ implementation of the property (getter)
      * \param accessor2 Second accessor to the C++ implementation of the property (setter or getter to compose)
      *
      * \return Reference to this, in order to chain other calls
      */
     template <typename F1, typename F2>
-    ClassBuilder<T>& property(const std::string& name, F1 accessor1, F2 accessor2);
+    ClassBuilder<T>& property(const char* name, F1 accessor1, F2 accessor2);
 
     /**
      * \brief Declare a new property from three accessors
@@ -185,12 +185,12 @@ public:
      *     Point p;
      * };
      *
-     * camp::Class::declare<Entity>("Entity")
+     * camp::Class::declare<Entity>()
      *     .property("x", &Point::getX, &Point::setX, &Entity::p); // will internally resolve to e.p.get/setX()
      *     .property("y", &Point::getY, &Point::setY, &Entity::p); // will internally resolve to e.p.get/setY()
      * \endcode
      *
-     * \param name Name of the property (must be unique within the metaclass)
+     * \param name Name of the property (must be unique within the metaclass), must stay valid as long as this instance exists
      * \param accessor1 First accessor (getter)
      * \param accessor2 Second accessor (setter)
      * \param accessor3 Third accessor (getter)
@@ -198,7 +198,7 @@ public:
      * \return Reference to this, in order to chain other calls
      */
     template <typename F1, typename F2, typename F3>
-    ClassBuilder<T>& property(const std::string& name, F1 accessor1, F2 accessor2, F3 accessor3);
+    ClassBuilder<T>& property(const char* name, F1 accessor1, F2 accessor2, F3 accessor3);
 
     /**
      * \brief Declare a new function from any bindable type
@@ -248,7 +248,7 @@ public:
      *     Point p;
      * };
      *
-     * camp::Class::declare<Entity>("Entity")
+     * camp::Class::declare<Entity>()
      *     .function("move", &Point::move, &Entity::p); // will internally resolve to e.p.move()
      * \endcode
      *
@@ -450,7 +450,7 @@ public:
      * Example of usage:
      *
      * \code
-     * camp::Class::declare<MyClass>("MyClass")
+     * camp::Class::declare<MyClass>()
      *     .external<MyClassMapper>()
      *     ...
      * \endcode

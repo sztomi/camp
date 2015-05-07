@@ -36,7 +36,7 @@ namespace detail
 {
 //-------------------------------------------------------------------------------------------------
 template <typename A>
-EnumPropertyImpl<A>::EnumPropertyImpl(const std::string& name, const A& accessor)
+EnumPropertyImpl<A>::EnumPropertyImpl(const char* name, const A& accessor)
     : EnumProperty(name, enumByType<typename A::DataType>())
     , m_accessor(accessor)
 {

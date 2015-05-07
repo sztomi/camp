@@ -38,7 +38,6 @@
 #include <camp/error.hpp>
 #include <camp/detail/typeid.hpp>
 #include <camp/detail/classmanager.hpp>
-#include <string>
 
 
 namespace camp
@@ -71,15 +70,15 @@ const Class& classByIndex(std::size_t index);
 /**
  * \relates Class
  *
- * \brief Get a metaclass from its name
+ * \brief Get a metaclass from its ID
  *
- * \param name Name of the metaclass to retrieve (case sensitive)
+ * \param id ID (result of "camp::StringId(camp::Class::name())") of the metaclass to retrieve, no reference by intent
  *
  * \return Reference to the requested metaclass
  *
- * \throw ClassNotFound name is not a valid metaclass name
+ * \throw ClassNotFound ID is not a valid metaclass ID
  */
-const Class& classByName(const std::string& name);
+const Class& classById(StringId id);
 
 /**
  * \relates Class

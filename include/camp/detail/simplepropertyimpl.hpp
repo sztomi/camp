@@ -60,10 +60,10 @@ public:
     /**
      * \brief Construct the property from its accessors
      *
-     * \param name Name of the property
+     * \param name Name of the property, must stay valid as long as this instance exists
      * \param accessor Object used to access the actual C++ property
      */
-    SimplePropertyImpl(const std::string& name, const A& accessor);
+    SimplePropertyImpl(const char* name, const A& accessor);
 
 protected:
 

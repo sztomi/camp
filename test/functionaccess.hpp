@@ -51,7 +51,7 @@ namespace FunctionAccessTest
 
     void declare()
     {
-        camp::Class::declare<MyClass>("FunctionAccessTest::MyClass")
+        camp::Class::declare<MyClass>()
 
             // ***** constant value *****
             .function("f0", &MyClass::f).callable(false)

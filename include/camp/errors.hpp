@@ -104,10 +104,9 @@ public:
     /**
      * \brief Constructor
      *
-     * \param name Name of the class
-     * \param type Identifier of the C++ type
+     * \param name Name of the class, must be valid
      */
-    ClassAlreadyCreated(const std::string& name, const std::string& type);
+    ClassAlreadyCreated(const char* name);
 };
 
 /**

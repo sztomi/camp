@@ -62,9 +62,9 @@ namespace TagHolderTest
     {
         camp::Enum::declare<MyEnum>("TagHolderTest::MyEnum");
 
-        camp::Class::declare<MyType>("TagHolderTest::MyType");
+        camp::Class::declare<MyType>();
 
-        camp::Class::declare<MyClass>("TagHolderTest::MyClass")
+        camp::Class::declare<MyClass>()
             .tag("a")
             .tag("b", 0)
             .tag(true)

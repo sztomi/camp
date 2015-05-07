@@ -75,7 +75,7 @@ struct ToUserObject<true>
 
 //-------------------------------------------------------------------------------------------------
 template <typename A>
-UserPropertyImpl<A>::UserPropertyImpl(const std::string& name, const A& accessor)
+UserPropertyImpl<A>::UserPropertyImpl(const char* name, const A& accessor)
     : UserProperty(name, classByType<typename A::DataType>())
     , m_accessor(accessor)
 {

@@ -35,6 +35,7 @@
 
 
 #include <camp/args.hpp>
+#include <camp/stringid.hpp>
 #include <camp/classcast.hpp>
 #include <camp/errors.hpp>
 #include <camp/detail/objecttraits.hpp>
@@ -140,14 +141,14 @@ public:
      * This function is defined for convenience, it is a shortcut
      * for <tt>object.getClass().property(name).get(object);</tt>
      *
-     * \param property Name of the property to get
+     * \param id ID (result of "camp::StringId(camp::Property::name())") of the property to get, no reference by intent
      *
      * \return Current value of the property
      *
      * \throw PropertyNotFound \a property is not a property of the object
      * \throw ForbiddenRead \a property is not readable
      */
-    Value get(const std::string& property) const;
+    Value get(StringId id) const;
 
     /**
      * \brief Set the value of an object's property
@@ -155,14 +156,14 @@ public:
      * This function is defined for convenience, it is a shortcut
      * for <tt>object.getClass().property(name).set(object, value);</tt>
      *
-     * \param property Name of the property to set
+     * \param id ID (result of "camp::StringId(camp::Property::name())") of the property to set, no reference by intent
      * \param value Value to set
      *
      * \throw PropertyNotFound \a property is not a property of the object
      * \throw ForbiddenWrite \a property is not writable
      * \throw BadType \a value can't be converted to the property's type
      */
-    void set(const std::string& property, const Value& value) const;
+    void set(StringId id, const Value& value) const;
 
     /**
      * \brief Call an object's function

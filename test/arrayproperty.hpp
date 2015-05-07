@@ -83,9 +83,9 @@ namespace ArrayPropertyTest
 
     void declare()
     {
-        camp::Class::declare<MyType>("ArrayPropertyTest::MyType");
+        camp::Class::declare<MyType>();
 
-        camp::Class::declare<MyClass>("ArrayPropertyTest::MyClass")
+        camp::Class::declare<MyClass>()
             .property("bools", &MyClass::bools)
             .property("ints", &MyClass::ints)
             .property("strings", &MyClass::strings)

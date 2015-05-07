@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE(count)
 //-----------------------------------------------------------------------------
 BOOST_AUTO_TEST_CASE(types)
 {
-    BOOST_CHECK_EQUAL(metaclass->property(0).type(), camp::intType);
+    BOOST_CHECK_EQUAL(metaclass->property(0u).type(), camp::intType);
     BOOST_CHECK_EQUAL(metaclass->function(0).returnType(), camp::stringType);
 }
 

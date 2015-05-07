@@ -52,10 +52,10 @@ public:
     /**
      * \brief Construct the property from its description
      *
-     * \param name Name of the property
+     * \param name Name of the property, must stay valid as long as this instance exists
      * \param propEnum Eumeration the property is bound to
      */
-    EnumProperty(const std::string& name, const Enum& propEnum);
+    EnumProperty(const char* name, const Enum& propEnum);
 
     /**
      * \brief Destructor

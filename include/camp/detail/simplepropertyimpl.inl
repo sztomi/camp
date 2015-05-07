@@ -36,7 +36,7 @@ namespace detail
 {
 //-------------------------------------------------------------------------------------------------
 template <typename A>
-SimplePropertyImpl<A>::SimplePropertyImpl(const std::string& name, const A& accessor)
+SimplePropertyImpl<A>::SimplePropertyImpl(const char* name, const A& accessor)
     : SimpleProperty(name, mapType<typename A::DataType>())
     , m_accessor(accessor)
 {

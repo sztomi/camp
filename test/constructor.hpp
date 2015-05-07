@@ -93,12 +93,12 @@ namespace ConstructorTest
             .value("four",  four)
             .value("five",  five);
 
-        camp::Class::declare<MyType>("ConstructorTest::MyType");
+        camp::Class::declare<MyType>();
 
-        camp::Class::declare<MyBase1>("ConstructorTest::MyBase1");
-        camp::Class::declare<MyBase2>("ConstructorTest::MyBase2");
+        camp::Class::declare<MyBase1>();
+        camp::Class::declare<MyBase2>();
 
-        camp::Class::declare<MyClass>("ConstructorTest::MyClass")
+        camp::Class::declare<MyClass>()
             .base<MyBase1>()
             .base<MyBase2>()
             .constructor0()

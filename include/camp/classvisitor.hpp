@@ -94,7 +94,7 @@ class Function;
  *     }
  * };
  * 
- * const camp::Class& metaclass = camp::classByName("MyClass");
+ * const camp::Class& metaclass = camp::classById("MyClass");
  * MyClassVisitor visitor;
  * metaclass.visit(visitor);
  * \endcode

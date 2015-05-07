@@ -59,7 +59,7 @@ namespace camp
  * \code
  * enum MyEnum {one = 1, two = 2, ten = 10};
  *
- * camp::Enum::declare<MyEnum>("MyEnum")
+ * camp::Enum::declare<MyEnum>()
  *     .value("one", one)
  *     .value("two", two)
  *     .value("ten", ten);

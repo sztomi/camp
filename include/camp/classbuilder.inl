@@ -91,7 +91,7 @@ ClassBuilder<T>& ClassBuilder<T>::base()
 //-------------------------------------------------------------------------------------------------
 template <typename T>
 template <typename F>
-ClassBuilder<T>& ClassBuilder<T>::property(const std::string& name, F accessor)
+ClassBuilder<T>& ClassBuilder<T>::property(const char* name, F accessor)
 {
     // Find the factory which will be able to construct a camp::Property from an accessor of type F
     typedef detail::PropertyFactory1<T, F> Factory;
@@ -103,7 +103,7 @@ ClassBuilder<T>& ClassBuilder<T>::property(const std::string& name, F accessor)
 //-------------------------------------------------------------------------------------------------
 template <typename T>
 template <typename F1, typename F2>
-ClassBuilder<T>& ClassBuilder<T>::property(const std::string& name, F1 accessor1, F2 accessor2)
+ClassBuilder<T>& ClassBuilder<T>::property(const char* name, F1 accessor1, F2 accessor2)
 {
     // Find the factory which will be able to construct a camp::Property from accessors of type F1 and F2
     typedef detail::PropertyFactory2<T, F1, F2> Factory;
@@ -115,7 +115,7 @@ ClassBuilder<T>& ClassBuilder<T>::property(const std::string& name, F1 accessor1
 //-------------------------------------------------------------------------------------------------
 template <typename T>
 template <typename F1, typename F2, typename F3>
-ClassBuilder<T>& ClassBuilder<T>::property(const std::string& name, F1 accessor1, F2 accessor2, F3 accessor3)
+ClassBuilder<T>& ClassBuilder<T>::property(const char* name, F1 accessor1, F2 accessor2, F3 accessor3)
 {
     // Find the factory which will be able to construct a camp::Property from accessors of type F1, F2 and F3
     typedef detail::PropertyFactory3<T, F1, F2, F3> Factory;
@@ -357,8 +357,8 @@ ClassBuilder<T>& ClassBuilder<T>::addProperty(Property* property)
     // Retrieve the class' properties indexed by name
     Class::PropertyNameIndex& properties = m_target->m_properties.get<Class::Name>();
 
-    // First remove any property that already exists with the same name
-    properties.erase(property->name());
+    // First remove any property that already exists with the same ID
+    properties.erase(property->id());
 
     // Insert the new property
     properties.insert(Class::PropertyPtr(property));

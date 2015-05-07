@@ -37,7 +37,13 @@
 namespace camp
 {
 //-------------------------------------------------------------------------------------------------
-const std::string& Class::name() const
+uint32_t Class::id() const
+{
+    return m_id;
+}
+
+//-------------------------------------------------------------------------------------------------
+const char* Class::name() const
 {
     return m_name;
 }
@@ -101,11 +107,11 @@ std::size_t Class::propertyCount() const
 }
 
 //-------------------------------------------------------------------------------------------------
-bool Class::hasProperty(const std::string& name) const
+bool Class::hasProperty(StringId id) const
 {
     const PropertyNameIndex& names = m_properties.get<Name>();
 
-    return names.find(name) != names.end();
+    return names.find(id) != names.end();
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -119,13 +125,13 @@ const Property& Class::property(std::size_t index) const
 }
 
 //-------------------------------------------------------------------------------------------------
-const Property& Class::property(const std::string& name) const
+const Property& Class::property(StringId id) const
 {
     const PropertyNameIndex& names = m_properties.get<Name>();
 
-    PropertyNameIndex::const_iterator it = names.find(name);
+    PropertyNameIndex::const_iterator it = names.find(id);
     if (it == names.end())
-        CAMP_ERROR(PropertyNotFound(name, m_name));
+        CAMP_ERROR(PropertyNotFound(std::to_string(id), m_name));
 
     return **it;
 }
@@ -203,18 +209,19 @@ void* Class::applyOffset(void* pointer, const Class& target) const
 //-------------------------------------------------------------------------------------------------
 bool Class::operator==(const Class& other) const
 {
-    return m_name == other.m_name;
+    return m_id == other.m_id;
 }
 
 //-------------------------------------------------------------------------------------------------
 bool Class::operator!=(const Class& other) const
 {
-    return m_name != other.m_name;
+    return m_id != other.m_id;
 }
 
 //-------------------------------------------------------------------------------------------------
-Class::Class(const std::string& name)
-    : m_name(name)
+Class::Class(const char* name)
+    : m_id(name)
+    , m_name(name)
 {
 }
 

@@ -84,20 +84,20 @@ namespace InheritanceTest
 
     void declare()
     {
-        camp::Class::declare<MyClass1>("InheritanceTest::MyClass1")
+        camp::Class::declare<MyClass1>()
             .function("f1", &MyClass1::f1)
             .property("p1", &MyClass1::p1)
             .function("overridden", &MyClass1::fo1)
             .property("overridden", &MyClass1::po1);
 
-        camp::Class::declare<MyClass2>("InheritanceTest::MyClass2")
+        camp::Class::declare<MyClass2>()
             .function("f2", &MyClass2::f2)
             .property("p2", &MyClass2::p2)
             .function("virtual", &MyClass2::fv)
             .function("overridden", &MyClass2::fo2)
             .property("overridden", &MyClass2::po2);
 
-        camp::Class::declare<MyClass3>("InheritanceTest::MyClass3")
+        camp::Class::declare<MyClass3>()
             .base<MyClass1>()
             .base<MyClass2>()
             .function("f3", &MyClass3::f3)
@@ -105,7 +105,7 @@ namespace InheritanceTest
             .function("overridden", &MyClass3::fo3)
             .property("overridden", &MyClass3::po3);
 
-        camp::Class::declare<MyClass4>("InheritanceTest::MyClass4")
+        camp::Class::declare<MyClass4>()
             .base<MyClass3>()
             .function("f4", &MyClass4::f4)
             .property("p4", &MyClass4::p4)

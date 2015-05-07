@@ -83,7 +83,7 @@ class ClassVisitor;
  *     std::string func();
  * };
  *
- * camp::Class::declare<MyClass>("MyClass")
+ * camp::Class::declare<MyClass>()
  *     .tag("help", "this is my class")
  *     .constructor0()
  *     .property("prop", &MyClass::getProp, &MyClass::setProp)
@@ -127,23 +127,27 @@ public:
      * This is the function to call to create a new metaclass. The template
      * parameter T is the C++ class that will be bound to the metaclass.
      *
-     * \param name Name of the metaclass in CAMP. This name identifies
-     *             the metaclass and thus has to be unique
-     *
      * \return A ClassBuilder<T> object that will provide functions
      *         to fill the new metaclass with properties, functions, etc.
      */
     template <typename T>
-    static ClassBuilder<T> declare(const std::string& name);
+    static ClassBuilder<T> declare();
 
 public:
 
     /**
+     * \brief Return the ID of the metaclass
+     *
+     * \return The ID (result of "camp::StringId(camp::Class::name())") of the metaclass
+     */
+    uint32_t id() const;
+
+    /**
      * \brief Return the name of the metaclass
      *
-     * \return String containing the name of the metaclass
+     * \return String containing the name of the metaclass, always valid, do not destroy the instance
      */
-    const std::string& name() const;
+    const char* name() const;
 
     /**
      * \brief Return the total number of base metaclasses of this metaclass
@@ -211,11 +215,11 @@ public:
     /**
      * \brief Check if this metaclass contains the given property
      *
-     * \param name Name of the property to check
+     * \param id ID (result of "camp::StringId(camp::Property::name())") of the property to check, no reference by intent
      *
      * \return True if the property is in the metaclass, false otherwise
      */
-    bool hasProperty(const std::string& name) const;
+    bool hasProperty(StringId id) const;
 
     /**
      * \brief Get a property from its index in this metaclass
@@ -229,15 +233,15 @@ public:
     const Property& property(std::size_t index) const;
 
     /**
-     * \brief Get a property from its name
+     * \brief Get a property from its ID
      *
-     * \param name Name of the property to get (case sensitive)
+     * \param id ID (result of "camp::StringId(camp::Property::name())") of the property to get, no reference by intent
      *
      * \return Reference to the property
      *
-     * \throw PropertyNotFound \a name is not a property of the metaclass
+     * \throw PropertyNotFound \a ID is not a property of the metaclass
      */
-    const Property& property(const std::string& name) const;
+    const Property& property(StringId id) const;
 
     /**
     * \brief Return the total number of constructors of this metaclass
@@ -319,9 +323,9 @@ private:
     /**
      * \brief Construct the metaclass from its name
      *
-     * \param name Name of the metaclass
+     * \param name Name of the metaclass, must stay valid as long as this instance exists
      */
-    Class(const std::string& name);
+    Class(const char* name);
 
     /**
      * \brief Get the offset of a base metaclass
@@ -354,7 +358,7 @@ private:
 
     typedef boost::multi_index_container<PropertyPtr,
         bm::indexed_by<bm::random_access<bm::tag<Id> >,
-                       bm::ordered_unique<bm::tag<Name>, bm::const_mem_fun<Property, const std::string&, &Property::name> >
+                       bm::ordered_unique<bm::tag<Name>, bm::const_mem_fun<Property, uint32_t, &Property::id> >
         >
     > PropertyTable;
 
@@ -368,7 +372,8 @@ private:
     typedef FunctionTable::index<Name>::type FunctionNameIndex;
     typedef void (*Destructor)(const UserObject&);
 
-    std::string m_name; ///< Name of the metaclass
+    StringId m_id; ///< The ID (result of "camp::StringId(camp::Class::name())") of the metaclass
+    const char* m_name; ///< Name of the metaclass, must stay valid as long as this instance exists
     FunctionTable m_functions; ///< Table of metafunctions indexed by name
     PropertyTable m_properties; ///< Table of metaproperties indexed by name
     BaseList m_bases; ///< List of base metaclasses

@@ -45,14 +45,14 @@ ClassManager& ClassManager::instance()
 }
 
 //-------------------------------------------------------------------------------------------------
-Class& ClassManager::addClass(const std::string& name, const std::string& id)
+Class& ClassManager::addClass(const char* name)
 {
-    const IdIndex&   ids   = m_classes.get<Id>();
-    const NameIndex& names = m_classes.get<Name>();
+    const IdIndex& ids = m_classes.get<Id>();
 
     // First make sure that the class doesn't already exist
-    if ((ids.find(id) != ids.end()) || (names.find(name) != names.end()))
-        CAMP_ERROR(ClassAlreadyCreated(name, id));
+    const StringId id(name);
+    if (ids.find(id) != ids.end())
+        CAMP_ERROR(ClassAlreadyCreated(name));
 
     // Create the new class
     Class* newClass = new Class(name);
@@ -90,31 +90,19 @@ const Class& ClassManager::getByIndex(std::size_t index) const
 }
 
 //-------------------------------------------------------------------------------------------------
-const Class& ClassManager::getByName(const std::string& name) const
-{
-    const NameIndex& names = m_classes.get<Name>();
-
-    NameIndex::const_iterator it = names.find(name);
-    if (it == names.end())
-        CAMP_ERROR(ClassNotFound(name));
-
-    return *it->classPtr;
-}
-
-//-------------------------------------------------------------------------------------------------
-const Class& ClassManager::getById(const std::string& id) const
+const Class& ClassManager::getById(StringId id) const
 {
     const IdIndex& ids = m_classes.get<Id>();
 
     IdIndex::const_iterator it = ids.find(id);
     if (it == ids.end())
-        CAMP_ERROR(ClassNotFound(id));
+        CAMP_ERROR(ClassNotFound(std::to_string(id)));
 
     return *it->classPtr;
 }
 
 //-------------------------------------------------------------------------------------------------
-const Class* ClassManager::getByIdSafe(const std::string& id) const
+const Class* ClassManager::getByIdSafe(StringId id) const
 {
     const IdIndex& ids = m_classes.get<Id>();
 
@@ -126,7 +114,7 @@ const Class* ClassManager::getByIdSafe(const std::string& id) const
 }
 
 //-------------------------------------------------------------------------------------------------
-bool ClassManager::classExists(const std::string& id) const
+bool ClassManager::classExists(StringId id) const
 {
     const IdIndex& ids = m_classes.get<Id>();
 

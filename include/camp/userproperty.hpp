@@ -52,10 +52,10 @@ public:
     /**
      * \brief Construct the property from its description
      *
-     * \param name Name of the property
+     * \param name Name of the property, must stay valid as long as this instance exists
      * \param propClass Eumeration the property is bound to
      */
-    UserProperty(const std::string& name, const Class& propClass);
+    UserProperty(const char* name, const Class& propClass);
 
     /**
      * \brief Destructor

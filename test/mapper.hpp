@@ -47,7 +47,7 @@ namespace MapperTest
             functionCount = 3
         };
 
-        static std::string property(std::size_t index)
+        static const char* property(std::size_t index)
         {
             const char* names[] = {"prop0", "prop1", "prop2", "prop3", "prop4"};
             return names[index];
@@ -108,7 +108,7 @@ namespace MapperTest
         {
         public:
 
-            MyProperty(const std::string& name)
+            MyProperty(const char* name)
                 : camp::SimpleProperty(name, camp::intType)
             {
             }
@@ -145,7 +145,7 @@ namespace MapperTest
 
     void declare()
     {
-        camp::Class::declare<MyClass>("MapperTest::MyClass")
+        camp::Class::declare<MyClass>()
             .external<MyMapper>();
     }
 }

@@ -42,7 +42,13 @@ Property::~Property()
 }
 
 //-------------------------------------------------------------------------------------------------
-const std::string& Property::name() const
+uint32_t Property::id() const
+{
+    return m_id;
+}
+
+//-------------------------------------------------------------------------------------------------
+const char* Property::name() const
 {
     return m_name;
 }
@@ -106,8 +112,9 @@ bool Property::isWritable() const
 }
 
 //-------------------------------------------------------------------------------------------------
-Property::Property(const std::string& name, Type type)
-    : m_name(name)
+Property::Property(const char* name, Type type)
+    : m_id(name)
+    , m_name(name)
     , m_type(type)
     , m_readable(true)
     , m_writable(true)

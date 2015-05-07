@@ -108,9 +108,9 @@ namespace ClassVisitorTest
     {
         camp::Enum::declare<MyEnum>("ClassVisitorTest::MyEnum");
 
-        camp::Class::declare<MyType>("ClassVisitorTest::MyType");
+        camp::Class::declare<MyType>();
 
-        camp::Class::declare<MyClass>("ClassVisitorTest::MyClass")
+        camp::Class::declare<MyClass>()
             .property("simple", &MyClass::simpleProp)
             .property("array", &MyClass::arrayProp)
             .property("enum", &MyClass::enumProp)

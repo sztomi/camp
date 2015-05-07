@@ -102,15 +102,15 @@ const Class& UserObject::getClass() const
 }
 
 //-------------------------------------------------------------------------------------------------
-Value UserObject::get(const std::string& property) const
+Value UserObject::get(StringId id) const
 {
-    return getClass().property(property).get(*this);
+    return getClass().property(id).get(*this);
 }
 
 //-------------------------------------------------------------------------------------------------
-void UserObject::set(const std::string& property, const Value& value) const
+void UserObject::set(StringId id, const Value& value) const
 {
-    getClass().property(property).set(*this, value);
+    getClass().property(id).set(*this, value);
 }
 
 //-------------------------------------------------------------------------------------------------

@@ -54,7 +54,7 @@ namespace PropertyAccessTest
 
     void declare()
     {
-        camp::Class::declare<MyClass>("PropertyAccessTest::MyClass")
+        camp::Class::declare<MyClass>()
 
             // ***** constant value *****
             .property("p0", &MyClass::p).readable(false).writable(true)

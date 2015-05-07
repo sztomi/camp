@@ -50,11 +50,11 @@ public:
     /**
      * \brief Construct the property from its description
      *
-     * \param name Name of the property
+     * \param name Name of the property, must stay valid as long as this instance exists
      * \param elementType Type of the property
      * \param dynamic Tells if the array is dynamic or not
      */
-    ArrayProperty(const std::string& name, Type elementType, bool dynamic);
+    ArrayProperty(const char* name, Type elementType, bool dynamic);
 
     /**
      * \brief Destructor

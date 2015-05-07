@@ -35,12 +35,12 @@
 
 
 #include <camp/config.hpp>
+#include <camp/stringid.hpp>
 #include <camp/detail/observernotifier.hpp>
 #include <camp/detail/singleton.hpp>
 #include <boost/multi_index_container.hpp>
 #include <boost/multi_index/member.hpp>
 #include <boost/multi_index/ordered_index.hpp>
-#include <string>
 
 
 namespace bm = boost::multi_index;
@@ -76,14 +76,13 @@ public:
      * This is the entry point for every metaclass creation. This
      * function also notifies registered observers after successful creations.
      *
-     * \param name Name of the metaclass to create (must be unique)
-     * \param id Identifier of the C++ class bound to the metaclass
+     * \param name Name of the metaclass to create (must be unique), must stay valid as long as this instance exists
      *
      * \return Reference to the new metaclass
      *
-     * \throw ClassAlreadyCreated \a name or \a id already exists
+     * \throw ClassAlreadyCreated \a name already exists
      */
-    Class& addClass(const std::string& name, const std::string& id);
+    Class& addClass(const char* name);
 
     /**
      * \brief Get the total number of metaclasses
@@ -107,47 +106,36 @@ public:
     const Class& getByIndex(std::size_t index) const;
 
     /**
-     * \brief Get a metaclass from its name
+     * \brief Get a metaclass from an ID
      *
-     * \param name Name of the metaclass to retrieve
-     *
-     * \return Reference to the requested metaclass
-     *
-     * \throw ClassNotFound name is not the name of an existing metaclass
-     */
-    const Class& getByName(const std::string& name) const;
-
-    /**
-     * \brief Get a metaclass from a C++ type
-     *
-     * \param id Identifier of the C++ type
+     * \param id The ID (result of "camp::StringId(camp::Class::name())") of the metaclass, no reference by intent
      *
      * \return Reference to the requested metaclass
      *
      * \throw ClassNotFound id is not the name of an existing metaclass
      */
-    const Class& getById(const std::string& id) const;
+    const Class& getById(StringId id) const;
 
     /**
-     * \brief Get a metaclass from a C++ type
+     * \brief Get a metaclass from an ID
      *
      * This version returns a null pointer if no metaclass is found, instead
      * of throwing an exception.
      *
-     * \param id Identifier of the C++ type
+     * \param id The ID (result of "camp::StringId(camp::Class::name())") of the metaclass, no reference by intent
      *
      * \return Pointer to the requested metaclass, or null pointer if not found
      */
-    const Class* getByIdSafe(const std::string& id) const;
+    const Class* getByIdSafe(StringId id) const;
 
     /**
-     * \brief Check if a given type has a metaclass
+     * \brief Check if a given ID has a metaclass
      *
-     * \param id Identifier of the C++ type
+     * \param id The ID (result of "camp::StringId(camp::Class::name())") of the metaclass, no reference by intent
      *
      * \return True if the class exists, false otherwise
      */
-    bool classExists(const std::string& id) const;
+    bool classExists(StringId id) const;
 
     /**
      * \brief Default constructor
@@ -168,22 +156,19 @@ private:
      */
     struct ClassInfo
     {
-        std::string id;
-        std::string name;
-        Class* classPtr;  // No need for shared pointers in here, we're the one and only instance holder
+        uint32_t id;
+        const char* name; ///< Name of the metaclass, must stay valid as long as this instance exists
+        Class* classPtr; // No need for shared pointers in here, we're the one and only instance holder
     };
 
     struct Id;
-    struct Name;
 
     typedef boost::multi_index_container<ClassInfo,
-        bm::indexed_by<bm::ordered_unique<bm::tag<Id>,   bm::member<ClassInfo, std::string, &ClassInfo::id> >,
-                       bm::ordered_unique<bm::tag<Name>, bm::member<ClassInfo, std::string, &ClassInfo::name> >
+        bm::indexed_by<bm::ordered_unique<bm::tag<Id>, bm::member<ClassInfo, uint32_t, &ClassInfo::id> >
         >
     > ClassTable;
 
     typedef ClassTable::index<Id>::type IdIndex;
-    typedef ClassTable::index<Name>::type NameIndex;
 
     ClassTable m_classes; ///< Table storing classes indexed by their id and name
 };

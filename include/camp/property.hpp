@@ -38,7 +38,7 @@
 #include <camp/detail/getter.hpp>
 #include <camp/tagholder.hpp>
 #include <camp/type.hpp>
-#include <string>
+#include <camp/stringid.hpp>
 
 
 namespace camp
@@ -66,11 +66,18 @@ public:
     virtual ~Property();
 
     /**
+     * \brief Get the ID of the property
+     *
+     * \return ID (result of "camp::StringId(camp::Property::name())") of the property
+     */
+    uint32_t id() const;
+
+    /**
      * \brief Get the name of the property
      *
-     * \return Name of the property
+     * \return Name of the property, always valid, do not destroy the instance
      */
-    const std::string& name() const;
+    const char* name() const;
 
     /**
      * \brief Get the type of the property
@@ -140,10 +147,10 @@ protected:
     /**
      * \brief Construct the property from its description
      *
-     * \param name Name of the property
+     * \param name Name of the property, must stay valid as long as this instance exists
      * \param type Type of the property
      */
-    Property(const std::string& name, Type type);
+    Property(const char* name, Type type);
 
     /**
      * \brief Do the actual reading of the value
@@ -181,8 +188,8 @@ protected:
     virtual bool isWritable() const;
 
 private:
-
-    std::string m_name; ///< Name of the property
+    StringId m_id; ///< ID (result of "camp::StringId(camp::Property::name())") of the property
+    const char* m_name; ///< Name of the property, must stay valid as long as this instance exists, do not destroy the instance
     Type m_type; ///< Type of the property
     detail::Getter<bool> m_readable; ///< Accessor to get the readable state of the property
     detail::Getter<bool> m_writable; ///< Accessor to get the writable state of the property

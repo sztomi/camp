@@ -118,23 +118,23 @@ namespace UserObjectTest
 
     void declare()
     {
-        camp::Class::declare<MyBase>("UserObjectTest::MyBase");
-        camp::Class::declare<MyClass>("UserObjectTest::MyClass")
+        camp::Class::declare<MyBase>();
+        camp::Class::declare<MyClass>()
             .base<MyBase>()
             .property("p", &MyClass::x)
             .function("f", &MyClass::f);
 
-        camp::Class::declare<MyNonCopyableClass>("UserObjectTest::MyNonCopyableClass");
+        camp::Class::declare<MyNonCopyableClass>();
 
-        camp::Class::declare<MyAbstractClass>("UserObjectTest::MyAbstractClass");
-        camp::Class::declare<MyConcreteClass>("UserObjectTest::MyConcreteClass")
+        camp::Class::declare<MyAbstractClass>();
+        camp::Class::declare<MyConcreteClass>()
             .base<MyAbstractClass>();
 
-        camp::Class::declare<Composed3>("UserObjectTest::Composed3")
+        camp::Class::declare<Composed3>()
             .property("x", &Composed3::x);
-        camp::Class::declare<Composed2>("UserObjectTest::Composed2")
+        camp::Class::declare<Composed2>()
             .property("p", &Composed2::get, &Composed2::set);
-        camp::Class::declare<Composed1>("UserObjectTest::Composed1")
+        camp::Class::declare<Composed1>()
             .property("p", &Composed1::get, &Composed1::set);
     }
 }

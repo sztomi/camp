@@ -36,7 +36,7 @@
 namespace camp
 {
 //-------------------------------------------------------------------------------------------------
-ArrayProperty::ArrayProperty(const std::string& name, Type elementType, bool dynamic)
+ArrayProperty::ArrayProperty(const char* name, Type elementType, bool dynamic)
     : Property(name, arrayType)
     , m_elementType(elementType)
     , m_dynamic(dynamic)

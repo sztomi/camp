@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_CASE(declare)
 {
     std::size_t count = camp::classCount();
 
-    camp::Class::declare<MyTempClass>("ClassTest::MyTempClass");
+    camp::Class::declare<MyTempClass>();
 
     BOOST_CHECK_EQUAL(camp::classCount(), count + 1);
 }
@@ -55,8 +55,8 @@ BOOST_AUTO_TEST_CASE(declareExceptions)
     // to make sure it is declared
     camp::classByType<MyClass>();
 
-    BOOST_CHECK_THROW(camp::Class::declare<MyClass>("ClassTest::MyUndeclaredClass"), camp::ClassAlreadyCreated);
-    BOOST_CHECK_THROW(camp::Class::declare<MyUndeclaredClass>("ClassTest::MyClass"), camp::ClassAlreadyCreated);
+    BOOST_CHECK_THROW(camp::Class::declare<MyClass>(), camp::ClassAlreadyCreated);
+    BOOST_CHECK_THROW(camp::Class::declare<MyUndeclaredClass>(), camp::ClassAlreadyCreated);
 }
 
 //-----------------------------------------------------------------------------
@@ -65,13 +65,13 @@ BOOST_AUTO_TEST_CASE(get)
     MyClass object;
     MyUndeclaredClass object2;
 
-    BOOST_CHECK_EQUAL(camp::classByName("ClassTest::MyClass").name(), "ClassTest::MyClass");
+    BOOST_CHECK_EQUAL(camp::classById("ClassTest::MyClass").name(), "ClassTest::MyClass");
     BOOST_CHECK_EQUAL(camp::classByType<MyClass>().name(),            "ClassTest::MyClass");
     BOOST_CHECK_EQUAL(camp::classByObject(object).name(),             "ClassTest::MyClass");
     BOOST_CHECK_EQUAL(camp::classByObject(&object).name(),            "ClassTest::MyClass");
     BOOST_CHECK_EQUAL(camp::classByTypeSafe<MyUndeclaredClass>(),     static_cast<camp::Class*>(0));
 
-    BOOST_CHECK_THROW(camp::classByName("ClassTest::MyUndeclaredClass"), camp::ClassNotFound);
+    BOOST_CHECK_THROW(camp::classById("ClassTest::MyUndeclaredClass"), camp::ClassNotFound);
     BOOST_CHECK_THROW(camp::classByType<MyUndeclaredClass>(),            camp::ClassNotFound);
     BOOST_CHECK_THROW(camp::classByObject(object2),                      camp::ClassNotFound);
     BOOST_CHECK_THROW(camp::classByObject(&object2),                     camp::ClassNotFound);

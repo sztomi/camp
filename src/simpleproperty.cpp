@@ -35,7 +35,7 @@
 namespace camp
 {
 //-------------------------------------------------------------------------------------------------
-SimpleProperty::SimpleProperty(const std::string& name, Type type)
+SimpleProperty::SimpleProperty(const char* name, Type type)
     : Property(name, type)
 {
 }

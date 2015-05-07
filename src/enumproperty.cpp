@@ -35,7 +35,7 @@
 namespace camp
 {
 //-------------------------------------------------------------------------------------------------
-EnumProperty::EnumProperty(const std::string& name, const Enum& propEnum)
+EnumProperty::EnumProperty(const char* name, const Enum& propEnum)
     : Property(name, enumType)
     , m_enum(&propEnum)
 {

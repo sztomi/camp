@@ -42,7 +42,7 @@ namespace detail
 void ensureTypeRegistered(const char* id, void (*registerFunc)())
 {
     if (registerFunc
-        && !ClassManager::instance().classExists(id)
+        && !ClassManager::instance().classExists(StringId(id))
         && !EnumManager::instance().enumExists(id))
     {
         registerFunc();

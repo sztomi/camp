@@ -140,9 +140,9 @@ namespace PropertyTest
             .value("One",  One)
             .value("Two",  Two);
 
-        camp::Class::declare<MyType>("PropertyTest::MyType");
+        camp::Class::declare<MyType>();
 
-        camp::Class::declare<MyClass>("PropertyTest::MyClass")
+        camp::Class::declare<MyClass>()
 
             // ***** non-member functions *****
             .property("p1", &getP1)         // read-only getter (const param)

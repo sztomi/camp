@@ -35,7 +35,7 @@
 namespace camp
 {
 //-------------------------------------------------------------------------------------------------
-UserProperty::UserProperty(const std::string& name, const Class& propClass)
+UserProperty::UserProperty(const char* name, const Class& propClass)
     : Property(name, userType)
     , m_class(&propClass)
 {

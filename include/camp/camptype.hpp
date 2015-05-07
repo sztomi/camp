@@ -100,7 +100,7 @@ CAMP_API void ensureTypeRegistered(const char* id, void (*registerFunc)());
  *
  * void MyClass::registerMetaClass()
  * {
- *     camp::Class::declare<MyClass>("MyClass")
+ *     camp::Class::declare<MyClass>()
  *         ...;
  * }
  * \endcode

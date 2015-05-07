@@ -71,8 +71,8 @@ BadArgument::BadArgument(Type provided, Type expected, std::size_t index, const 
 }
 
 //-------------------------------------------------------------------------------------------------
-ClassAlreadyCreated::ClassAlreadyCreated(const std::string& name, const std::string& type)
-    : Error("a metaclass named " + name + ", or bound to the type " + type + " already exists")
+ClassAlreadyCreated::ClassAlreadyCreated(const char* name)
+    : Error("a metaclass named " + std::string(name) + " already exists")
 {
 }
 
@@ -144,7 +144,7 @@ NotEnoughArguments::NotEnoughArguments(const std::string& functionName, std::siz
 
 //-------------------------------------------------------------------------------------------------
 NullObject::NullObject(const Class* objectClass)
-    : Error("trying to use a null metaobject of class " + (objectClass ? objectClass->name() : "unknown"))
+    : Error("trying to use a null metaobject of class " + (objectClass ? std::string(objectClass->name()) : "unknown"))
 {
 }
 
