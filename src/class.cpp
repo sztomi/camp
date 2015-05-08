@@ -71,11 +71,10 @@ std::size_t Class::functionCount() const
 }
 
 //-------------------------------------------------------------------------------------------------
-bool Class::hasFunction(const std::string& name) const
+bool Class::hasFunction(StringId id) const
 {
     const FunctionNameIndex& names = m_functions.get<Name>();
-
-    return names.find(name) != names.end();
+    return (names.find(id) != names.end());
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -89,13 +88,13 @@ const Function& Class::function(std::size_t index) const
 }
 
 //-------------------------------------------------------------------------------------------------
-const Function& Class::function(const std::string& name) const
+const Function& Class::function(StringId id) const
 {
     const FunctionNameIndex& names = m_functions.get<Name>();
 
-    FunctionNameIndex::const_iterator it = names.find(name);
+    FunctionNameIndex::const_iterator it = names.find(id);
     if (it == names.end())
-        CAMP_ERROR(FunctionNotFound(name, m_name));
+        CAMP_ERROR(FunctionNotFound(id, m_name));
 
     return **it;
 }
@@ -110,8 +109,7 @@ std::size_t Class::propertyCount() const
 bool Class::hasProperty(StringId id) const
 {
     const PropertyNameIndex& names = m_properties.get<Name>();
-
-    return names.find(id) != names.end();
+    return (names.find(id) != names.end());
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -131,7 +129,7 @@ const Property& Class::property(StringId id) const
 
     PropertyNameIndex::const_iterator it = names.find(id);
     if (it == names.end())
-        CAMP_ERROR(PropertyNotFound(std::to_string(id), m_name));
+        CAMP_ERROR(PropertyNotFound(id, m_name));
 
     return **it;
 }

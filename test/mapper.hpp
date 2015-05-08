@@ -49,36 +49,39 @@ namespace MapperTest
 
         static const char* property(std::size_t index)
         {
-            const char* names[] = {"prop0", "prop1", "prop2", "prop3", "prop4"};
+            static const char* names[] = {"prop0", "prop1", "prop2", "prop3", "prop4"};
             return names[index];
         }
 
-        static std::string function(std::size_t index)
+        static const char* function(std::size_t index)
         {
-            const char* names[] = {"func0", "func1", "func2"};
+            static const char* names[] = {"func0", "func1", "func2"};
             return names[index];
         }
 
         MyClass()
         {
-            m_props[property(0)] = 0;
-            m_props[property(1)] = 10;
-            m_props[property(2)] = 20;
-            m_props[property(3)] = 30;
-            m_props[property(4)] = 40;
+            m_props[camp::StringId(property(0))] = 0;
+            m_props[camp::StringId(property(1))] = 10;
+            m_props[camp::StringId(property(2))] = 20;
+            m_props[camp::StringId(property(3))] = 30;
+            m_props[camp::StringId(property(4))] = 40;
         }
 
-        int& prop(const std::string& name)
+        int& prop(camp::StringId id)
         {
-            return m_props[name];
+            return m_props[id];
         }
 
-        std::string func(const std::string& name)
+        const char* func(const char* name)
         {
-            return name + "_called";
+            static std::string result;
+            result = name;
+            result += "_called";
+            return result.c_str();
         }
 
-        std::map<std::string, int> m_props;
+        std::map<uint32_t, int> m_props;
     };
 
     template <typename T>
@@ -115,14 +118,12 @@ namespace MapperTest
 
             virtual camp::Value getValue(const camp::UserObject& object) const
             {
-                T& t = object.get<T>();
-                return t.prop(name());
+                return object.get<T>().prop(id());
             }
 
             virtual void setValue(const camp::UserObject& object, const camp::Value& value) const
             {
-                T& t = object.get<T>();
-                t.prop(name()) = value.to<int>();
+                object.get<T>().prop(id()) = value.to<int>();
             }
         };
 
@@ -130,7 +131,7 @@ namespace MapperTest
         {
         public:
 
-            MyFunction(const std::string& name)
+            MyFunction(const char* name)
                 : camp::Function(name, camp::stringType)
             {
             }

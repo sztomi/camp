@@ -41,7 +41,13 @@ Function::~Function()
 }
 
 //-------------------------------------------------------------------------------------------------
-const std::string& Function::name() const
+uint32_t Function::id() const
+{
+    return m_id;
+}
+
+//-------------------------------------------------------------------------------------------------
+const char* Function::name() const
 {
     return m_name;
 }
@@ -96,8 +102,9 @@ void Function::accept(ClassVisitor& visitor) const
 }
 
 //-------------------------------------------------------------------------------------------------
-Function::Function(const std::string& name, Type returnType, const std::vector<Type>& argTypes)
-    : m_name(name)
+Function::Function(const char* name, Type returnType, const std::vector<Type>& argTypes)
+    : m_id(name)
+    , m_name(name)
     , m_returnType(returnType)
     , m_argTypes(argTypes)
     , m_callable(true)

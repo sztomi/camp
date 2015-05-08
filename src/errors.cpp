@@ -64,8 +64,8 @@ std::string BadType::typeName(Type type)
 }
 
 //-------------------------------------------------------------------------------------------------
-BadArgument::BadArgument(Type provided, Type expected, std::size_t index, const std::string& functionName)
-    : BadType("the argument #" + str(index) + " of function " + functionName +
+BadArgument::BadArgument(Type provided, Type expected, std::size_t index, const char* functionName)
+    : BadType("the argument #" + str(index) + " of function " + std::string(functionName) +
               " couldn't be converted from type " + typeName(provided) + " to type " + typeName(expected))
 {
 }
@@ -77,14 +77,14 @@ ClassAlreadyCreated::ClassAlreadyCreated(const char* name)
 }
 
 //-------------------------------------------------------------------------------------------------
-ClassNotFound::ClassNotFound(const std::string& name)
-    : Error("the metaclass " + name + " couldn't be found")
+ClassNotFound::ClassNotFound(StringId id)
+    : Error("the metaclass " + std::to_string(id) + " couldn't be found")
 {
 }
 
 //-------------------------------------------------------------------------------------------------
-ClassUnrelated::ClassUnrelated(const std::string& sourceClass, const std::string& requestedClass)
-    : Error("failed to convert from " + sourceClass + " to " + requestedClass + ": it is not a base nor a derived")
+ClassUnrelated::ClassUnrelated(const char* sourceClass, const char* requestedClass)
+    : Error("failed to convert from " + std::string(sourceClass) + " to " + std::string(requestedClass) + ": it is not a base nor a derived")
 {
 }
 
@@ -113,32 +113,32 @@ EnumValueNotFound::EnumValueNotFound(long value, const std::string& enumName)
 }
 
 //-------------------------------------------------------------------------------------------------
-ForbiddenCall::ForbiddenCall(const std::string& functionName)
-    : Error("the function " + functionName + " is not callable")
+ForbiddenCall::ForbiddenCall(const char* functionName)
+    : Error("the function " + std::string(functionName) + " is not callable")
 {
 }
 
 //-------------------------------------------------------------------------------------------------
-ForbiddenRead::ForbiddenRead(const std::string& propertyName)
-    : Error("the property " + propertyName + " is not readable")
+ForbiddenRead::ForbiddenRead(const char* propertyName)
+    : Error("the property " + std::string(propertyName) + " is not readable")
 {
 }
 
 //-------------------------------------------------------------------------------------------------
-ForbiddenWrite::ForbiddenWrite(const std::string& propertyName)
-    : Error("the property " + propertyName + " is not writable")
+ForbiddenWrite::ForbiddenWrite(const char* propertyName)
+    : Error("the property " + std::string(propertyName) + " is not writable")
 {
 }
 
 //-------------------------------------------------------------------------------------------------
-FunctionNotFound::FunctionNotFound(const std::string& name, const std::string& className)
-    : Error("the function " + name + " couldn't be found in metaclass " + className)
+FunctionNotFound::FunctionNotFound(StringId id, const char* className)
+    : Error("the function " + std::to_string(id) + " couldn't be found in metaclass " + std::string(className))
 {
 }
 
 //-------------------------------------------------------------------------------------------------
-NotEnoughArguments::NotEnoughArguments(const std::string& functionName, std::size_t provided, std::size_t expected)
-    : Error("not enough arguments for calling " + functionName + " - provided " + str(provided) + ", expected " + str(expected))
+NotEnoughArguments::NotEnoughArguments(const char* functionName, std::size_t provided, std::size_t expected)
+    : Error("not enough arguments for calling " + std::string(functionName) + " - provided " + str(provided) + ", expected " + str(expected))
 {
 }
 
@@ -155,8 +155,8 @@ OutOfRange::OutOfRange(std::size_t index, std::size_t size)
 }
 
 //-------------------------------------------------------------------------------------------------
-PropertyNotFound::PropertyNotFound(const std::string& name, const std::string& className)
-    : Error("the property " + name + " couldn't be found in metaclass " + className)
+PropertyNotFound::PropertyNotFound(StringId id, const char* className)
+    : Error("the property " + std::to_string(id) + " couldn't be found in metaclass " + std::string(className))
 {
 }
 

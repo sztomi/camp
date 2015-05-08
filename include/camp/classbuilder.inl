@@ -47,16 +47,20 @@ template <typename T>
 template <typename U>
 ClassBuilder<T>& ClassBuilder<T>::base()
 {
-    // Retrieve the base metaclass and its name
+    // Retrieve the base metaclass
     const Class& baseClass = classByType<U>();
-    std::string baseName = baseClass.name();
 
-    // First make sure that the base class is not already a base of the current class
-    Class::BaseList::const_iterator endBase = m_target->m_bases.end();
-    for (Class::BaseList::const_iterator it = m_target->m_bases.begin(); it != endBase; ++it)
+    #ifdef _DEBUG
     {
-        assert(it->base->name() != baseName);
+        // First make sure that the base class is not already a base of the current class
+        const uint32_t baseId = baseClass.id();
+        Class::BaseList::const_iterator endBase = m_target->m_bases.end();
+        for (Class::BaseList::const_iterator it = m_target->m_bases.begin(); it != endBase; ++it)
+        {
+            assert(it->base->id() != baseId);
+        }
     }
+    #endif
 
     // Compute the offset to apply for pointer conversions
     T* asDerived = reinterpret_cast<T*>(1);
@@ -127,7 +131,7 @@ ClassBuilder<T>& ClassBuilder<T>::property(const char* name, F1 accessor1, F2 ac
 //-------------------------------------------------------------------------------------------------
 template <typename T>
 template <typename F>
-ClassBuilder<T>& ClassBuilder<T>::function(const std::string& name, F function)
+ClassBuilder<T>& ClassBuilder<T>::function(const char* name, F function)
 {
     // Get a uniform function type from F, whatever it really is
     typedef typename boost::function_types::function_type<F>::type Signature;
@@ -139,7 +143,7 @@ ClassBuilder<T>& ClassBuilder<T>::function(const std::string& name, F function)
 //-------------------------------------------------------------------------------------------------
 template <typename T>
 template <typename F>
-ClassBuilder<T>& ClassBuilder<T>::function(const std::string& name, boost::function<F> function)
+ClassBuilder<T>& ClassBuilder<T>::function(const char* name, boost::function<F> function)
 {
     return addFunction(new detail::FunctionImpl<F>(name, function));
 }
@@ -147,7 +151,7 @@ ClassBuilder<T>& ClassBuilder<T>::function(const std::string& name, boost::funct
 //-------------------------------------------------------------------------------------------------
 template <typename T>
 template <typename F1, typename F2>
-ClassBuilder<T>& ClassBuilder<T>::function(const std::string& name, F1 function1, F2 function2)
+ClassBuilder<T>& ClassBuilder<T>::function(const char* name, F1 function1, F2 function2)
 {
     // Get uniform function types from F1 and F2, whatever they really are
     typedef typename boost::function_types::function_type<F1>::type Signature1;
@@ -376,8 +380,8 @@ ClassBuilder<T>& ClassBuilder<T>::addFunction(Function* function)
     // Retrieve the class' functions indexed by name
     Class::FunctionNameIndex& functions = m_target->m_functions.get<Class::Name>();
 
-    // First remove any function that already exists with the same name
-    functions.erase(function->name());
+    // First remove any function that already exists with the same ID
+    functions.erase(function->id());
 
     // Insert the new function
     functions.insert(Class::FunctionPtr(function));

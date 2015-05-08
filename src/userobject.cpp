@@ -114,9 +114,9 @@ void UserObject::set(StringId id, const Value& value) const
 }
 
 //-------------------------------------------------------------------------------------------------
-Value UserObject::call(const std::string& function, const Args& args) const
+Value UserObject::call(StringId id, const Args& args) const
 {
-    return getClass().function(function).call(*this, args);
+    return getClass().function(id).call(*this, args);
 }
 
 //-------------------------------------------------------------------------------------------------

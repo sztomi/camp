@@ -171,7 +171,7 @@ public:
      * This function is defined for convenience, it is a shortcut
      * for <tt>object.getClass().function(name).call(object, args);</tt>
      *
-     * \param function Name of the function to call
+     * \param ID (result of "camp::StringId(camp::Function::name())") of the function to call, no reference by intent
      * \param args Arguments to pass to the function
      *
      * \return Value returned by the function
@@ -181,7 +181,7 @@ public:
      * \throw NotEnoughArguments too few arguments are provided
      * \throw BadArgument one of the arguments can't be converted to the requested type
      */
-    Value call(const std::string& function, const Args& args = Args::empty) const;
+    Value call(StringId id, const Args& args = Args::empty) const;
 
     /**
      * \brief Assignment operator

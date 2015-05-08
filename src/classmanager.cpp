@@ -96,7 +96,7 @@ const Class& ClassManager::getById(StringId id) const
 
     IdIndex::const_iterator it = ids.find(id);
     if (it == ids.end())
-        CAMP_ERROR(ClassNotFound(std::to_string(id)));
+        CAMP_ERROR(ClassNotFound(id));
 
     return *it->classPtr;
 }

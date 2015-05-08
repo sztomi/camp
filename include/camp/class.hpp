@@ -50,7 +50,6 @@
 #include <boost/multi_index/mem_fun.hpp>
 #include <boost/multi_index/ordered_index.hpp>
 #include <boost/multi_index/random_access_index.hpp>
-#include <string>
 
 
 namespace bm = boost::multi_index;
@@ -80,7 +79,7 @@ class ClassVisitor;
  *     MyClass();
  *     int getProp() const;
  *     void setProp(int);
- *     std::string func();
+ *     const char* func();
  * };
  *
  * camp::Class::declare<MyClass>()
@@ -177,11 +176,11 @@ public:
     /**
      * \brief Check if this metaclass contains the given function
      *
-     * \param name Name of the function to check
+     * \param id ID (result of "camp::StringId(camp::Function::name())") of the function to check, no reference by intent
      *
      * \return True if the function is in the metaclass, false otherwise
      */
-    bool hasFunction(const std::string& name) const;
+    bool hasFunction(StringId id) const;
 
     /**
      * \brief Get a function from its index in this metaclass
@@ -195,15 +194,15 @@ public:
     const Function& function(std::size_t index) const;
 
     /**
-     * \brief Get a function from its name
+     * \brief Get a function from its ID
      *
-     * \param name Name of the function to get (case sensitive)
+     * \param id ID (result of "camp::StringId(camp::Function::name())") of the function to get, no reference by intent
      *
      * \return Reference to the function
      *
-     * \throw FunctionNotFound \a name is not a function of the metaclass
+     * \throw FunctionNotFound \a ID is not a function of the metaclass
      */
-    const Function& function(const std::string& name) const;
+    const Function& function(StringId id) const;
 
     /**
      * \brief Return the total number of properties of this metaclass
@@ -364,7 +363,7 @@ private:
 
     typedef boost::multi_index_container<FunctionPtr,
         bm::indexed_by<bm::random_access<bm::tag<Id> >,
-                       bm::ordered_unique<bm::tag<Name>, bm::const_mem_fun<Function, const std::string&, &Function::name> >
+                       bm::ordered_unique<bm::tag<Name>, bm::const_mem_fun<Function, uint32_t, &Function::id> >
         >
     > FunctionTable;
 

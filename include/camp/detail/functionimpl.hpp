@@ -41,7 +41,6 @@
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
 #include <boost/assign/list_of.hpp>
-#include <string>
 
 
 namespace camp
@@ -58,14 +57,14 @@ using boost::assign::list_of;
  *
  * \param args List of arguments
  * \param index Index of the argument to convert
- * \param function Name of the calling function
+ * \param function Name of the calling function, must be valid
  *
  * \return Value of args[index] converted to T
  *
  * \thrown BadArgument conversion triggered a BadType error
  */
 template <typename T>
-inline typename std::remove_reference<T>::type convertArg(const Args& args, std::size_t index, const std::string& function)
+inline typename std::remove_reference<T>::type convertArg(const Args& args, std::size_t index, const char* function)
 {
     try
     {
@@ -100,7 +99,7 @@ public:
     /**
      * \brief Constructor
      */
-    FunctionImpl(const std::string& name, boost::function<R (C)> function)
+    FunctionImpl(const char* name, boost::function<R (C)> function)
         : Function(name, mapType<R>())
         , m_function(function)
     {
@@ -132,7 +131,7 @@ public:
     /**
      * \brief Constructor
      */
-    FunctionImpl(const std::string& name, boost::function<R (C, A0)> function)
+    FunctionImpl(const char* name, boost::function<R (C, A0)> function)
         : Function(name, mapType<R>(), list_of(mapType<A0>()))
         , m_function(function)
     {
@@ -165,7 +164,7 @@ public:
     /**
      * \brief Constructor
      */
-    FunctionImpl(const std::string& name, boost::function<R (C, A0, A1)> function)
+    FunctionImpl(const char* name, boost::function<R (C, A0, A1)> function)
         : Function(name, mapType<R>(), list_of(mapType<A0>())(mapType<A1>()))
         , m_function(function)
     {
@@ -199,7 +198,7 @@ public:
     /**
      * \brief Constructor
      */
-    FunctionImpl(const std::string& name, boost::function<R (C, A0, A1, A2)> function)
+    FunctionImpl(const char* name, boost::function<R (C, A0, A1, A2)> function)
         : Function(name, mapType<R>(), list_of(mapType<A0>())(mapType<A1>())(mapType<A2>()))
         , m_function(function)
     {
@@ -234,7 +233,7 @@ public:
     /**
      * \brief Constructor
      */
-    FunctionImpl(const std::string& name, boost::function<R (C, A0, A1, A2, A3)> function)
+    FunctionImpl(const char* name, boost::function<R (C, A0, A1, A2, A3)> function)
         : Function(name, mapType<R>(), list_of(mapType<A0>())(mapType<A1>())(mapType<A2>())(mapType<A3>()))
         , m_function(function)
     {
@@ -270,7 +269,7 @@ public:
     /**
      * \brief Constructor
      */
-    FunctionImpl(const std::string& name, boost::function<R (C, A0, A1, A2, A3, A4)> function)
+    FunctionImpl(const char* name, boost::function<R (C, A0, A1, A2, A3, A4)> function)
         : Function(name, mapType<R>(), list_of(mapType<A0>())(mapType<A1>())(mapType<A2>())(mapType<A3>())(mapType<A4>()))
         , m_function(function)
     {
@@ -309,7 +308,7 @@ public:
      * \brief Constructor
      */
     template <typename F1, typename F2>
-    FunctionImpl(const std::string& name, F1 function, F2 accessor)
+    FunctionImpl(const char* name, F1 function, F2 accessor)
         : Function(name, mapType<R>())
         , m_function(boost::bind(function, boost::bind(accessor, _1)))
     {
@@ -342,7 +341,7 @@ public:
      * \brief Constructor
      */
     template <typename F1, typename F2>
-    FunctionImpl(const std::string& name, F1 function, F2 accessor)
+    FunctionImpl(const char* name, F1 function, F2 accessor)
         : Function(name, mapType<R>(), list_of(mapType<A0>()))
         , m_function(boost::bind(function, boost::bind(accessor, _1), _2))
     {
@@ -377,7 +376,7 @@ public:
      * \brief Constructor
      */
     template <typename F1, typename F2>
-    FunctionImpl(const std::string& name, F1 function, F2 accessor)
+    FunctionImpl(const char* name, F1 function, F2 accessor)
         : Function(name, mapType<R>(), list_of(mapType<A0>())(mapType<A1>()))
         , m_function(boost::bind(function, boost::bind(accessor, _1), _2, _3))
     {
@@ -413,7 +412,7 @@ public:
      * \brief Constructor
      */
     template <typename F1, typename F2>
-    FunctionImpl(const std::string& name, F1 function, F2 accessor)
+    FunctionImpl(const char* name, F1 function, F2 accessor)
         : Function(name, mapType<R>(), list_of(mapType<A0>())(mapType<A1>())(mapType<A2>()))
         , m_function(boost::bind(function, boost::bind(accessor, _1), _2, _3, _4))
     {
@@ -450,7 +449,7 @@ public:
      * \brief Constructor
      */
     template <typename F1, typename F2>
-    FunctionImpl(const std::string& name, F1 function, F2 accessor)
+    FunctionImpl(const char* name, F1 function, F2 accessor)
         : Function(name, mapType<R>(), list_of(mapType<A0>())(mapType<A1>())(mapType<A2>())(mapType<A3>()))
         , m_function(boost::bind(function, boost::bind(accessor, _1), _2, _3, _4, _5))
     {
@@ -488,7 +487,7 @@ public:
      * \brief Constructor
      */
     template <typename F1, typename F2>
-    FunctionImpl(const std::string& name, F1 function, F2 accessor)
+    FunctionImpl(const char* name, F1 function, F2 accessor)
         : Function(name, mapType<R>(), list_of(mapType<A0>())(mapType<A1>())(mapType<A2>())(mapType<A3>())(mapType<A4>()))
         , m_function(boost::bind(function, boost::bind(accessor, _1), _2, _3, _4, _5, _6))
     {

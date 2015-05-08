@@ -44,7 +44,6 @@
 #include <boost/mpl/if.hpp>
 #include <boost/function_types/function_type.hpp>
 #include <cassert>
-#include <string>
 
 
 namespace camp
@@ -206,26 +205,26 @@ public:
      * The function argument can be any valid type: a non-member function,
      * a member function, const, non-const, etc.
      *
-     * \param name Name of the function (must be unique within the metaclass)
+     * \param name Name of the function (must be unique within the metaclass), must stay valid as long as this instance exists
      * \param function C++ callable entity to bind to the function
      *
      * \return Reference to this, in order to chain other calls
      */
     template <typename F>
-    ClassBuilder<T>& function(const std::string& name, F function);
+    ClassBuilder<T>& function(const char* name, F function);
 
     /**
      * \brief Declare a new function from a boost::function
      *
      * Overload handling functions of type boost::function.
      *
-     * \param name Name of the function (must be unique within the metaclass)
+     * \param name Name of the function (must be unique within the metaclass), must stay valid as long as this instance exists
      * \param function Instance of boost::function to bind to the function
      *
      * \return Reference to this, in order to chain other calls
      */
     template <typename F>
-    ClassBuilder<T>& function(const std::string& name, boost::function<F> function);
+    ClassBuilder<T>& function(const char* name, boost::function<F> function);
 
     /**
      * \brief Declare a new function from two functions to compose
@@ -252,14 +251,14 @@ public:
      *     .function("move", &Point::move, &Entity::p); // will internally resolve to e.p.move()
      * \endcode
      *
-     * \param name Name of the function (must be unique within the metaclass)
+     * \param name Name of the function (must be unique within the metaclass), must stay valid as long as this instance exists
      * \param function1 C++ callable entity to bind to the function
      * \param function2 Accessor returning the member to apply to function1
      *
      * \return Reference to this, in order to chain other calls
      */
     template <typename F1, typename F2>
-    ClassBuilder<T>& function(const std::string& name, F1 function1, F2 function2);
+    ClassBuilder<T>& function(const char* name, F1 function1, F2 function2);
 
     /**
      * \brief Declare a new static tag

@@ -35,12 +35,12 @@
 
 
 #include <camp/config.hpp>
+#include <camp/stringid.hpp>
 #include <camp/detail/getter.hpp>
 #include <camp/args.hpp>
 #include <camp/tagholder.hpp>
 #include <camp/type.hpp>
 #include <camp/value.hpp>
-#include <string>
 #include <vector>
 
 
@@ -66,11 +66,18 @@ public:
     virtual ~Function();
 
     /**
+     * \brief Get the ID of the function
+     *
+     * \return ID (result of "camp::StringId(camp::Function::name())") of the function
+     */
+    uint32_t id() const;
+
+    /**
      * \brief Get the name of the function
      *
-     * \return Name of the function
+     * \return Name of the function, always valid, do not destroy the instance
      */
-    const std::string& name() const;
+    const char* name() const;
 
     /**
      * \brief Get the number of arguments of the function
@@ -137,13 +144,13 @@ protected:
     /**
      * \brief Construct the function from its description
      *
-     * \param name Name of the function
+     * \param name Name of the function, must stay valid as long as this instance exists
      * \param returnType Type of the function result
      * \param argTypes Types of the function arguments (empty array by default)
      *
      * \return Value returned by the function call
      */
-    Function(const std::string& name, Type returnType, const std::vector<Type>& argTypes = std::vector<Type>());
+    Function(const char* name, Type returnType, const std::vector<Type>& argTypes = std::vector<Type>());
 
     /**
      * \brief Do the actual call
@@ -162,7 +169,8 @@ protected:
 
 private:
 
-    std::string m_name; ///< Name of the function
+    StringId m_id; ///< ID (result of "camp::StringId(camp::Function::name())") of the function
+    const char* m_name; ///< Name of the function, must stay valid as long as this instance exists
     Type m_returnType; ///< Return type
     std::vector<Type> m_argTypes; ///< Type of all the function arguments
     detail::Getter<bool> m_callable; ///< Accessor to get the callable state of the function

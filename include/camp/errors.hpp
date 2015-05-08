@@ -36,6 +36,7 @@
 
 #include <camp/error.hpp>
 #include <camp/type.hpp>
+#include <camp/stringid.hpp>
 
 
 namespace camp
@@ -64,7 +65,7 @@ protected:
      *
      * \param message Description of the error
      */
-    BadType(const std::string& message);
+    explicit BadType(const std::string& message);
 
     /**
      * \brief Get the string name of a CAMP type
@@ -89,9 +90,9 @@ public:
      * \param provided Provided type
      * \param expected Expected type
      * \param index Index of the argument in the function prototype
-     * \param functionName Name of the function
+     * \param functionName Name of the function, must be valid
      */
-    BadArgument(Type provided, Type expected, std::size_t index, const std::string& functionName);
+    BadArgument(Type provided, Type expected, std::size_t index, const char* functionName);
 };
 
 /**
@@ -119,9 +120,9 @@ public:
     /**
      * \brief Constructor
      *
-     * \param name Name of the requested class
+     * \param ID (result of "camp::StringId(camp::Class::name())") of the requested class, no reference by intent
      */
-    ClassNotFound(const std::string& name);
+    ClassNotFound(StringId id);
 };
 
 /**
@@ -134,10 +135,10 @@ public:
     /**
      * \brief Constructor
      *
-     * \param sourceClass Name of the source class
-     * \param requestedClass Name of the requested class
+     * \param sourceClass Name of the source class, must be valid
+     * \param requestedClass Name of the requested class, must be valid
      */
-    ClassUnrelated(const std::string& sourceClass, const std::string& requestedClass);
+    ClassUnrelated(const char* sourceClass, const char* requestedClass);
 };
 
 /**
@@ -213,9 +214,9 @@ public:
     /**
      * \brief Constructor
      *
-     * \param functionName Name of the function
+     * \param functionName Name of the function, must be valid
      */
-    ForbiddenCall(const std::string& functionName);
+    ForbiddenCall(const char* functionName);
 };
 
 /**
@@ -228,9 +229,9 @@ public:
     /**
      * \brief Constructor
      *
-     * \param propertyName Name of the property
+     * \param propertyName Name of the property, must be valid
      */
-    ForbiddenRead(const std::string& propertyName);
+    ForbiddenRead(const char* propertyName);
 };
 
 /**
@@ -243,9 +244,9 @@ public:
     /**
      * \brief Constructor
      *
-     * \param propertyName Name of the property
+     * \param propertyName Name of the property, must be valid
      */
-    ForbiddenWrite(const std::string& propertyName);
+    ForbiddenWrite(const char* propertyName);
 };
 
 /**
@@ -258,10 +259,10 @@ public:
     /**
      * \brief Constructor
      *
-     * \param name Name of the requested function
-     * \param className Name of the owner metaclass
+     * \param id ID (result of "camp::StringId(camp::Function::name())") of the requested function, no reference by intent
+     * \param className Name of the owner metaclass, must be valid
      */
-    FunctionNotFound(const std::string& name, const std::string& className);
+    FunctionNotFound(StringId id, const char* className);
 };
 
 /**
@@ -274,11 +275,11 @@ public:
     /**
      * \brief Constructor
      *
-     * \param functionName Name of the function
+     * \param functionName Name of the function, must be valid
      * \param provided Number of arguments provided
      * \param expected Number of arguments expected
      */
-    NotEnoughArguments(const std::string& functionName, std::size_t provided, std::size_t expected);
+    NotEnoughArguments(const char* functionName, std::size_t provided, std::size_t expected);
 };
 
 /**
@@ -322,10 +323,10 @@ public:
     /**
      * \brief Constructor
      *
-     * \param name Name of the requested property
-     * \param className Name of the owner metaclass
+     * \param id ID (result of "camp::StringId(camp::Property::name())") of the requested property, no reference by intent
+     * \param className Name of the owner metaclass, must be valid
      */
-    PropertyNotFound(const std::string& name, const std::string& className);
+    PropertyNotFound(StringId id, const char* className);
 };
 
 } // namespace camp
