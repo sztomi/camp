@@ -46,13 +46,7 @@
 #include <camp/detail/classmanager.hpp>
 #include <camp/detail/typeid.hpp>
 #include <boost/noncopyable.hpp>
-#include <boost/multi_index_container.hpp>
-#include <boost/multi_index/mem_fun.hpp>
-#include <boost/multi_index/ordered_index.hpp>
-#include <boost/multi_index/random_access_index.hpp>
-
-
-namespace bm = boost::multi_index;
+#include <map>
 
 namespace camp
 {
@@ -324,7 +318,7 @@ private:
      *
      * \param name Name of the metaclass, must stay valid as long as this instance exists
      */
-    Class(const char* name);
+    explicit Class(const char* name);
 
     /**
      * \brief Get the offset of a base metaclass
@@ -351,30 +345,14 @@ private:
     typedef std::shared_ptr<Constructor> ConstructorPtr;
     typedef std::vector<ConstructorPtr> ConstructorList;
     typedef std::vector<BaseInfo> BaseList;
-
-    struct Id;
-    struct Name;
-
-    typedef boost::multi_index_container<PropertyPtr,
-        bm::indexed_by<bm::random_access<bm::tag<Id> >,
-                       bm::ordered_unique<bm::tag<Name>, bm::const_mem_fun<Property, uint32_t, &Property::id> >
-        >
-    > PropertyTable;
-
-    typedef boost::multi_index_container<FunctionPtr,
-        bm::indexed_by<bm::random_access<bm::tag<Id> >,
-                       bm::ordered_unique<bm::tag<Name>, bm::const_mem_fun<Function, uint32_t, &Function::id> >
-        >
-    > FunctionTable;
-
-    typedef PropertyTable::index<Name>::type PropertyNameIndex;
-    typedef FunctionTable::index<Name>::type FunctionNameIndex;
+    typedef std::map<uint32_t, PropertyPtr> PropertyTable;
+    typedef std::map<uint32_t, FunctionPtr> FunctionTable;
     typedef void (*Destructor)(const UserObject&);
 
     StringId m_id; ///< The ID (result of "camp::StringId(camp::Class::name())") of the metaclass
     const char* m_name; ///< Name of the metaclass, must stay valid as long as this instance exists
-    FunctionTable m_functions; ///< Table of metafunctions indexed by name
-    PropertyTable m_properties; ///< Table of metaproperties indexed by name
+    FunctionTable m_functions; ///< Table of metafunctions indexed by ID
+    PropertyTable m_properties; ///< Table of metaproperties indexed by ID
     BaseList m_bases; ///< List of base metaclasses
     ConstructorList m_constructors; ///< List of metaconstructors
     Destructor m_destructor; ///< Destructor (function that is able to delete an abstract object)

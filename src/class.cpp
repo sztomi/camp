@@ -73,8 +73,7 @@ std::size_t Class::functionCount() const
 //-------------------------------------------------------------------------------------------------
 bool Class::hasFunction(StringId id) const
 {
-    const FunctionNameIndex& names = m_functions.get<Name>();
-    return (names.find(id) != names.end());
+    return (m_functions.find(id) != m_functions.end());
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -84,19 +83,22 @@ const Function& Class::function(std::size_t index) const
     if (index >= m_functions.size())
         CAMP_ERROR(OutOfRange(index, m_functions.size()));
 
-    return *m_functions[index];
+    FunctionTable::const_iterator it = m_functions.begin();
+    std::advance(it, index);
+
+    return *it->second;
 }
 
 //-------------------------------------------------------------------------------------------------
 const Function& Class::function(StringId id) const
 {
-    const FunctionNameIndex& names = m_functions.get<Name>();
-
-    FunctionNameIndex::const_iterator it = names.find(id);
-    if (it == names.end())
+    FunctionTable::const_iterator it = m_functions.find(id);
+    if (it == m_functions.end())
+    {
         CAMP_ERROR(FunctionNotFound(id, m_name));
+    }
 
-    return **it;
+    return *it->second;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -108,8 +110,7 @@ std::size_t Class::propertyCount() const
 //-------------------------------------------------------------------------------------------------
 bool Class::hasProperty(StringId id) const
 {
-    const PropertyNameIndex& names = m_properties.get<Name>();
-    return (names.find(id) != names.end());
+    return (m_properties.find(id) != m_properties.end());
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -119,19 +120,22 @@ const Property& Class::property(std::size_t index) const
     if (index >= m_properties.size())
         CAMP_ERROR(OutOfRange(index, m_properties.size()));
 
-    return *m_properties[index];
+    PropertyTable::const_iterator it = m_properties.begin();
+    std::advance(it, index);
+
+    return *it->second;
 }
 
 //-------------------------------------------------------------------------------------------------
 const Property& Class::property(StringId id) const
 {
-    const PropertyNameIndex& names = m_properties.get<Name>();
-
-    PropertyNameIndex::const_iterator it = names.find(id);
-    if (it == names.end())
+    PropertyTable::const_iterator it = m_properties.find(id);
+    if (it == m_properties.end())
+    {
         CAMP_ERROR(PropertyNotFound(id, m_name));
+    }
 
-    return **it;
+    return *it->second;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -173,13 +177,13 @@ void Class::visit(ClassVisitor& visitor) const
     // First visit properties
     for (PropertyTable::const_iterator it = m_properties.begin(); it != m_properties.end(); ++it)
     {
-        (*it)->accept(visitor);
+        it->second->accept(visitor);
     }
 
     // Then visit functions
     for (FunctionTable::const_iterator it = m_functions.begin(); it != m_functions.end(); ++it)
     {
-        (*it)->accept(visitor);
+        it->second->accept(visitor);
     }
 }
 
