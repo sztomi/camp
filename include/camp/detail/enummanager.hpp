@@ -38,12 +38,7 @@
 #include <camp/stringid.hpp>
 #include <camp/detail/observernotifier.hpp>
 #include <boost/noncopyable.hpp>
-#include <boost/multi_index_container.hpp>
-#include <boost/multi_index/member.hpp>
-#include <boost/multi_index/ordered_index.hpp>
-
-
-namespace bm = boost::multi_index;
+#include <map>
 
 namespace camp
 {
@@ -156,19 +151,11 @@ private:
     {
         uint32_t id;
         const char* name; ///< Name of the metaenum, must stay valid as long as this instance exists
-        Enum* enumPtr;  // No need for shared pointers in here, we're the one and only instance holder
+        Enum* enumPtr;    ///< No need for shared pointers in here, we're the one and only instance holder
     };
 
-    struct Id;
-
-    typedef boost::multi_index_container<EnumInfo,
-        bm::indexed_by<bm::ordered_unique<bm::tag<Id>, bm::member<EnumInfo, uint32_t, &EnumInfo::id> >
-        >
-    > EnumTable;
-
-    typedef EnumTable::index<Id>::type IdIndex;
-
-    EnumTable m_enums; ///< Table storing enums indexed by their id and name
+    typedef std::map<uint32_t, EnumInfo> EnumTable;
+    EnumTable m_enums; ///< Table storing enums indexed by their ID
 };
 
 } // namespace detail

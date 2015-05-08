@@ -48,12 +48,12 @@ EnumManager& EnumManager::instance()
 //-------------------------------------------------------------------------------------------------
 Enum& EnumManager::addClass(const char* name)
 {
-    const IdIndex& ids = m_enums.get<Id>();
-
     // First make sure that the enum doesn't already exist
     const StringId id(name);
-    if (ids.find(id) != ids.end())
+    if (m_enums.find(id) != m_enums.end())
+    {
         CAMP_ERROR(EnumAlreadyCreated(name));
+    }
 
     // Create the new class
     Enum* newEnum = new Enum(name);
@@ -63,7 +63,7 @@ Enum& EnumManager::addClass(const char* name)
     info.id = id;
     info.name = name;
     info.enumPtr = newEnum;
-    m_enums.insert(info);
+    m_enums.insert(std::make_pair(id, info));
 
     // Notify observers
     notifyEnumAdded(*newEnum);
@@ -87,38 +87,30 @@ const Enum& EnumManager::getByIndex(std::size_t index) const
     EnumTable::const_iterator it = m_enums.begin();
     std::advance(it, index);
 
-    return *it->enumPtr;
+    return *it->second.enumPtr;
 }
 
 //-------------------------------------------------------------------------------------------------
 const Enum& EnumManager::getById(StringId id) const
 {
-    const IdIndex& ids = m_enums.get<Id>();
-
-    IdIndex::const_iterator it = ids.find(id);
-    if (it == ids.end())
+    EnumTable::const_iterator it = m_enums.find(id);
+    if (it == m_enums.end())
         CAMP_ERROR(EnumNotFound(id));
 
-    return *it->enumPtr;
+    return *it->second.enumPtr;
 }
 
 //-------------------------------------------------------------------------------------------------
 const Enum* EnumManager::getByIdSafe(StringId id) const
 {
-    const IdIndex& ids = m_enums.get<Id>();
-
-    IdIndex::const_iterator it = ids.find(id);
-    if (it == ids.end())
-        return nullptr;
-
-    return &*it->enumPtr;
+    EnumTable::const_iterator it = m_enums.find(id);
+    return (it == m_enums.end()) ? nullptr : &*it->second.enumPtr;
 }
 
 //-------------------------------------------------------------------------------------------------
 bool EnumManager::enumExists(StringId id) const
 {
-    const IdIndex& ids = m_enums.get<Id>();
-    return ids.find(id) != ids.end();
+    return (m_enums.find(id) != m_enums.end());
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -132,7 +124,7 @@ EnumManager::~EnumManager()
     // Notify observers
     for (EnumTable::const_iterator it = m_enums.begin(); it != m_enums.end(); ++it)
     {
-        Enum* enumPtr = it->enumPtr;
+        Enum* enumPtr = it->second.enumPtr;
         notifyEnumRemoved(*enumPtr);
         delete enumPtr;
     }

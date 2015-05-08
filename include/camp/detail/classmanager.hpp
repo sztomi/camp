@@ -38,12 +38,8 @@
 #include <camp/stringid.hpp>
 #include <camp/detail/observernotifier.hpp>
 #include <camp/detail/singleton.hpp>
-#include <boost/multi_index_container.hpp>
-#include <boost/multi_index/member.hpp>
-#include <boost/multi_index/ordered_index.hpp>
+#include <map>
 
-
-namespace bm = boost::multi_index;
 
 namespace camp
 {
@@ -158,19 +154,11 @@ private:
     {
         uint32_t id;
         const char* name; ///< Name of the metaclass, must stay valid as long as this instance exists
-        Class* classPtr; // No need for shared pointers in here, we're the one and only instance holder
+        Class* classPtr;  ///< No need for shared pointers in here, we're the one and only instance holder
     };
 
-    struct Id;
-
-    typedef boost::multi_index_container<ClassInfo,
-        bm::indexed_by<bm::ordered_unique<bm::tag<Id>, bm::member<ClassInfo, uint32_t, &ClassInfo::id> >
-        >
-    > ClassTable;
-
-    typedef ClassTable::index<Id>::type IdIndex;
-
-    ClassTable m_classes; ///< Table storing classes indexed by their id and name
+    typedef std::map<uint32_t, ClassInfo> ClassTable;
+    ClassTable m_classes; ///< Table storing classes indexed by their ID
 };
 
 } // namespace detail
