@@ -106,7 +106,7 @@ namespace ClassVisitorTest
 
     void declare()
     {
-        camp::Enum::declare<MyEnum>("ClassVisitorTest::MyEnum");
+        camp::Enum::declare<MyEnum>();
 
         camp::Class::declare<MyType>();
 

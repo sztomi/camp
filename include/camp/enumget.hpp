@@ -38,7 +38,6 @@
 #include <camp/error.hpp>
 #include <camp/detail/typeid.hpp>
 #include <camp/detail/enummanager.hpp>
-#include <string>
 
 
 namespace camp
@@ -71,15 +70,15 @@ const Enum& enumByIndex(std::size_t index);
 /**
  * \relates Enum
  *
- * \brief Get a metaenum from its name
+ * \brief Get a metaenum from its ID
  *
- * \param name Name of the metaenum to retrieve (case sensitive)
+ * \param id ID (result of "camp::StringId(camp::Enum::name())") of the metaenum to retrieve, no reference by intent
  *
  * \return Reference to the requested metaenum
  *
- * \throw EnumNotFound name is not a valid metaenum name
+ * \throw EnumNotFound ID is not a valid metaenum ID
  */
-const Enum& enumByName(const std::string& name);
+const Enum& enumById(StringId id);
 
 /**
  * \relates Enum

@@ -35,6 +35,7 @@
 
 
 #include <camp/config.hpp>
+#include <camp/stringid.hpp>
 
 
 namespace camp
@@ -43,7 +44,7 @@ namespace detail
 {
 template <typename T> struct StaticTypeId;
 template <typename T> const char* staticTypeId(const T&);
-CAMP_API void ensureTypeRegistered(const char* id, void (*registerFunc)());
+CAMP_API void ensureTypeRegistered(StringId id, void (*registerFunc)());
 }
 
 /**
@@ -117,7 +118,7 @@ CAMP_API void ensureTypeRegistered(const char* id, void (*registerFunc)());
                 static const char* get(bool checkRegister = true) \
                 { \
                     if (checkRegister) \
-                        detail::ensureTypeRegistered(#type, registerFunc); \
+                        detail::ensureTypeRegistered(StringId(#type), registerFunc); \
                     return #type; \
                 } \
                 enum {defined = true, copyable = true}; \
@@ -195,7 +196,7 @@ CAMP_API void ensureTypeRegistered(const char* id, void (*registerFunc)());
                 static const char* get(bool checkRegister = true) \
                 { \
                     if (checkRegister) \
-                        detail::ensureTypeRegistered(#type, registerFunc); \
+                        detail::ensureTypeRegistered(StringId(#type), registerFunc); \
                     return #type; \
                 } \
                 enum {defined = true, copyable = false}; \

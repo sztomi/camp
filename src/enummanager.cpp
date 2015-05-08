@@ -46,14 +46,14 @@ EnumManager& EnumManager::instance()
 }
 
 //-------------------------------------------------------------------------------------------------
-Enum& EnumManager::addClass(const std::string& name, const std::string& id)
+Enum& EnumManager::addClass(const char* name)
 {
-    const IdIndex&   ids   = m_enums.get<Id>();
-    const NameIndex& names = m_enums.get<Name>();
+    const IdIndex& ids = m_enums.get<Id>();
 
     // First make sure that the enum doesn't already exist
-    if ((ids.find(id) != ids.end()) || (names.find(name) != names.end()))
-        CAMP_ERROR(EnumAlreadyCreated(name, id));
+    const StringId id(name);
+    if (ids.find(id) != ids.end())
+        CAMP_ERROR(EnumAlreadyCreated(name));
 
     // Create the new class
     Enum* newEnum = new Enum(name);
@@ -91,19 +91,7 @@ const Enum& EnumManager::getByIndex(std::size_t index) const
 }
 
 //-------------------------------------------------------------------------------------------------
-const Enum& EnumManager::getByName(const std::string& name) const
-{
-    const NameIndex& names = m_enums.get<Name>();
-
-    NameIndex::const_iterator it = names.find(name);
-    if (it == names.end())
-        CAMP_ERROR(EnumNotFound(name));
-
-    return *it->enumPtr;
-}
-
-//-------------------------------------------------------------------------------------------------
-const Enum& EnumManager::getById(const std::string& id) const
+const Enum& EnumManager::getById(StringId id) const
 {
     const IdIndex& ids = m_enums.get<Id>();
 
@@ -115,7 +103,7 @@ const Enum& EnumManager::getById(const std::string& id) const
 }
 
 //-------------------------------------------------------------------------------------------------
-const Enum* EnumManager::getByIdSafe(const std::string& id) const
+const Enum* EnumManager::getByIdSafe(StringId id) const
 {
     const IdIndex& ids = m_enums.get<Id>();
 
@@ -127,10 +115,9 @@ const Enum* EnumManager::getByIdSafe(const std::string& id) const
 }
 
 //-------------------------------------------------------------------------------------------------
-bool EnumManager::enumExists(const std::string& id) const
+bool EnumManager::enumExists(StringId id) const
 {
     const IdIndex& ids = m_enums.get<Id>();
-
     return ids.find(id) != ids.end();
 }
 

@@ -107,7 +107,7 @@ namespace ValueTest
 
     void declare()
     {
-        camp::Enum::declare<MyEnum>("ValueTest::MyEnum")
+        camp::Enum::declare<MyEnum>()
             .value("One", One)
             .value("Two", Two);
         camp::Class::declare<MyClass>();

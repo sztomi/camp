@@ -135,7 +135,7 @@ namespace PropertyTest
 
     void declare()
     {
-        camp::Enum::declare<MyEnum>("PropertyTest::MyEnum")
+        camp::Enum::declare<MyEnum>()
             .value("Zero", Zero)
             .value("One",  One)
             .value("Two",  Two);

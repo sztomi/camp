@@ -85,7 +85,7 @@ namespace ConstructorTest
 
     void declare()
     {
-        camp::Enum::declare<MyEnum>("ConstructorTest::MyEnum")
+        camp::Enum::declare<MyEnum>()
             .value("zero",  zero)
             .value("one",   one)
             .value("two",   two)

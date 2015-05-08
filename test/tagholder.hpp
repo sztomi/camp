@@ -60,7 +60,7 @@ namespace TagHolderTest
 
     void declare()
     {
-        camp::Enum::declare<MyEnum>("TagHolderTest::MyEnum");
+        camp::Enum::declare<MyEnum>();
 
         camp::Class::declare<MyType>();
 

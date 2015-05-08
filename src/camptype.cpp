@@ -39,10 +39,10 @@ namespace camp
 namespace detail
 {
 //-------------------------------------------------------------------------------------------------
-void ensureTypeRegistered(const char* id, void (*registerFunc)())
+void ensureTypeRegistered(StringId id, void (*registerFunc)())
 {
     if (registerFunc
-        && !ClassManager::instance().classExists(StringId(id))
+        && !ClassManager::instance().classExists(id)
         && !EnumManager::instance().enumExists(id))
     {
         registerFunc();

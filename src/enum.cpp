@@ -36,7 +36,13 @@
 namespace camp
 {
 //-------------------------------------------------------------------------------------------------
-const std::string& Enum::name() const
+uint32_t Enum::id() const
+{
+    return m_id;
+}
+
+//-------------------------------------------------------------------------------------------------
+const char* Enum::name() const
 {
     return m_name;
 }
@@ -110,8 +116,9 @@ bool Enum::operator!=(const Enum& other) const
 }
 
 //-------------------------------------------------------------------------------------------------
-Enum::Enum(const std::string& name)
-    : m_name(name)
+Enum::Enum(const char* name)
+    : m_id(name)
+    , m_name(name)
 {
 }
 

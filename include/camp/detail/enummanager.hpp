@@ -35,12 +35,12 @@
 
 
 #include <camp/config.hpp>
+#include <camp/stringid.hpp>
 #include <camp/detail/observernotifier.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/multi_index_container.hpp>
 #include <boost/multi_index/member.hpp>
 #include <boost/multi_index/ordered_index.hpp>
-#include <string>
 
 
 namespace bm = boost::multi_index;
@@ -76,12 +76,11 @@ public:
      * This is the entry point for every metaenum creation. This
      * function also notifies registered observers after successful creations.
      *
-     * \param name Name of the metaenum to create (must be unique)
-     * \param id Identifier of the C++ enum bound to the metaenum
+     * \param name Name of the metaenum to create (must be unique), must stay valid as long as this instance exists
      *
      * \return Reference to the new metaenum
      */
-    Enum& addClass(const std::string& name, const std::string& id);
+    Enum& addClass(const char* name);
 
     /**
      * \brief Get the total number of metaenums
@@ -105,47 +104,36 @@ public:
     const Enum& getByIndex(std::size_t index) const;
 
     /**
-     * \brief Get a metaenum from its name
+     * \brief Get a metaenum from an ID
      *
-     * \param name Name of the metaenum to retrieve
-     *
-     * \return Reference to the requested metaenum
-     *
-     * \throw EnumNotFound name is not the name of an existing metaenum
-     */
-    const Enum& getByName(const std::string& name) const;
-
-    /**
-     * \brief Get a metaenum from a C++ type
-     *
-     * \param id Identifier of the C++ type
+     * \param id The ID (result of "camp::StringId(camp::Enum::name())") of the metaenum, no reference by intent
      *
      * \return Reference to the requested metaenum
      *
      * \throw EnumNotFound id is not the name of an existing metaenum
      */
-    const Enum& getById(const std::string& id) const;
+    const Enum& getById(StringId id) const;
 
     /**
-     * \brief Get a metaenum from a C++ type
+     * \brief Get a metaenum from an ID
      *
      * This version returns a null pointer if no metaenum is found, instead
      * of throwing an exception.
      *
-     * \param id Identifier of the C++ type
+     * \param id The ID (result of "camp::StringId(camp::Enum::name())") of the metaenum, no reference by intent
      *
      * \return Pointer to the requested metaenum, or null pointer if not found
      */
-    const Enum* getByIdSafe(const std::string& id) const;
+    const Enum* getByIdSafe(StringId id) const;
 
     /**
      * \brief Check if a given type has a metaenum
      *
-     * \param id Identifier of the C++ type
+     * \param id The ID (result of "camp::StringId(camp::Enum::name())") of the metaenum, no reference by intent
      *
      * \return True if the enum exists, false otherwise
      */
-    bool enumExists(const std::string& id) const;
+    bool enumExists(StringId id) const;
 
 private:
 
@@ -166,22 +154,19 @@ private:
      */
     struct EnumInfo
     {
-        std::string id;
-        std::string name;
+        uint32_t id;
+        const char* name; ///< Name of the metaenum, must stay valid as long as this instance exists
         Enum* enumPtr;  // No need for shared pointers in here, we're the one and only instance holder
     };
 
     struct Id;
-    struct Name;
 
     typedef boost::multi_index_container<EnumInfo,
-        bm::indexed_by<bm::ordered_unique<bm::tag<Id>,   bm::member<EnumInfo, std::string, &EnumInfo::id> >,
-                       bm::ordered_unique<bm::tag<Name>, bm::member<EnumInfo, std::string, &EnumInfo::name> >
+        bm::indexed_by<bm::ordered_unique<bm::tag<Id>, bm::member<EnumInfo, uint32_t, &EnumInfo::id> >
         >
     > EnumTable;
 
     typedef EnumTable::index<Id>::type IdIndex;
-    typedef EnumTable::index<Name>::type NameIndex;
 
     EnumTable m_enums; ///< Table storing enums indexed by their id and name
 };

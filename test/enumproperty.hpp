@@ -56,7 +56,7 @@ namespace EnumPropertyTest
 
     void declare()
     {
-        camp::Enum::declare<MyEnum>("EnumPropertyTest::MyEnum");
+        camp::Enum::declare<MyEnum>();
 
         camp::Class::declare<MyClass>()
             .property("x", &MyClass::x);

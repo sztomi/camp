@@ -45,30 +45,30 @@ inline const Enum& enumByIndex(std::size_t index)
 }
 
 //-------------------------------------------------------------------------------------------------
-inline const Enum& enumByName(const std::string& name)
+inline const Enum& enumById(StringId id)
 {
-    return detail::EnumManager::instance().getByName(name);
+    return detail::EnumManager::instance().getById(id);
 }
 
 //-------------------------------------------------------------------------------------------------
 template <typename T>
 const Enum& enumByObject(T)
 {
-    return detail::EnumManager::instance().getById(detail::typeId<T>());
+    return detail::EnumManager::instance().getById(StringId(detail::typeId<T>()));
 }
 
 //-------------------------------------------------------------------------------------------------
 template <typename T>
 const Enum& enumByType()
 {
-    return detail::EnumManager::instance().getById(detail::typeId<T>());
+    return detail::EnumManager::instance().getById(StringId(detail::typeId<T>()));
 }
 
 //-------------------------------------------------------------------------------------------------
 template <typename T>
 const Enum* enumByTypeSafe()
 {
-    return detail::EnumManager::instance().getByIdSafe(detail::safeTypeId<T>());
+    return detail::EnumManager::instance().getByIdSafe(StringId(detail::safeTypeId<T>()));
 }
 
 } // namespace camp

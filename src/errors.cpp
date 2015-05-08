@@ -89,8 +89,8 @@ ClassUnrelated::ClassUnrelated(const char* sourceClass, const char* requestedCla
 }
 
 //-------------------------------------------------------------------------------------------------
-EnumAlreadyCreated::EnumAlreadyCreated(const std::string& name, const std::string& type)
-    : Error("a metaenum named " + name + ", or bound to the type " + type + " already exists")
+EnumAlreadyCreated::EnumAlreadyCreated(const char* name)
+    : Error("a metaenum named " + std::string(name) + " already exists")
 {
 }
 
@@ -101,8 +101,8 @@ EnumNameNotFound::EnumNameNotFound(const std::string& name, const std::string& e
 }
 
 //-------------------------------------------------------------------------------------------------
-EnumNotFound::EnumNotFound(const std::string& name)
-    : Error("the metaenum " + name + " couldn't be found")
+EnumNotFound::EnumNotFound(StringId id)
+    : Error("the metaenum " + std::to_string(id) + " couldn't be found")
 {
 }
 

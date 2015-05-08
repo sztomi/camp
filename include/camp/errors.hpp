@@ -152,9 +152,8 @@ public:
      * \brief Constructor
      *
      * \param name Name of the enum
-     * \param type Identifier of the C++ type
      */
-    EnumAlreadyCreated(const std::string& name, const std::string& type);
+    EnumAlreadyCreated(const char* name);
 };
 
 /**
@@ -183,9 +182,9 @@ public:
     /**
      * \brief Constructor
      *
-     * \param name Name of the requested enum
+     * \param ID (result of "camp::StringId(camp::Enum::name())") of the requested enum, no reference by intent
      */
-    EnumNotFound(const std::string& name);
+    EnumNotFound(StringId id);
 };
 
 /**

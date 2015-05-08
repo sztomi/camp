@@ -56,12 +56,12 @@ namespace EnumTest
 
     void declare()
     {
-        camp::Enum::declare<MyEnum>("EnumTest::MyEnum")
+        camp::Enum::declare<MyEnum>()
             .value("Zero", Zero)
             .value("One", One)
             .value("Two", Two);
 
-        camp::Enum::declare<MyEnum2>("EnumTest::MyEnum2");
+        camp::Enum::declare<MyEnum2>();
     }
 }
 

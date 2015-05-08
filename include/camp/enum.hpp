@@ -35,6 +35,7 @@
 
 
 #include <camp/config.hpp>
+#include <camp/stringid.hpp>
 #include <camp/enumbuilder.hpp>
 #include <camp/enumget.hpp>
 #include <camp/detail/typeid.hpp>
@@ -43,7 +44,6 @@
 #include <boost/multi_index/member.hpp>
 #include <boost/multi_index/ordered_index.hpp>
 #include <boost/multi_index/random_access_index.hpp>
-#include <string>
 
 
 namespace bm = boost::multi_index;
@@ -73,7 +73,7 @@ namespace camp
  * bool b1 = metaenum.hasName("one");     // b1 == true
  * bool b2 = metaenum.hasValue(5);        // b2 == false
  *
- * std::string s = metaenum.name(10);     // s == "ten"
+ * const char* s = metaenum.name(10);     // s == "ten"
  * long l = metaenum.value("two");        // l == 2
  *
  * camp::Enum::Pair p = metaenum.pair(0); // p == {"one", one}
@@ -104,23 +104,27 @@ public:
      * This is the function to call to create a new metaenum. The template
      * parameter T is the C++ enum type that will be bound to the metaclass.
      *
-     * \param name Name of the metaenum in CAMP. This name identifies
-     *             the metaenum and thus has to be unique
-     *
      * \return A EnumBuilder object that will provide functions
      *         to fill the new metaenum with values.
      */
     template <typename T>
-    static EnumBuilder declare(const std::string& name);
+    static EnumBuilder declare();
 
 public:
 
     /**
+     * \brief Get the ID of the metaenum
+     *
+     * \return ID (result of "camp::StringId(camp::Enum::name())") of the metaenum
+     */
+    uint32_t id() const;
+
+    /**
      * \brief Return the name of the metaenum
      *
-     * \return String containing the name of the metaenum
+     * \return String containing the name of the metaenum, always valid
      */
-    const std::string& name() const;
+    const char* name() const;
 
     /**
      * \brief Return the size of the metaenum
@@ -208,9 +212,9 @@ private:
     /**
      * \brief Construct the metaenum from its name
      *
-     * \param name Name of the metaenum
+     * \param name Name of the metaenum, must stay valid as long as this instance exists
      */
-    Enum(const std::string& name);
+    Enum(const char* name);
 
     struct Id;
     struct Val;
@@ -226,7 +230,8 @@ private:
     typedef PairTable::index<Val>::type ValueIndex;
     typedef PairTable::index<Name>::type NameIndex;
 
-    std::string m_name; ///< Name of the metaenum
+    StringId m_id; ///< ID (result of "camp::StringId(camp::Enum::name())") of the metaenum
+    const char* m_name; ///< Name of the metaenum, must stay valid as long as this instance exists
     PairTable m_pairs; ///< Table of pairs, indexed by their value and name
 };
 
