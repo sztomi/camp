@@ -79,7 +79,7 @@ public:
      *
      * \param a0 Argument to put in the list
      */
-    Args(const Value& a0);
+    explicit Args(const Value& a0);
 
     /**
      * \brief Construct the list with 2 arguments

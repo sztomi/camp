@@ -71,7 +71,7 @@ public:
      *
      * \param target Metaclass to build
      */
-    ClassBuilder(Class& target);
+    explicit ClassBuilder(Class& target);
 
     /**
      * \brief Declare a base metaclass

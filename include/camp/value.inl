@@ -66,7 +66,7 @@ T Value::to() const
     {
         return detail::ValueTo<T>::convert(*this);
     }
-    catch (boost::bad_lexical_cast&)
+    catch (const boost::bad_lexical_cast&)
     {
         CAMP_ERROR(BadType(type(), mapType<T>()));
     }
@@ -88,7 +88,7 @@ bool Value::isCompatible() const
         to<T>();
         return true;
     }
-    catch (std::exception&)
+    catch (const std::exception&)
     {
         return false;
     }
