@@ -46,7 +46,6 @@
 #include <camp/detail/classmanager.hpp>
 #include <camp/detail/typeid.hpp>
 #include <boost/noncopyable.hpp>
-#include <map>
 
 namespace camp
 {
@@ -125,6 +124,25 @@ public:
      */
     template <typename T>
     static ClassBuilder<T> declare();
+
+    typedef std::shared_ptr<Function> FunctionPtr;
+    typedef std::shared_ptr<Property> PropertyPtr;
+
+    struct OrderByFunctionId
+    {
+        inline bool operator()(const FunctionPtr& left, uint32_t right) const
+        {
+            return (left->id() < right);
+        }
+    };
+
+    struct OrderByPropertyId
+    {
+        inline bool operator()(const PropertyPtr& left, uint32_t right) const
+        {
+            return (left->id() < right);
+        }
+    };
 
 public:
 
@@ -340,19 +358,17 @@ private:
         int offset;
     };
 
-    typedef std::shared_ptr<Property> PropertyPtr;
-    typedef std::shared_ptr<Function> FunctionPtr;
     typedef std::shared_ptr<Constructor> ConstructorPtr;
     typedef std::vector<ConstructorPtr> ConstructorList;
     typedef std::vector<BaseInfo> BaseList;
-    typedef std::map<uint32_t, PropertyPtr> PropertyTable;
-    typedef std::map<uint32_t, FunctionPtr> FunctionTable;
+    typedef std::vector<FunctionPtr> SortedFunctionVector; ///< Function ID sorted vector storing functions
+    typedef std::vector<PropertyPtr> SortedPropertyVector; ///< Property ID sorted vector storing properties
     typedef void (*Destructor)(const UserObject&);
 
     StringId m_id; ///< The ID (result of "camp::StringId(camp::Class::name())") of the metaclass
     const char* m_name; ///< Name of the metaclass, must stay valid as long as this instance exists
-    FunctionTable m_functions; ///< Table of metafunctions indexed by ID
-    PropertyTable m_properties; ///< Table of metaproperties indexed by ID
+    SortedFunctionVector m_functions;
+    SortedPropertyVector m_properties;
     BaseList m_bases; ///< List of base metaclasses
     ConstructorList m_constructors; ///< List of metaconstructors
     Destructor m_destructor; ///< Destructor (function that is able to delete an abstract object)

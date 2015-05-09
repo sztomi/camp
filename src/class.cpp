@@ -73,7 +73,8 @@ std::size_t Class::functionCount() const
 //-------------------------------------------------------------------------------------------------
 bool Class::hasFunction(StringId id) const
 {
-    return (m_functions.find(id) != m_functions.end());
+    SortedFunctionVector::const_iterator iterator = std::lower_bound(m_functions.cbegin(), m_functions.cend(), id, OrderByFunctionId());
+    return (iterator != m_functions.end() && (*iterator._Ptr)->id() == id);
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -83,22 +84,23 @@ const Function& Class::function(std::size_t index) const
     if (index >= m_functions.size())
         CAMP_ERROR(OutOfRange(index, m_functions.size()));
 
-    FunctionTable::const_iterator it = m_functions.begin();
-    std::advance(it, index);
-
-    return *it->second;
+    return *m_functions[index];
 }
 
 //-------------------------------------------------------------------------------------------------
 const Function& Class::function(StringId id) const
 {
-    FunctionTable::const_iterator it = m_functions.find(id);
-    if (it == m_functions.end())
+    SortedFunctionVector::const_iterator iterator = std::lower_bound(m_functions.cbegin(), m_functions.cend(), id, OrderByFunctionId());
+    if (iterator != m_functions.end() && (*iterator._Ptr)->id() == id)
     {
+        // Found
+        return **iterator._Ptr;
+    }
+    else
+    {
+        // Not found
         CAMP_ERROR(FunctionNotFound(id, m_name));
     }
-
-    return *it->second;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -110,7 +112,8 @@ std::size_t Class::propertyCount() const
 //-------------------------------------------------------------------------------------------------
 bool Class::hasProperty(StringId id) const
 {
-    return (m_properties.find(id) != m_properties.end());
+    SortedPropertyVector::const_iterator iterator = std::lower_bound(m_properties.cbegin(), m_properties.cend(), id, OrderByPropertyId());
+    return (iterator != m_properties.end() && (*iterator._Ptr)->id() == id);
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -120,22 +123,23 @@ const Property& Class::property(std::size_t index) const
     if (index >= m_properties.size())
         CAMP_ERROR(OutOfRange(index, m_properties.size()));
 
-    PropertyTable::const_iterator it = m_properties.begin();
-    std::advance(it, index);
-
-    return *it->second;
+    return *m_properties[index];
 }
 
 //-------------------------------------------------------------------------------------------------
 const Property& Class::property(StringId id) const
 {
-    PropertyTable::const_iterator it = m_properties.find(id);
-    if (it == m_properties.end())
+    SortedPropertyVector::const_iterator iterator = std::lower_bound(m_properties.cbegin(), m_properties.cend(), id, OrderByPropertyId());
+    if (iterator != m_properties.end() && (*iterator._Ptr)->id() == id)
     {
+        // Found
+        return **iterator._Ptr;
+    }
+    else
+    {
+        // Not found
         CAMP_ERROR(PropertyNotFound(id, m_name));
     }
-
-    return *it->second;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -175,15 +179,15 @@ void Class::destroy(const UserObject& object) const
 void Class::visit(ClassVisitor& visitor) const
 {
     // First visit properties
-    for (PropertyTable::const_iterator it = m_properties.begin(); it != m_properties.end(); ++it)
+    for (SortedPropertyVector::const_iterator it = m_properties.begin(); it != m_properties.end(); ++it)
     {
-        it->second->accept(visitor);
+        (*it)->accept(visitor);
     }
 
     // Then visit functions
-    for (FunctionTable::const_iterator it = m_functions.begin(); it != m_functions.end(); ++it)
+    for (SortedFunctionVector::const_iterator it = m_functions.begin(); it != m_functions.end(); ++it)
     {
-        it->second->accept(visitor);
+        (*it)->accept(visitor);
     }
 }
 

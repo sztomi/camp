@@ -73,20 +73,28 @@ ClassBuilder<T>& ClassBuilder<T>::base()
     baseInfos.offset = offset;
     m_target->m_bases.push_back(baseInfos);
 
-    // Copy all properties of the base class into the current class
-    for (Class::PropertyTable::const_iterator it = baseClass.m_properties.begin();
-        it != baseClass.m_properties.end();
-        ++it)
-    {
-        m_target->m_properties.insert(std::make_pair(it->first, it->second));
+    { // Copy all properties of the base class into the current class
+        Class::SortedPropertyVector& targetProperties = m_target->m_properties;
+        const Class::SortedPropertyVector& baseProperties = baseClass.m_properties;
+        const size_t numberOfProperties = baseProperties.size();
+        for (size_t i = 0; i < numberOfProperties; ++i)
+        {
+            const Class::PropertyPtr& propertyPtr = baseProperties[i];
+            Class::SortedPropertyVector::const_iterator iterator = std::lower_bound(targetProperties.cbegin(), targetProperties.cend(), propertyPtr->id(), Class::OrderByPropertyId());
+            targetProperties.insert(iterator, propertyPtr);
+        }
     }
 
-    // Copy all functions of the base class into the current class
-    for (Class::FunctionTable::const_iterator it = baseClass.m_functions.begin();
-        it != baseClass.m_functions.end();
-        ++it)
-    {
-        m_target->m_functions.insert(std::make_pair(it->first, it->second));
+    { // Copy all functions of the base class into the current class
+        Class::SortedFunctionVector& targetFunctions = m_target->m_functions;
+        const Class::SortedFunctionVector& baseFunctions = baseClass.m_functions;
+        const size_t numberOfFunctions = baseFunctions.size();
+        for (size_t i = 0; i < numberOfFunctions; ++i)
+        {
+            const Class::FunctionPtr& functionPtr = baseFunctions[i];
+            Class::SortedFunctionVector::const_iterator iterator = std::lower_bound(targetFunctions.cbegin(), targetFunctions.cend(), functionPtr->id(), Class::OrderByFunctionId());
+            targetFunctions.insert(iterator, functionPtr);
+        }
     }
 
     return *this;
@@ -358,15 +366,22 @@ Class& ClassBuilder<T>::getClass()
 template <typename T>
 ClassBuilder<T>& ClassBuilder<T>::addProperty(Property* property)
 {
-    // Retrieve the class' properties indexed by name
-    Class::PropertyTable& properties = m_target->m_properties;
+    // Retrieve the class' properties sorted by ID
+    Class::SortedPropertyVector& properties = m_target->m_properties;
 
-    // First remove any property that already exists with the same ID
+    // Replace any property that already exists with the same ID
     const uint32_t id = property->id();
-    properties.erase(id);
-
-    // Insert the new property
-    properties.insert(std::make_pair(id, Class::PropertyPtr(property)));
+    Class::SortedPropertyVector::const_iterator iterator = std::lower_bound(properties.cbegin(), properties.cend(), id, Class::OrderByPropertyId());
+    if (iterator != properties.end() && (*iterator._Ptr)->id() == id)
+    {
+        // Found, so just replace property
+        *iterator._Ptr = Class::PropertyPtr(property);
+    }
+    else
+    {
+        // Not found, insert new property
+        properties.insert(iterator, Class::PropertyPtr(property));
+    }
 
     m_currentTagHolder = m_currentProperty = property;
     m_currentFunction = nullptr;
@@ -378,15 +393,22 @@ ClassBuilder<T>& ClassBuilder<T>::addProperty(Property* property)
 template <typename T>
 ClassBuilder<T>& ClassBuilder<T>::addFunction(Function* function)
 {
-    // Retrieve the class' functions indexed by name
-    Class::FunctionTable& functions = m_target->m_functions;
+    // Retrieve the class' functions sorted by ID
+    Class::SortedFunctionVector& functions = m_target->m_functions;
 
-    // First remove any function that already exists with the same ID
+    // Replace any function that already exists with the same ID
     const uint32_t id = function->id();
-    functions.erase(id);
-
-    // Insert the new function
-    functions.insert(std::make_pair(id, Class::FunctionPtr(function)));
+    Class::SortedFunctionVector::const_iterator iterator = std::lower_bound(functions.cbegin(), functions.cend(), id, Class::OrderByFunctionId());
+    if (iterator != functions.end() && (*iterator._Ptr)->id() == id)
+    {
+        // Found, so just replace function
+        *iterator._Ptr = Class::FunctionPtr(function);
+    }
+    else
+    {
+        // Not found, insert new function
+        functions.insert(iterator, Class::FunctionPtr(function));
+    }
 
     m_currentTagHolder = m_currentFunction = function;
     m_currentProperty = nullptr;
