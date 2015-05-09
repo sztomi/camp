@@ -144,17 +144,7 @@ private:
      */
     ~EnumManager();
 
-    /**
-     * \brief Structure gathering an enum, its type identifier and its name
-     */
-    struct EnumInfo
-    {
-        uint32_t id;
-        const char* name; ///< Name of the metaenum, must stay valid as long as this instance exists
-        Enum* enumPtr;    ///< No need for shared pointers in here, we're the one and only instance holder
-    };
-
-    typedef std::map<uint32_t, EnumInfo> EnumTable;
+    typedef std::map<uint32_t, Enum*> EnumTable; ///< No need for shared pointers in here, we're the one and only instance holder
     EnumTable m_enums; ///< Table storing enums indexed by their ID
 };
 

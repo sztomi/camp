@@ -147,17 +147,7 @@ public:
 
 private:
 
-    /**
-     * \brief Structure gathering a class, its type identifier and its name
-     */
-    struct ClassInfo
-    {
-        uint32_t id;
-        const char* name; ///< Name of the metaclass, must stay valid as long as this instance exists
-        Class* classPtr;  ///< No need for shared pointers in here, we're the one and only instance holder
-    };
-
-    typedef std::map<uint32_t, ClassInfo> ClassTable;
+    typedef std::map<uint32_t, Class*> ClassTable; ///< No need for shared pointers in here, we're the one and only instance holder
     ClassTable m_classes; ///< Table storing classes indexed by their ID
 };
 
