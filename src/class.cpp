@@ -176,16 +176,20 @@ void Class::destroy(const UserObject& object) const
 //-------------------------------------------------------------------------------------------------
 void Class::visit(ClassVisitor& visitor) const
 {
-    // First visit properties
-    for (SortedPropertyVector::const_iterator it = m_properties.begin(); it != m_properties.end(); ++it)
-    {
-        (*it)->accept(visitor);
+    { // First visit properties
+        const size_t numberOfProperties = m_properties.size();
+        for (size_t i = 0; i < numberOfProperties; ++i)
+        {
+            m_properties[i]->accept(visitor);
+        }
     }
 
-    // Then visit functions
-    for (SortedFunctionVector::const_iterator it = m_functions.begin(); it != m_functions.end(); ++it)
-    {
-        (*it)->accept(visitor);
+    { // Then visit functions
+        const size_t numberOfFunctions = m_functions.size();
+        for (size_t i = 0; i < numberOfFunctions; ++i)
+        {
+            m_functions[i]->accept(visitor);
+        }
     }
 }
 
@@ -244,15 +248,20 @@ int Class::baseOffset(const Class& base) const
 {
     // Check self
     if (&base == this)
+    {
         return 0;
+    }
 
     // Search base in the base classes
-    BaseList::const_iterator end = m_bases.end();
-    for (BaseList::const_iterator it = m_bases.begin(); it != end; ++it)
+    const size_t numberOfBases = m_bases.size();
+    for (size_t i = 0; i < numberOfBases; ++i)
     {
-        const int offset = it->base->baseOffset(base);
+        const BaseInfo& baseInfo = m_bases[i];
+        const int offset = baseInfo.base->baseOffset(base);
         if (offset != -1)
-            return offset + it->offset;
+        {
+            return offset + baseInfo.offset;
+        }
     }
 
     return -1;

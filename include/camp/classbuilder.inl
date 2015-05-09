@@ -54,10 +54,11 @@ ClassBuilder<T>& ClassBuilder<T>::base()
     {
         // First make sure that the base class is not already a base of the current class
         const uint32_t baseId = baseClass.id();
-        Class::BaseList::const_iterator endBase = m_target->m_bases.end();
-        for (Class::BaseList::const_iterator it = m_target->m_bases.begin(); it != endBase; ++it)
+        const Class::BaseVector& bases = m_target->m_bases;
+        const size_t numberOfBases = bases.size();
+        for (size_t i = 0; i < numberOfBases; ++i)
         {
-            assert(it->base->id() != baseId);
+            assert(bases[i].base->id() != baseId);
         }
     }
     #endif
@@ -333,12 +334,16 @@ ClassBuilder<T>& ClassBuilder<T>::external()
     // Retrieve the properties
     std::size_t propertyCount = mapper.propertyCount();
     for (std::size_t i = 0; i < propertyCount; ++i)
+    {
         addProperty(mapper.property(i));
+    }
 
     // Retrieve the functions
     std::size_t functionCount = mapper.functionCount();
     for (std::size_t i = 0; i < functionCount; ++i)
+    {
         addFunction(mapper.function(i));
+    }
 
     return *this;
 }

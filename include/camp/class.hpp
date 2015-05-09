@@ -364,7 +364,7 @@ private:
     };
 
     typedef std::vector<Constructor*> ConstructorVector;
-    typedef std::vector<BaseInfo> BaseList;
+    typedef std::vector<BaseInfo> BaseVector;
     typedef std::vector<FunctionPtr> SortedFunctionVector; ///< Function ID sorted vector storing functions
     typedef std::vector<PropertyPtr> SortedPropertyVector; ///< Property ID sorted vector storing properties
     typedef void (*Destructor)(const UserObject&);
@@ -373,7 +373,7 @@ private:
     const char* m_name; ///< Name of the metaclass, must stay valid as long as this instance exists
     SortedFunctionVector m_functions;
     SortedPropertyVector m_properties;
-    BaseList m_bases; ///< List of base metaclasses
+    BaseVector m_bases; ///< List of base metaclasses
     ConstructorVector m_constructors; ///< List of metaconstructors
     Destructor m_destructor; ///< Destructor (function that is able to delete an abstract object)
 };
