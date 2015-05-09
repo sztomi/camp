@@ -109,7 +109,7 @@ class ClassVisitor;
  *
  * \sa Enum, TagHolder, ClassBuilder, Function, Property
  */
-class CAMP_API Class : public TagHolder, boost::noncopyable
+class CAMP_API Class : public TagHolder, public boost::noncopyable
 {
 public:
 
@@ -339,6 +339,11 @@ private:
     explicit Class(const char* name);
 
     /**
+     * \brief Destructor
+     */
+    virtual ~Class();
+
+    /**
      * \brief Get the offset of a base metaclass
      *
      * \param base Base metaclass to check
@@ -358,8 +363,7 @@ private:
         int offset;
     };
 
-    typedef std::shared_ptr<Constructor> ConstructorPtr;
-    typedef std::vector<ConstructorPtr> ConstructorList;
+    typedef std::vector<Constructor*> ConstructorVector;
     typedef std::vector<BaseInfo> BaseList;
     typedef std::vector<FunctionPtr> SortedFunctionVector; ///< Function ID sorted vector storing functions
     typedef std::vector<PropertyPtr> SortedPropertyVector; ///< Property ID sorted vector storing properties
@@ -370,7 +374,7 @@ private:
     SortedFunctionVector m_functions;
     SortedPropertyVector m_properties;
     BaseList m_bases; ///< List of base metaclasses
-    ConstructorList m_constructors; ///< List of metaconstructors
+    ConstructorVector m_constructors; ///< List of metaconstructors
     Destructor m_destructor; ///< Destructor (function that is able to delete an abstract object)
 };
 

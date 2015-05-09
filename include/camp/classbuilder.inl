@@ -273,9 +273,7 @@ ClassBuilder<T>& ClassBuilder<T>::callable(F function)
 template <typename T>
 ClassBuilder<T>& ClassBuilder<T>::constructor0()
 {
-    Constructor* constructor = new detail::ConstructorImpl0<T>;
-    m_target->m_constructors.push_back(Class::ConstructorPtr(constructor));
-
+    m_target->m_constructors.push_back(new detail::ConstructorImpl0<T>);
     return *this;
 }
 
@@ -284,9 +282,7 @@ template <typename T>
 template <typename A0>
 ClassBuilder<T>& ClassBuilder<T>::constructor1()
 {
-    Constructor* constructor = new detail::ConstructorImpl1<T, A0>;
-    m_target->m_constructors.push_back(Class::ConstructorPtr(constructor));
-
+    m_target->m_constructors.push_back(new detail::ConstructorImpl1<T, A0>);
     return *this;
 }
 
@@ -295,9 +291,7 @@ template <typename T>
 template <typename A0, typename A1>
 ClassBuilder<T>& ClassBuilder<T>::constructor2()
 {
-    Constructor* constructor = new detail::ConstructorImpl2<T, A0, A1>;
-    m_target->m_constructors.push_back(Class::ConstructorPtr(constructor));
-
+    m_target->m_constructors.push_back(new detail::ConstructorImpl2<T, A0, A1>);
     return *this;
 }
 
@@ -306,9 +300,7 @@ template <typename T>
 template <typename A0, typename A1, typename A2>
 ClassBuilder<T>& ClassBuilder<T>::constructor3()
 {
-    Constructor* constructor = new detail::ConstructorImpl3<T, A0, A1, A2>;
-    m_target->m_constructors.push_back(Class::ConstructorPtr(constructor));
-
+    m_target->m_constructors.push_back(new detail::ConstructorImpl3<T, A0, A1, A2>);
     return *this;
 }
 
@@ -317,9 +309,7 @@ template <typename T>
 template <typename A0, typename A1, typename A2, typename A3>
 ClassBuilder<T>& ClassBuilder<T>::constructor4()
 {
-    Constructor* constructor = new detail::ConstructorImpl4<T, A0, A1, A2, A3>;
-    m_target->m_constructors.push_back(Class::ConstructorPtr(constructor));
-
+    m_target->m_constructors.push_back(new detail::ConstructorImpl4<T, A0, A1, A2, A3>);
     return *this;
 }
 
@@ -328,9 +318,7 @@ template <typename T>
 template <typename A0, typename A1, typename A2, typename A3, typename A4>
 ClassBuilder<T>& ClassBuilder<T>::constructor5()
 {
-    Constructor* constructor = new detail::ConstructorImpl5<T, A0, A1, A2, A3, A4>;
-    m_target->m_constructors.push_back(Class::ConstructorPtr(constructor));
-
+    m_target->m_constructors.push_back(new detail::ConstructorImpl5<T, A0, A1, A2, A3, A4>);
     return *this;
 }
 

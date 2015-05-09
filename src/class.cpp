@@ -152,16 +152,14 @@ std::size_t Class::constructorCount() const
 UserObject Class::construct(const Args& args) const
 {
     // Search an arguments match among the list of available constructors
-    ConstructorList::const_iterator end = m_constructors.end();
-    for (ConstructorList::const_iterator it = m_constructors.begin();
-         it != end;
-         ++it)
+    const size_t numberOfConstructors = m_constructors.size();
+    for (size_t i = 0; i < numberOfConstructors; ++i)
     {
-        Constructor& constructor = **it;
-        if (constructor.matches(args))
+        const Constructor* constructor = m_constructors[i];
+        if (constructor->matches(args))
         {
             // Match found: use the constructor to create the new instance
-            return constructor.create(args);
+            return constructor->create(args);
         }
     }
 
@@ -229,6 +227,16 @@ Class::Class(const char* name)
     : m_id(name)
     , m_name(name)
 {
+}
+
+//-------------------------------------------------------------------------------------------------
+Class::~Class()
+{
+    const size_t numberOfConstructors = m_constructors.size();
+    for (size_t i = 0; i < numberOfConstructors; ++i)
+    {
+        delete m_constructors[i];
+    }
 }
 
 //-------------------------------------------------------------------------------------------------
