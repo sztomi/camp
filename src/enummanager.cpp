@@ -38,6 +38,17 @@ namespace camp
 {
 namespace detail
 {
+    namespace detail
+    {
+        struct OrderByEnumId
+        {
+            inline bool operator()(const Enum* left, uint32_t right) const
+            {
+                return (left->id() < right);
+            }
+        };
+    }
+
 //-------------------------------------------------------------------------------------------------
 EnumManager& EnumManager::instance()
 {
@@ -50,7 +61,8 @@ Enum& EnumManager::addClass(const char* name)
 {
     // First make sure that the enum doesn't already exist
     const StringId id(name);
-    if (m_enums.find(id) != m_enums.end())
+    SortedEnumVector::const_iterator iterator = std::lower_bound(m_enums.cbegin(), m_enums.cend(), id, detail::OrderByEnumId());
+    if (iterator != m_enums.end() && (*iterator._Ptr)->id() == id)
     {
         CAMP_ERROR(EnumAlreadyCreated(name));
     }
@@ -58,8 +70,8 @@ Enum& EnumManager::addClass(const char* name)
     // Create the new class
     Enum* newEnum = new Enum(name);
 
-    // Insert it into the table
-    m_enums.insert(std::make_pair(id, newEnum));
+    // Insert it into the sorted vector
+    m_enums.insert(iterator, newEnum);
 
     // Notify observers
     notifyEnumAdded(*newEnum);
@@ -81,33 +93,37 @@ const Enum& EnumManager::getByIndex(std::size_t index) const
     if (index >= m_enums.size())
         CAMP_ERROR(OutOfRange(index, m_enums.size()));
 
-    EnumTable::const_iterator it = m_enums.begin();
-    std::advance(it, index);
-
-    return *it->second;
+    return *m_enums[index];
 }
 
 //-------------------------------------------------------------------------------------------------
 const Enum& EnumManager::getById(StringId id) const
 {
-    EnumTable::const_iterator it = m_enums.find(id);
-    if (it == m_enums.end())
+    SortedEnumVector::const_iterator iterator = std::lower_bound(m_enums.cbegin(), m_enums.cend(), id, detail::OrderByEnumId());
+    if (iterator != m_enums.end() && (*iterator._Ptr)->id() == id)
+    {
+        // Found
+        return **iterator._Ptr;
+    }
+    else
+    {
+        // Not found
         CAMP_ERROR(EnumNotFound(id));
-
-    return *it->second;
+    }
 }
 
 //-------------------------------------------------------------------------------------------------
 const Enum* EnumManager::getByIdSafe(StringId id) const
 {
-    EnumTable::const_iterator it = m_enums.find(id);
-    return (it == m_enums.end()) ? nullptr : it->second;
+    SortedEnumVector::const_iterator iterator = std::lower_bound(m_enums.cbegin(), m_enums.cend(), id, detail::OrderByEnumId());
+    return (iterator != m_enums.end() && (*iterator._Ptr)->id() == id) ? *iterator._Ptr : nullptr;
 }
 
 //-------------------------------------------------------------------------------------------------
 bool EnumManager::enumExists(StringId id) const
 {
-    return (m_enums.find(id) != m_enums.end());
+    SortedEnumVector::const_iterator iterator = std::lower_bound(m_enums.cbegin(), m_enums.cend(), id, detail::OrderByEnumId());
+    return (iterator != m_enums.end() && (*iterator._Ptr)->id() == id);
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -119,9 +135,10 @@ EnumManager::EnumManager()
 EnumManager::~EnumManager()
 {
     // Notify observers
-    for (EnumTable::const_iterator it = m_enums.begin(); it != m_enums.end(); ++it)
+    const size_t numberOfEnums = m_enums.size();
+    for (size_t i = 0; i < numberOfEnums; ++i)
     {
-        Enum* enumPtr = it->second;
+        Enum* enumPtr = m_enums[i];
         notifyEnumRemoved(*enumPtr);
         delete enumPtr;
     }

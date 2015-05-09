@@ -38,7 +38,7 @@
 #include <camp/stringid.hpp>
 #include <camp/detail/observernotifier.hpp>
 #include <boost/noncopyable.hpp>
-#include <map>
+#include <vector>
 
 namespace camp
 {
@@ -54,7 +54,7 @@ namespace detail
  *
  * \sa Enum
  */
-class CAMP_API EnumManager : public ObserverNotifier, boost::noncopyable
+class CAMP_API EnumManager : public ObserverNotifier, public boost::noncopyable
 {
 public:
 
@@ -144,8 +144,8 @@ private:
      */
     ~EnumManager();
 
-    typedef std::map<uint32_t, Enum*> EnumTable; ///< No need for shared pointers in here, we're the one and only instance holder
-    EnumTable m_enums; ///< Table storing enums indexed by their ID
+    typedef std::vector<Enum*> SortedEnumVector; ///< Enum ID sorted vector storing enums, no need for shared pointers in here, we're the one and only instance holder
+    SortedEnumVector m_enums;
 };
 
 } // namespace detail

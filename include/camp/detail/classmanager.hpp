@@ -38,7 +38,7 @@
 #include <camp/stringid.hpp>
 #include <camp/detail/observernotifier.hpp>
 #include <camp/detail/singleton.hpp>
-#include <map>
+#include <vector>
 
 
 namespace camp
@@ -143,12 +143,12 @@ public:
      *
      * The destructor destroys all the registered metaclasses and notifies the observers.
      */
-    ~ClassManager();
+    virtual ~ClassManager();
 
 private:
 
-    typedef std::map<uint32_t, Class*> ClassTable; ///< No need for shared pointers in here, we're the one and only instance holder
-    ClassTable m_classes; ///< Table storing classes indexed by their ID
+    typedef std::vector<Class*> SortedClassVector; ///< Class ID sorted vector storing classes, no need for shared pointers in here, we're the one and only instance holder
+    SortedClassVector m_classes;
 };
 
 } // namespace detail
