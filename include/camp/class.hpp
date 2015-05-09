@@ -34,16 +34,12 @@
 #define CAMP_CLASS_HPP
 
 
-#include <camp/config.hpp>
-#include <camp/args.hpp>
 #include <camp/classget.hpp>
 #include <camp/classcast.hpp>
 #include <camp/property.hpp>
 #include <camp/function.hpp>
 #include <camp/tagholder.hpp>
-#include <camp/errors.hpp>
 #include <camp/userobject.hpp>
-#include <camp/detail/classmanager.hpp>
 #include <camp/detail/typeid.hpp>
 #include <boost/noncopyable.hpp>
 
@@ -51,7 +47,7 @@ namespace camp
 {
 template <typename T> class ClassBuilder;
 class Constructor;
-class Value;
+class Args;
 class ClassVisitor;
 
 /**
@@ -269,11 +265,11 @@ public:
      * The new instance is wrapped into a UserObject. It must be destroyed
      * with the Class::destroy function.
      *
-     * \param args Arguments to pass to the constructor (empty by default)
+     * \param args Arguments to pass to the constructor, for example "camp::Args::empty"
      *
      * \return New instance wrapped into a UserObject, or UserObject::nothing if it failed
      */
-    UserObject construct(const Args& args = Args::empty) const;
+    UserObject construct(const Args& args) const;
 
     /**
      * \brief Destroy an instance of the C++ class bound to the metaclass

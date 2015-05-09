@@ -34,7 +34,6 @@
 #define CAMP_ENUMOBJECT_HPP
 
 
-#include <camp/config.hpp>
 #include <camp/enumget.hpp>
 #include <boost/type_traits.hpp>
 #include <boost/operators.hpp>

@@ -29,7 +29,6 @@
 
 #include "userobject.hpp"
 #include <camp/classget.hpp>
-#include <camp/errors.hpp>
 #include <camp/userobject.hpp>
 #include <boost/test/unit_test.hpp>
 
@@ -146,7 +145,7 @@ BOOST_AUTO_TEST_CASE(call)
     MyClass object(9);
     camp::UserObject userObject(object);
 
-    BOOST_CHECK_EQUAL(userObject.call("f"), camp::Value(9));
+    BOOST_CHECK_EQUAL(userObject.call("f", camp::Args::empty), camp::Value(9));
 }
 
 //-----------------------------------------------------------------------------

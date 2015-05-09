@@ -36,7 +36,6 @@
 
 #include <camp/detail/objecttraits.hpp>
 #include <camp/detail/yesnotype.hpp>
-#include <boost/utility/enable_if.hpp>
 
 
 namespace camp

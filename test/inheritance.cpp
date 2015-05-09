@@ -30,7 +30,6 @@
 #include "inheritance.hpp"
 #include <camp/class.hpp>
 #include <camp/classget.hpp>
-#include <camp/errors.hpp>
 #include <boost/test/unit_test.hpp>
 
 using namespace InheritanceTest;
@@ -65,18 +64,18 @@ BOOST_AUTO_TEST_CASE(regularFunctions)
     MyClass3 object3;
     MyClass4 object4;
 
-    BOOST_CHECK_EQUAL(class1->function("f1").call(object1), camp::Value(1));
-    BOOST_CHECK_EQUAL(class3->function("f1").call(object3), camp::Value(1));
-    BOOST_CHECK_EQUAL(class4->function("f1").call(object4), camp::Value(1));
+    BOOST_CHECK_EQUAL(class1->function("f1").call(object1, camp::Args::empty), camp::Value(1));
+    BOOST_CHECK_EQUAL(class3->function("f1").call(object3, camp::Args::empty), camp::Value(1));
+    BOOST_CHECK_EQUAL(class4->function("f1").call(object4, camp::Args::empty), camp::Value(1));
 
-    BOOST_CHECK_EQUAL(class2->function("f2").call(object2), camp::Value(2));
-    BOOST_CHECK_EQUAL(class3->function("f2").call(object3), camp::Value(2));
-    BOOST_CHECK_EQUAL(class4->function("f2").call(object4), camp::Value(2));
+    BOOST_CHECK_EQUAL(class2->function("f2").call(object2, camp::Args::empty), camp::Value(2));
+    BOOST_CHECK_EQUAL(class3->function("f2").call(object3, camp::Args::empty), camp::Value(2));
+    BOOST_CHECK_EQUAL(class4->function("f2").call(object4, camp::Args::empty), camp::Value(2));
 
-    BOOST_CHECK_EQUAL(class3->function("f3").call(object3), camp::Value(3));
-    BOOST_CHECK_EQUAL(class4->function("f3").call(object4), camp::Value(3));
+    BOOST_CHECK_EQUAL(class3->function("f3").call(object3, camp::Args::empty), camp::Value(3));
+    BOOST_CHECK_EQUAL(class4->function("f3").call(object4, camp::Args::empty), camp::Value(3));
 
-    BOOST_CHECK_EQUAL(class4->function("f4").call(object4), camp::Value(4));
+    BOOST_CHECK_EQUAL(class4->function("f4").call(object4, camp::Args::empty), camp::Value(4));
 }
 
 //-----------------------------------------------------------------------------
@@ -87,13 +86,13 @@ BOOST_AUTO_TEST_CASE(virtualFunctions)
     MyClass3 object3;
     MyClass4 object4;
 
-    BOOST_CHECK_EQUAL(class2->function("virtual").call(object2), camp::Value(20));
-    BOOST_CHECK_EQUAL(class3->function("virtual").call(object3), camp::Value(30));
-    BOOST_CHECK_EQUAL(class4->function("virtual").call(object4), camp::Value(40));
+    BOOST_CHECK_EQUAL(class2->function("virtual").call(object2, camp::Args::empty), camp::Value(20));
+    BOOST_CHECK_EQUAL(class3->function("virtual").call(object3, camp::Args::empty), camp::Value(30));
+    BOOST_CHECK_EQUAL(class4->function("virtual").call(object4, camp::Args::empty), camp::Value(40));
 
-    BOOST_CHECK_EQUAL(class2->function("virtual").call(object2), camp::Value(20));
-    BOOST_CHECK_EQUAL(class2->function("virtual").call(object3), camp::Value(30));
-    BOOST_CHECK_EQUAL(class2->function("virtual").call(object4), camp::Value(40));
+    BOOST_CHECK_EQUAL(class2->function("virtual").call(object2, camp::Args::empty), camp::Value(20));
+    BOOST_CHECK_EQUAL(class2->function("virtual").call(object3, camp::Args::empty), camp::Value(30));
+    BOOST_CHECK_EQUAL(class2->function("virtual").call(object4, camp::Args::empty), camp::Value(40));
 }
 
 //-----------------------------------------------------------------------------
@@ -144,14 +143,14 @@ BOOST_AUTO_TEST_CASE(overriddenFunction)
     MyClass3 object3;
     MyClass4 object4;
 
-    BOOST_CHECK_EQUAL(class1->function("overridden").call(object1), camp::Value(1));
-    BOOST_CHECK_EQUAL(class2->function("overridden").call(object2), camp::Value(2));
-    BOOST_CHECK_EQUAL(class3->function("overridden").call(object3), camp::Value(3));
-    BOOST_CHECK_EQUAL(class4->function("overridden").call(object4), camp::Value(4));
+    BOOST_CHECK_EQUAL(class1->function("overridden").call(object1, camp::Args::empty), camp::Value(1));
+    BOOST_CHECK_EQUAL(class2->function("overridden").call(object2, camp::Args::empty), camp::Value(2));
+    BOOST_CHECK_EQUAL(class3->function("overridden").call(object3, camp::Args::empty), camp::Value(3));
+    BOOST_CHECK_EQUAL(class4->function("overridden").call(object4, camp::Args::empty), camp::Value(4));
 
-    BOOST_CHECK_EQUAL(class4->function("overridden").call(object1), camp::Value(4));
-    BOOST_CHECK_EQUAL(class4->function("overridden").call(object2), camp::Value(4));
-    BOOST_CHECK_EQUAL(class4->function("overridden").call(object3), camp::Value(4));
+    BOOST_CHECK_EQUAL(class4->function("overridden").call(object1, camp::Args::empty), camp::Value(4));
+    BOOST_CHECK_EQUAL(class4->function("overridden").call(object2, camp::Args::empty), camp::Value(4));
+    BOOST_CHECK_EQUAL(class4->function("overridden").call(object3, camp::Args::empty), camp::Value(4));
 }
 
 //-----------------------------------------------------------------------------

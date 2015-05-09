@@ -34,7 +34,6 @@
 #define CAMP_USEROBJECT_HPP
 
 
-#include <camp/args.hpp>
 #include <camp/stringid.hpp>
 #include <camp/classcast.hpp>
 #include <camp/errors.hpp>
@@ -51,6 +50,7 @@ namespace camp
 class Property;
 class UserProperty;
 class Value;
+class Args;
 class ParentObject;
 
 /**
@@ -61,7 +61,7 @@ class ParentObject;
  *
  * \sa EnumObject
  */
-class CAMP_API UserObject : boost::totally_ordered<UserObject>
+class CAMP_API UserObject : public boost::totally_ordered<UserObject>
 {
 public:
 
@@ -172,7 +172,7 @@ public:
      * for <tt>object.getClass().function(name).call(object, args);</tt>
      *
      * \param ID (result of "camp::StringId(camp::Function::name())") of the function to call, no reference by intent
-     * \param args Arguments to pass to the function
+     * \param args Arguments to pass to the function, for example "camp::Args::empty"
      *
      * \return Value returned by the function
      *
@@ -181,7 +181,7 @@ public:
      * \throw NotEnoughArguments too few arguments are provided
      * \throw BadArgument one of the arguments can't be converted to the requested type
      */
-    Value call(StringId id, const Args& args = Args::empty) const;
+    Value call(StringId id, const Args& args) const;
 
     /**
      * \brief Assignment operator

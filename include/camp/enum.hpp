@@ -34,12 +34,8 @@
 #define CAMP_ENUM_HPP
 
 
-#include <camp/config.hpp>
-#include <camp/stringid.hpp>
 #include <camp/enumbuilder.hpp>
 #include <camp/enumget.hpp>
-#include <camp/detail/typeid.hpp>
-#include <boost/noncopyable.hpp>
 #include <boost/multi_index_container.hpp>
 #include <boost/multi_index/member.hpp>
 #include <boost/multi_index/ordered_index.hpp>
@@ -83,7 +79,7 @@ namespace camp
  *
  * \sa Class, EnumBuilder
  */
-class CAMP_API Enum : boost::noncopyable
+class CAMP_API Enum : public boost::noncopyable
 {
 public:
 
@@ -214,7 +210,7 @@ private:
      *
      * \param name Name of the metaenum, must stay valid as long as this instance exists
      */
-    Enum(const char* name);
+    explicit Enum(const char* name);
 
     struct Id;
     struct Val;

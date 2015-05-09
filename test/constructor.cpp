@@ -29,7 +29,6 @@
 
 #include "constructor.hpp"
 #include <camp/classget.hpp>
-#include <camp/errors.hpp>
 #include <boost/test/unit_test.hpp>
 
 using namespace ConstructorTest;
@@ -62,7 +61,7 @@ BOOST_AUTO_TEST_CASE(invalidConstructions)
 //-----------------------------------------------------------------------------
 BOOST_AUTO_TEST_CASE(zeroArg)
 {
-    camp::UserObject object = metaclass->construct();
+    camp::UserObject object = metaclass->construct(camp::Args::empty);
 
     BOOST_CHECK(object != camp::UserObject::nothing);
 

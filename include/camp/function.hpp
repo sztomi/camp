@@ -34,10 +34,6 @@
 #define CAMP_FUNCTION_HPP
 
 
-#include <camp/config.hpp>
-#include <camp/stringid.hpp>
-#include <camp/detail/getter.hpp>
-#include <camp/args.hpp>
 #include <camp/tagholder.hpp>
 #include <camp/type.hpp>
 #include <camp/value.hpp>
@@ -47,6 +43,7 @@
 namespace camp
 {
 template <typename T> class ClassBuilder;
+class Args;
 class UserObject;
 class ClassVisitor;
 
@@ -119,7 +116,7 @@ public:
      * \brief Call the function
      *
      * \param object Object
-     * \param args Arguments to pass to the function (empty list by default)
+     * \param args Arguments to pass to the function, for example "camp::Args::empty"
      *
      * \return Value returned by the function call
      *
@@ -128,7 +125,7 @@ public:
      * \throw NotEnoughArguments too few arguments are provided
      * \throw BadArgument one of the arguments can't be converted to the requested type
      */
-    Value call(const UserObject& object, const Args& args = Args::empty) const;
+    Value call(const UserObject& object, const Args& args) const;
 
     /**
      * \brief Accept the visitation of a ClassVisitor

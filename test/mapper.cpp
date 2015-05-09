@@ -104,9 +104,9 @@ BOOST_AUTO_TEST_CASE(functionCall)
 {
     MyClass object;
 
-    BOOST_CHECK_EQUAL(metaclass->function("func0").call(object), camp::Value(object.func("func0")));
-    BOOST_CHECK_EQUAL(metaclass->function("func1").call(object), camp::Value(object.func("func1")));
-    BOOST_CHECK_EQUAL(metaclass->function("func2").call(object), camp::Value(object.func("func2")));
+    BOOST_CHECK_EQUAL(metaclass->function("func0").call(object, camp::Args::empty), camp::Value(object.func("func0")));
+    BOOST_CHECK_EQUAL(metaclass->function("func1").call(object, camp::Args::empty), camp::Value(object.func("func1")));
+    BOOST_CHECK_EQUAL(metaclass->function("func2").call(object, camp::Args::empty), camp::Value(object.func("func2")));
 }
 
 BOOST_AUTO_TEST_SUITE_END()
