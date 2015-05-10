@@ -27,8 +27,9 @@
 **
 ****************************************************************************/
 
-#ifndef CAMPTEST_MAPPER_HPP
-#define CAMPTEST_MAPPER_HPP
+
+#pragma once
+
 
 #include <camp/camptype.hpp>
 #include <camp/class.hpp>
@@ -152,5 +153,3 @@ namespace MapperTest
 }
 
 CAMP_AUTO_TYPE(MapperTest::MyClass, &MapperTest::declare)
-
-#endif // CAMPTEST_MAPPER_HPP

@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_DETAIL_OBJECTHOLDER_HPP
-#define CAMP_DETAIL_OBJECTHOLDER_HPP
+#pragma once
 
 
 #include <camp/classget.hpp>
@@ -200,6 +199,3 @@ private:
 } // namespace camp
 
 #include <camp/detail/objectholder.inl>
-
-
-#endif // CAMP_DETAIL_OBJECTHOLDER_HPP

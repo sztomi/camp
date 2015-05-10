@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_ERRORS_HPP
-#define CAMP_ERRORS_HPP
+#pragma once
 
 
 #include <camp/error.hpp>
@@ -329,6 +328,3 @@ public:
 };
 
 } // namespace camp
-
-
-#endif // CAMP_ERRORS_HPP

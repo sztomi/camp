@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_CLASSCAST_HPP
-#define CAMP_CLASSCAST_HPP
+#pragma once
 
 
 #include <camp/config.hpp>
@@ -55,5 +54,3 @@ class Class;
 CAMP_API void* classCast(void* pointer, const Class& sourceClass, const Class& targetClass);
 
 } // namespace camp
-
-#endif // CAMP_CLASSCAST_HPP

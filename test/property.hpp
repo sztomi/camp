@@ -27,8 +27,9 @@
 **
 ****************************************************************************/
 
-#ifndef CAMPTEST_PROPERTY_HPP
-#define CAMPTEST_PROPERTY_HPP
+
+#pragma once
+
 
 #include <camp/camptype.hpp>
 #include <camp/class.hpp>
@@ -189,5 +190,3 @@ namespace PropertyTest
 CAMP_AUTO_TYPE(PropertyTest::MyEnum,  &PropertyTest::declare)
 CAMP_AUTO_TYPE(PropertyTest::MyType,  &PropertyTest::declare)
 CAMP_AUTO_TYPE(PropertyTest::MyClass, &PropertyTest::declare)
-
-#endif // CAMPTEST_PROPERTY_HPP

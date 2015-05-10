@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_DETAIL_FUNCTIONIMPL_HPP
-#define CAMP_DETAIL_FUNCTIONIMPL_HPP
+#pragma once
 
 
 #include <camp/function.hpp>
@@ -515,6 +514,3 @@ private:
 } // namespace detail
 
 } // namespace camp
-
-
-#endif // CAMP_DETAIL_FUNCTIONIMPL_HPP

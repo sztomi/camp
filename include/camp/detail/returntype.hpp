@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_DETAIL_RETURNTYPE_HPP
-#define CAMP_DETAIL_RETURNTYPE_HPP
+#pragma once
 
 
 namespace camp
@@ -55,6 +54,3 @@ template <typename T> struct ReturnType<T*> {typedef T* Type;};
 } // namespace detail
 
 } // namespace camp
-
-
-#endif // CAMP_DETAIL_RETURNTYPE_HPP

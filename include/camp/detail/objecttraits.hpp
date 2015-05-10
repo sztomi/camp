@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_DETAIL_OBJECTTRAITS_HPP
-#define CAMP_DETAIL_OBJECTTRAITS_HPP
+#pragma once
 
 
 #include <camp/detail/rawtype.hpp>
@@ -180,6 +179,3 @@ struct ObjectTraits<const T> : ObjectTraits<T>
 } // namespace detail
 
 } // namespace camp
-
-
-#endif // CAMP_DETAIL_OBJECTTRAITS_HPP

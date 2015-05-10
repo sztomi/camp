@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_DETAIL_ENUMMANAGER_HPP
-#define CAMP_DETAIL_ENUMMANAGER_HPP
+#pragma once
 
 
 #include <camp/config.hpp>
@@ -151,6 +150,3 @@ private:
 } // namespace detail
 
 } // namespace camp
-
-
-#endif // CAMP_DETAIL_ENUMMANAGER_HPP

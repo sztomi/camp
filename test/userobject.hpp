@@ -27,8 +27,9 @@
 **
 ****************************************************************************/
 
-#ifndef CAMPTEST_USEROBJECT_HPP
-#define CAMPTEST_USEROBJECT_HPP
+
+#pragma once
+
 
 #include <camp/camptype.hpp>
 #include <camp/class.hpp>
@@ -147,5 +148,3 @@ CAMP_AUTO_TYPE_NONCOPYABLE(UserObjectTest::MyConcreteClass, &UserObjectTest::dec
 CAMP_AUTO_TYPE(UserObjectTest::Composed3, &UserObjectTest::declare)
 CAMP_AUTO_TYPE(UserObjectTest::Composed2, &UserObjectTest::declare)
 CAMP_AUTO_TYPE(UserObjectTest::Composed1, &UserObjectTest::declare)
-
-#endif // CAMPTEST_USEROBJECT_HPP

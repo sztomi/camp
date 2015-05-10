@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_OBSERVER_HPP
-#define CAMP_OBSERVER_HPP
+#pragma once
 
 
 #include <camp/config.hpp>
@@ -110,6 +109,3 @@ CAMP_API void addObserver(Observer* observer);
 CAMP_API void removeObserver(Observer* observer);
 
 } // namespace camp
-
-
-#endif // CAMP_OBSERVER_HPP

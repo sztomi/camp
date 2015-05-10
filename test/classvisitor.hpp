@@ -27,8 +27,9 @@
 **
 ****************************************************************************/
 
-#ifndef CAMPTEST_CLASSVISITOR_HPP
-#define CAMPTEST_CLASSVISITOR_HPP
+
+#pragma once
+
 
 #include <camp/camptype.hpp>
 #include <camp/class.hpp>
@@ -122,5 +123,3 @@ namespace ClassVisitorTest
 CAMP_AUTO_TYPE(ClassVisitorTest::MyEnum, &ClassVisitorTest::declare)
 CAMP_AUTO_TYPE(ClassVisitorTest::MyType, &ClassVisitorTest::declare)
 CAMP_AUTO_TYPE(ClassVisitorTest::MyClass, &ClassVisitorTest::declare)
-
-#endif // CAMPTEST_CLASSVISITOR_HPP

@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_DETAIL_CALLHELPER_HPP
-#define CAMP_DETAIL_CALLHELPER_HPP
+#pragma once
 
 
 #include <camp/value.hpp>
@@ -102,6 +101,3 @@ struct CallHelper<void, C>
 } // namespace detail
 
 } // namespace camp
-
-
-#endif // CAMP_DETAIL_CALLHELPER_HPP

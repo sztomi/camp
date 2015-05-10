@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_VALUE_HPP
-#define CAMP_VALUE_HPP
+#pragma once
 
 
 #include <camp/type.hpp>
@@ -231,6 +230,3 @@ CAMP_API std::ostream& operator<<(std::ostream& stream, const Value& value);
 } // namespace camp
 
 #include <camp/value.inl>
-
-
-#endif // CAMP_VALUE_HPP

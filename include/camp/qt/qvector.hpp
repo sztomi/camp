@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_QT_QVECTOR_HPP
-#define CAMP_QT_QVECTOR_HPP
+#pragma once
 
 
 #include <camp/arraymapper.hpp>
@@ -80,6 +79,3 @@ namespace camp_ext
 };
 
 } // namespace camp_ext
-
-
-#endif // CAMP_QT_QVECTOR_HPP

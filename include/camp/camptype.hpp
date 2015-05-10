@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_CAMPTYPE_HPP
-#define CAMP_CAMPTYPE_HPP
+#pragma once
 
 
 #include <camp/config.hpp>
@@ -233,6 +232,3 @@ CAMP_API void ensureTypeRegistered(StringId id, void (*registerFunc)());
     private:
 
 } // namespace camp
-
-
-#endif // CAMP_CAMPTYPE_HPP

@@ -27,8 +27,9 @@
 **
 ****************************************************************************/
 
-#ifndef CAMPTEST_CLASS_HPP
-#define CAMPTEST_CLASS_HPP
+
+#pragma once
+
 
 #include <camp/camptype.hpp>
 #include <camp/class.hpp>
@@ -100,5 +101,3 @@ CAMP_AUTO_TYPE(ClassTest::Base, &ClassTest::declare)
 CAMP_AUTO_TYPE(ClassTest::Derived, &ClassTest::declare)
 CAMP_AUTO_TYPE(ClassTest::DerivedNoRtti, &ClassTest::declare)
 CAMP_AUTO_TYPE(ClassTest::Derived2NoRtti, &ClassTest::declare)
-
-#endif // CAMPTEST_CLASS_HPP

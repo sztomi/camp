@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_TYPE_HPP
-#define CAMP_TYPE_HPP
+#pragma once
 
 
 namespace camp
@@ -63,6 +62,3 @@ enum Type
 };
 
 } // namespace camp
-
-
-#endif // CAMP_TYPE_HPP

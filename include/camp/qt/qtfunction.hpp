@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_QT_QTFUNCTION_HPP
-#define CAMP_QT_QTFUNCTION_HPP
+#pragma once
 
 
 #include <camp/qt/qthelper.hpp>
@@ -201,6 +200,3 @@ private:
 };
 
 } // namespace camp_ext
-
-
-#endif // CAMP_QT_QTFUNCTION_HPP

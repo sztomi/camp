@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_USEROBJECT_HPP
-#define CAMP_USEROBJECT_HPP
+#pragma once
 
 
 #include <camp/stringid.hpp>
@@ -314,6 +313,3 @@ public:
 } // namespace camp
 
 #include <camp/userobject.inl>
-
-
-#endif // CAMP_USEROBJECT_HPP

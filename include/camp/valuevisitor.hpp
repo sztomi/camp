@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_VALUEVISITOR_HPP
-#define CAMP_VALUEVISITOR_HPP
+#pragma once
 
 
 #include <boost/variant/static_visitor.hpp>
@@ -108,6 +107,3 @@ class ValueVisitor : public boost::static_visitor<T>
 };
 
 } // namespace camp
-
-
-#endif // CAMP_VALUEVISITOR_HPP

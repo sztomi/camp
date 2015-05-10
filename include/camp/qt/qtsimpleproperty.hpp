@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_QT_QTSIMPLEPROPERTY_HPP
-#define CAMP_QT_QTSIMPLEPROPERTY_HPP
+#pragma once
 
 
 #include <camp/qt/qthelper.hpp>
@@ -116,6 +115,3 @@ private:
 };
 
 } // namespace camp_ext
-
-
-#endif // CAMP_QT_QTSIMPLEPROPERTY_HPP

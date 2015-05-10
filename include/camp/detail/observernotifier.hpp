@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_DETAIL_OBSERVERNOTIFIER_HPP
-#define CAMP_DETAIL_OBSERVERNOTIFIER_HPP
+#pragma once
 
 
 #include <camp/config.hpp>
@@ -119,6 +118,3 @@ private:
 } // namespace detail
 
 } // namespace camp
-
-
-#endif // CAMP_DETAIL_OBSERVERNOTIFIER_HPP

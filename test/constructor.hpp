@@ -27,8 +27,9 @@
 **
 ****************************************************************************/
 
-#ifndef CAMPTEST_CONSTRUCTOR_HPP
-#define CAMPTEST_CONSTRUCTOR_HPP
+
+#pragma once
+
 
 #include <camp/camptype.hpp>
 #include <camp/class.hpp>
@@ -117,5 +118,3 @@ CAMP_AUTO_TYPE(ConstructorTest::MyType, &ConstructorTest::declare)
 CAMP_AUTO_TYPE(ConstructorTest::MyBase1, &ConstructorTest::declare)
 CAMP_AUTO_TYPE(ConstructorTest::MyBase2, &ConstructorTest::declare)
 CAMP_AUTO_TYPE(ConstructorTest::MyClass, &ConstructorTest::declare)
-
-#endif // CAMPTEST_CONSTRUCTOR_HPP

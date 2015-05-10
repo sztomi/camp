@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_CONSTRUCTOR_HPP
-#define CAMP_CONSTRUCTOR_HPP
+#pragma once
 
 
 namespace camp
@@ -75,6 +74,3 @@ public:
 };
 
 } // namespace camp
-
-
-#endif // CAMP_CONSTRUCTOR_HPP

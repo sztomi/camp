@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_CLASSVISITOR_HPP
-#define CAMP_CLASSVISITOR_HPP
+#pragma once
 
 
 #include <camp/config.hpp>
@@ -163,6 +162,3 @@ protected:
 };
 
 } // namespace camp
-
-
-#endif // CAMP_VALUEVISITOR_HPP

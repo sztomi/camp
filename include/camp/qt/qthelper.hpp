@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_QT_QTHELPER_HPP
-#define CAMP_QT_QTHELPER_HPP
+#pragma once
 
 
 #include <camp/value.hpp>
@@ -208,6 +207,3 @@ public:
 };
 
 } // namespace camp_ext
-
-
-#endif // CAMP_QT_QTHELPER_HPP

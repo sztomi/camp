@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_VALUEMAPPER_HPP
-#define CAMP_VALUEMAPPER_HPP
+#pragma once
 
 
 #include <camp/enum.hpp>
@@ -394,5 +393,3 @@ struct ValueMapper<const char*>
 };
 
 } // namespace camp_ext
-
-#endif // CAMP_VALUEMAPPER_HPP

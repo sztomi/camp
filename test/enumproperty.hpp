@@ -27,8 +27,9 @@
 **
 ****************************************************************************/
 
-#ifndef CAMPTEST_ENUMPROPERTY_HPP
-#define CAMPTEST_ENUMPROPERTY_HPP
+
+#pragma once
+
 
 #include <camp/camptype.hpp>
 #include <camp/enum.hpp>
@@ -65,5 +66,3 @@ namespace EnumPropertyTest
 
 CAMP_AUTO_TYPE(EnumPropertyTest::MyEnum, &EnumPropertyTest::declare)
 CAMP_AUTO_TYPE(EnumPropertyTest::MyClass, &EnumPropertyTest::declare)
-
-#endif // CAMPTEST_ENUMPROPERTY_HPP

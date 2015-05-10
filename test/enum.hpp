@@ -27,8 +27,9 @@
 **
 ****************************************************************************/
 
-#ifndef CAMPTEST_ENUM_HPP
-#define CAMPTEST_ENUM_HPP
+
+#pragma once
+
 
 #include <camp/camptype.hpp>
 #include <camp/enum.hpp>
@@ -69,5 +70,3 @@ CAMP_TYPE(EnumTest::MyUndeclaredEnum /* never declared */)
 CAMP_TYPE(EnumTest::MyTempEnum /* declared during tests */)
 CAMP_AUTO_TYPE(EnumTest::MyEnum, &EnumTest::declare)
 CAMP_AUTO_TYPE(EnumTest::MyEnum2, &EnumTest::declare)
-
-#endif // CAMPTEST_ENUM_HPP

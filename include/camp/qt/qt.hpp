@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_QT_QT_HPP
-#define CAMP_QT_QT_HPP
+#pragma once
 
 
 /**
@@ -46,6 +45,3 @@
 #include <camp/qt/qvector.hpp>
 #include <camp/qt/qlist.hpp>
 #include <camp/qt/qtmapper.hpp>
-
-
-#endif // CAMP_QT_QT_HPP

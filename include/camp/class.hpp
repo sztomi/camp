@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_CLASS_HPP
-#define CAMP_CLASS_HPP
+#pragma once
 
 
 #include <camp/classget.hpp>
@@ -380,6 +379,3 @@ private:
 #include <camp/classbuilder.hpp>
 
 #include <camp/class.inl>
-
-
-#endif // CAMP_CLASS_HPP

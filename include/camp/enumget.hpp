@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_ENUMGET_HPP
-#define CAMP_ENUMGET_HPP
+#pragma once
 
 
 #include <camp/error.hpp>
@@ -120,6 +119,3 @@ const Enum* enumByTypeSafe();
 } // namespace camp
 
 #include <camp/enumget.inl>
-
-
-#endif // CAMP_ENUMGET_HPP

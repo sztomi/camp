@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_CLASSGET_HPP
-#define CAMP_CLASSGET_HPP
+#pragma once
 
 
 #include <camp/config.hpp>
@@ -119,6 +118,3 @@ const Class* classByTypeSafe();
 } // namespace camp
 
 #include <camp/classget.inl>
-
-
-#endif // CAMP_CLASSGET_HPP

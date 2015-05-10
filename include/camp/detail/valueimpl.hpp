@@ -30,8 +30,8 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_DETAIL_VALUEIMPL_HPP
-#define CAMP_DETAIL_VALUEIMPL_HPP
+#pragma once
+
 
 #include <camp/type.hpp>
 #include <camp/valuemapper.hpp>
@@ -123,6 +123,3 @@ struct EqualVisitor : public boost::static_visitor<bool>
 } // namespace detail
 
 } // namespace camp
-
-
-#endif // CAMP_DETAIL_VALUEIMPL_HPP

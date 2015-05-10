@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_YESNOTYPE_HPP
-#define CAMP_YESNOTYPE_HPP
+#pragma once
 
 
 namespace camp
@@ -55,6 +54,3 @@ struct TypeNo {char padding[8];};
 } // namespace detail
 
 } // namespace camp
-
-
-#endif // CAMP_YESNOTYPE_HPP

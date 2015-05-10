@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_DETAIL_ENUMPROPERTYIMPL_HPP
-#define CAMP_DETAIL_ENUMPROPERTYIMPL_HPP
+#pragma once
 
 
 #include <camp/enumproperty.hpp>
@@ -96,6 +95,3 @@ private:
 } // namespace camp
 
 #include <camp/detail/enumpropertyimpl.inl>
-
-
-#endif // CAMP_DETAIL_ENUMPROPERTYIMPL_HPP

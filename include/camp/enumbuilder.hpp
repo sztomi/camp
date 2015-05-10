@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_ENUMBUILDER_HPP
-#define CAMP_ENUMBUILDER_HPP
+#pragma once
 
 
 #include <camp/config.hpp>
@@ -77,6 +76,3 @@ private:
 };
 
 } // namespace camp
-
-
-#endif // CAMP_ENUMBUILDER_HPP

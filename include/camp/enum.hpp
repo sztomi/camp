@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_ENUM_HPP
-#define CAMP_ENUM_HPP
+#pragma once
 
 
 #include <camp/enumbuilder.hpp>
@@ -234,6 +233,3 @@ private:
 } // namespace camp
 
 #include <camp/enum.inl>
-
-
-#endif // CAMP_ENUM_HPP

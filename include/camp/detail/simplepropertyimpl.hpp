@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_DETAIL_SIMPLEPROPERTYIMPL_HPP
-#define CAMP_DETAIL_SIMPLEPROPERTYIMPL_HPP
+#pragma once
 
 
 #include <camp/simpleproperty.hpp>
@@ -96,6 +95,3 @@ private:
 } // namespace camp
 
 #include <camp/detail/simplepropertyimpl.inl>
-
-
-#endif // CAMP_DETAIL_SIMPLEPROPERTYIMPL_HPP

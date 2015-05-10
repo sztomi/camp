@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_DETAIL_FUNCTIONTRAITS_HPP
-#define CAMP_DETAIL_FUNCTIONTRAITS_HPP
+#pragma once
 
 
 #include <camp/detail/yesnotype.hpp>
@@ -101,6 +100,3 @@ struct FunctionTraits<T, typename boost::enable_if<HasResultType<T> >::type>
 } // namespace detail
 
 } // namespace camp
-
-
-#endif // CAMP_DETAIL_FUNCTIONTRAITS_HPP

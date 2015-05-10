@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_QT_QTMAPPER_HPP
-#define CAMP_QT_QTMAPPER_HPP
+#pragma once
 
 
 #include <camp/qt/qtsimpleproperty.hpp>
@@ -180,6 +179,3 @@ private:
 };
 
 } // namespace camp_ext
-
-
-#endif // CAMP_QT_QTMAPPER_HPP

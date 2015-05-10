@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_DETAIL_TYPEID_HPP
-#define CAMP_DETAIL_TYPEID_HPP
+#pragma once
 
 
 #include <camp/detail/objecttraits.hpp>
@@ -186,6 +185,3 @@ template <typename T> const char* safeTypeId(const T& object) {return SafeTypeId
 } // namespace detail
 
 } // namespace camp
-
-
-#endif // CAMP_DETAIL_TYPEID_HPP

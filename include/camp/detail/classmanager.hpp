@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_DETAIL_CLASSMANAGER_HPP
-#define CAMP_DETAIL_CLASSMANAGER_HPP
+#pragma once
 
 
 #include <camp/stringid.hpp>
@@ -153,6 +152,3 @@ private:
 } // namespace detail
 
 } // namespace camp
-
-
-#endif // CAMP_DETAIL_CLASSMANAGER_HPP

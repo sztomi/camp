@@ -27,8 +27,9 @@
 **
 ****************************************************************************/
 
-#ifndef CAMPTEST_FUNCTIONACCESS_HPP
-#define CAMPTEST_FUNCTIONACCESS_HPP
+
+#pragma once
+
 
 #include <camp/camptype.hpp>
 #include <camp/class.hpp>
@@ -68,5 +69,3 @@ namespace FunctionAccessTest
 }
 
 CAMP_AUTO_TYPE(FunctionAccessTest::MyClass, &FunctionAccessTest::declare);
-
-#endif // CAMPTEST_FUNCTIONACCESS_HPP

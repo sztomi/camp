@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_TAGHOLDER_HPP
-#define CAMP_TAGHOLDER_HPP
+#pragma once
 
 
 #include <camp/detail/getter.hpp>
@@ -136,6 +135,3 @@ private:
 };
 
 } // namespace camp
-
-
-#endif // CAMP_TAGHOLDER_HPP

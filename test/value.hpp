@@ -27,8 +27,9 @@
 **
 ****************************************************************************/
 
-#ifndef CAMPTEST_VALUE_HPP
-#define CAMPTEST_VALUE_HPP
+
+#pragma once
+
 
 #include <camp/camptype.hpp>
 #include <camp/class.hpp>
@@ -116,5 +117,3 @@ namespace ValueTest
 
 CAMP_AUTO_TYPE(ValueTest::MyClass, &ValueTest::declare)
 CAMP_AUTO_TYPE(ValueTest::MyEnum, &ValueTest::declare)
-
-#endif // CAMPTEST_VALUE_HPP

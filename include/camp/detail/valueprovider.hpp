@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_DETAIL_VALUEPROVIDER_HPP
-#define CAMP_DETAIL_VALUEPROVIDER_HPP
+#pragma once
 
 
 #include <camp/args.hpp>
@@ -99,6 +98,3 @@ struct ValueProvider : ValueProviderImpl<T, camp_ext::ValueMapper<T>::type>
 } // namespace detail
 
 } // namespace camp
-
-
-#endif // CAMP_DETAIL_VALUEPROVIDER_HPP

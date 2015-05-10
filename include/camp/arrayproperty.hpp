@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_ARRAYPROPERTY_HPP
-#define CAMP_ARRAYPROPERTY_HPP
+#pragma once
 
 
 #include <camp/property.hpp>
@@ -254,6 +253,3 @@ private:
 };
 
 } // namespace camp
-
-
-#endif // CAMP_ARRAYPROPERTY_HPP

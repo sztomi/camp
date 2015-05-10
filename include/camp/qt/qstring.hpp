@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_QT_QSTRING_HPP
-#define CAMP_QT_QSTRING_HPP
+#pragma once
 
 
 #include <camp/valuemapper.hpp>
@@ -83,6 +82,3 @@ struct ValueMapper<QString>
 };
 
 } // namespace camp_ext
-
-
-#endif // CAMP_QT_QSTRING_HPP

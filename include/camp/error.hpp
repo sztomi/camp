@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_ERROR_HPP
-#define CAMP_ERROR_HPP
+#pragma once
 
 
 #include <camp/config.hpp>
@@ -122,6 +121,3 @@ private:
  * \brief Trigger a CAMP error
  */
 #define CAMP_ERROR(error) throw camp::Error::prepare(error, __FILE__, __LINE__, BOOST_CURRENT_FUNCTION)
-
-
-#endif // CAMP_ERROR_HPP

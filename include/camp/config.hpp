@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_CONFIG_HPP
-#define CAMP_CONFIG_HPP
+#pragma once
 
 
 // We define the CAMP_API macro according to the
@@ -75,6 +74,3 @@
     #pragma warning(disable: 4251) // class 'X' needs to have dll-interface to be used by clients of class 'Y'
 
 #endif
-
-
-#endif // CAMP_CONFIG_HPP

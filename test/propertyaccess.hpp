@@ -27,8 +27,9 @@
 **
 ****************************************************************************/
 
-#ifndef CAMPTEST_PROPERTYACCESS_HPP
-#define CAMPTEST_PROPERTYACCESS_HPP
+
+#pragma once
+
 
 #include <camp/camptype.hpp>
 #include <camp/class.hpp>
@@ -77,5 +78,3 @@ namespace PropertyAccessTest
 }
 
 CAMP_AUTO_TYPE(PropertyAccessTest::MyClass, &PropertyAccessTest::declare)
-
-#endif // CAMPTEST_PROPERTYACCESS_HPP

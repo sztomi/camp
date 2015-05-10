@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_DETAIL_USERPROPERTYIMPL_HPP
-#define CAMP_DETAIL_USERPROPERTYIMPL_HPP
+#pragma once
 
 
 #include <camp/userproperty.hpp>
@@ -96,6 +95,3 @@ private:
 } // namespace camp
 
 #include <camp/detail/userpropertyimpl.inl>
-
-
-#endif // CAMP_DETAIL_USERPROPERTYIMPL_HPP

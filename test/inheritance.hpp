@@ -27,8 +27,9 @@
 **
 ****************************************************************************/
 
-#ifndef CAMPTEST_INHERITANCE_HPP
-#define CAMPTEST_INHERITANCE_HPP
+
+#pragma once
+
 
 #include <camp/camptype.hpp>
 #include <camp/class.hpp>
@@ -118,5 +119,3 @@ CAMP_AUTO_TYPE(InheritanceTest::MyClass1, &InheritanceTest::declare)
 CAMP_AUTO_TYPE(InheritanceTest::MyClass2, &InheritanceTest::declare)
 CAMP_AUTO_TYPE(InheritanceTest::MyClass3, &InheritanceTest::declare)
 CAMP_AUTO_TYPE(InheritanceTest::MyClass4, &InheritanceTest::declare)
-
-#endif // CAMPTEST_INHERITANCE_HPP

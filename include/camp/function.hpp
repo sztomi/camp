@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_FUNCTION_HPP
-#define CAMP_FUNCTION_HPP
+#pragma once
 
 
 #include <camp/tagholder.hpp>
@@ -174,6 +173,3 @@ private:
 };
 
 } // namespace camp
-
-
-#endif // CAMP_FUNCTION_HPP

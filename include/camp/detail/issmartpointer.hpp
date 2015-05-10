@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_DETAIL_ISSMARTPOINTER_HPP
-#define CAMP_DETAIL_ISSMARTPOINTER_HPP
+#pragma once
 
 
 #include <camp/detail/yesnotype.hpp>
@@ -85,6 +84,3 @@ U* get_pointer(T<U>& obj, typename enable_if<camp::detail::IsSmartPointer<T<U>, 
 }
 
 } // namespace boost
-
-
-#endif // CAMP_DETAIL_ISSMARTPOINTER_HPP

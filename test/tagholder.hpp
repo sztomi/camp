@@ -27,8 +27,9 @@
 **
 ****************************************************************************/
 
-#ifndef CAMPTEST_TAGHOLDER_HPP
-#define CAMPTEST_TAGHOLDER_HPP
+
+#pragma once
+
 
 #include <camp/camptype.hpp>
 #include <camp/class.hpp>
@@ -93,5 +94,3 @@ namespace TagHolderTest
 CAMP_AUTO_TYPE(TagHolderTest::MyClass, &TagHolderTest::declare)
 CAMP_AUTO_TYPE(TagHolderTest::MyType,  &TagHolderTest::declare)
 CAMP_AUTO_TYPE(TagHolderTest::MyEnum,  &TagHolderTest::declare)
-
-#endif // CAMPTEST_TAGHOLDER_HPP

@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_ARRAYMAPPER_HPP
-#define CAMP_ARRAYMAPPER_HPP
+#pragma once
 
 
 #include <camp/config.hpp>
@@ -305,6 +304,3 @@ struct IsArray
 } // namespace detail
 
 } // namespace camp
-
-
-#endif // CAMP_ARRAYMAPPER_HPP

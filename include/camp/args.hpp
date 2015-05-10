@@ -28,8 +28,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_ARGS_HPP
-#define CAMP_ARGS_HPP
+#pragma once
 
 
 #include <camp/config.hpp>
@@ -168,6 +167,3 @@ private:
 };
 
 } // namespace camp
-
-
-#endif // CAMP_ARGS_HPP

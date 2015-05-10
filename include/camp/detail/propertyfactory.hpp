@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_DETAIL_PROPERTYFACTORY_HPP
-#define CAMP_DETAIL_PROPERTYFACTORY_HPP
+#pragma once
 
 
 #include <camp/detail/simplepropertyimpl.hpp>
@@ -435,6 +434,3 @@ struct PropertyFactory3
 } // namespace detail
 
 } // namespace camp
-
-
-#endif // CAMP_DETAIL_PROPERTYFACTORY_HPP

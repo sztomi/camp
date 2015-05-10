@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_DETAIL_RAWTYPE_HPP
-#define CAMP_DETAIL_RAWTYPE_HPP
+#pragma once
 
 
 #include <camp/detail/issmartpointer.hpp>
@@ -105,6 +104,3 @@ struct RawType<T<U>, typename boost::enable_if<IsSmartPointer<T<U>, U> >::type>
 } // namespace detail
 
 } // namespace camp
-
-
-#endif // CAMP_DETAIL_RAWTYPE_HPP

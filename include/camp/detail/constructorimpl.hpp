@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_DETAIL_CONSTRUCTORIMPL_HPP
-#define CAMP_DETAIL_CONSTRUCTORIMPL_HPP
+#pragma once
 
 
 #include <camp/constructor.hpp>
@@ -302,6 +301,3 @@ bool checkArg(const Value& value)
 } // namespace detail
 
 } // namespace camp
-
-
-#endif // CAMP_DETAIL_CONSTRUCTORIMPL_HPP

@@ -30,8 +30,7 @@
 ****************************************************************************/
 
 
-#ifndef CAMP_DETAIL_GETTER_HPP
-#define CAMP_DETAIL_GETTER_HPP
+#pragma once
 
 
 #include <camp/userobject.hpp>
@@ -154,6 +153,3 @@ private:
 } // namespace camp
 
 #include <camp/detail/getter.inl>
-
-
-#endif // CAMP_DETAIL_GETTER_HPP
