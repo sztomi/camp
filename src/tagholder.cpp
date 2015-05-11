@@ -51,36 +51,28 @@ const Value& TagHolder::tagId(std::size_t index) const
     if (index >= m_tags.size())
         CAMP_ERROR(OutOfRange(index, m_tags.size()));
 
-    TagsTable::const_iterator it = m_tags.begin();
-    std::advance(it, index);
-
-    return it->first;
+    return m_tags[index].value.get();
 }
 
 //-------------------------------------------------------------------------------------------------
-bool TagHolder::hasTag(const Value& id) const
+bool TagHolder::hasTag(StringId id) const
 {
-    return m_tags.find(id) != m_tags.end();
+    SortedTagVector::const_iterator iterator = std::lower_bound(m_tags.cbegin(), m_tags.cend(), id, OrderByTagId());
+    return (iterator != m_tags.end() && (*iterator._Ptr).id == id);
 }
 
 //-------------------------------------------------------------------------------------------------
-const Value& TagHolder::tag(const Value& id) const
+const Value& TagHolder::tag(StringId id) const
 {
-    TagsTable::const_iterator it = m_tags.find(id);
-    if (it != m_tags.end())
-        return it->second.get();
-
-    return Value::nothing;
+    SortedTagVector::const_iterator iterator = std::lower_bound(m_tags.cbegin(), m_tags.cend(), id, OrderByTagId());
+    return (iterator != m_tags.end() && (*iterator._Ptr).id == id) ? (*iterator._Ptr).value.get() : Value::nothing;
 }
 
 //-------------------------------------------------------------------------------------------------
-Value TagHolder::tag(const Value& id, const UserObject& object) const
+Value TagHolder::tag(StringId id, const UserObject& object) const
 {
-    TagsTable::const_iterator it = m_tags.find(id);
-    if (it != m_tags.end())
-        return it->second.get(object);
-
-    return Value::nothing;
+    SortedTagVector::const_iterator iterator = std::lower_bound(m_tags.cbegin(), m_tags.cend(), id, OrderByTagId());
+    return (iterator != m_tags.end() && (*iterator._Ptr).id == id) ? (*iterator._Ptr).value.get(object) : Value::nothing;
 }
 
 //-------------------------------------------------------------------------------------------------

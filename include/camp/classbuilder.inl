@@ -172,26 +172,42 @@ ClassBuilder<T>& ClassBuilder<T>::function(const char* name, F1 function1, F2 fu
 
 //-------------------------------------------------------------------------------------------------
 template <typename T>
-ClassBuilder<T>& ClassBuilder<T>::tag(const Value& id)
+ClassBuilder<T>& ClassBuilder<T>::tag(const char* name)
 {
-    return tag(id, Value::nothing);
+    return tag(name, Value::nothing);
 }
 
 //-------------------------------------------------------------------------------------------------
 template <typename T>
 template <typename U>
-ClassBuilder<T>& ClassBuilder<T>::tag(const Value& id, const U& value)
+ClassBuilder<T>& ClassBuilder<T>::tag(const char* name, const U& value)
 {
-    // Make sure we have a valid tag holder, and the tag doesn't already exists
-    assert(m_currentTagHolder && !m_currentTagHolder->hasTag(id));
+    assert(m_currentTagHolder);
 
     // For the special case of Getter<Value>, the ambiguity between both constructors
     // cannot be automatically solved, so let's do it manually
     typedef typename boost::mpl::if_c<detail::FunctionTraits<U>::isFunction, boost::function<Value (T&)>, Value>::type Type;
 
-    // Add the new tag (override if already exists)
-    m_currentTagHolder->m_tags[id] = detail::Getter<Value>(Type(value));
+    // Retrieve the tag holders tags sorted by ID
+    const StringId id(name);
+    TagHolder::SortedTagVector& tags = m_currentTagHolder->m_tags;
 
+    // Replace any tag that already exists with the same ID
+    TagHolder::SortedTagVector::const_iterator iterator = std::lower_bound(tags.cbegin(), tags.cend(), id, TagHolder::OrderByTagId());
+    if (iterator != tags.end() && iterator._Ptr->id == id)
+    {
+        // Found, so just replace tag value
+        // -> Should not happen for efficiency reasons
+        assert(false);
+        iterator._Ptr->value = detail::Getter<Value>(Type(value));
+    }
+    else
+    {
+        // Not found, insert new tag
+        tags.emplace(iterator, TagHolder::TagEntry(id, name, detail::Getter<Value>(Type(value))));
+    }
+
+    // Done
     return *this;
 }
 

@@ -72,19 +72,9 @@ BOOST_AUTO_TEST_CASE(get)
 //-----------------------------------------------------------------------------
 BOOST_AUTO_TEST_CASE(staticTags)
 {
-    BOOST_CHECK_EQUAL(metaclass->hasTag(true),    true);
-    BOOST_CHECK_EQUAL(metaclass->hasTag(10),      true);
-    BOOST_CHECK_EQUAL(metaclass->hasTag(5.25),    true);
     BOOST_CHECK_EQUAL(metaclass->hasTag("hello"), true);
-    BOOST_CHECK_EQUAL(metaclass->hasTag(Ten),     true);
-    BOOST_CHECK_EQUAL(metaclass->hasTag(object1), true);
 
-    BOOST_CHECK_EQUAL(metaclass->hasTag(false),   false);
-    BOOST_CHECK_EQUAL(metaclass->hasTag(20),      false);
-    BOOST_CHECK_EQUAL(metaclass->hasTag(8.78),    false);
     BOOST_CHECK_EQUAL(metaclass->hasTag("hi"),    false);
-    BOOST_CHECK_EQUAL(metaclass->hasTag(One),     false);
-    BOOST_CHECK_EQUAL(metaclass->hasTag(object2), false);
 }
 
 //-----------------------------------------------------------------------------

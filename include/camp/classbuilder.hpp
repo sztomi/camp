@@ -261,23 +261,23 @@ public:
     /**
      * \brief Declare a new static tag
      *
-     * \param id Identifier of the new tag (must be unique within the metaclass)
+     * \param name Name of the tag (must be unique within the metaclass), must stay valid as long as this instance exists
      *
      * \return Reference to this, in order to chain other calls
      */
-    ClassBuilder<T>& tag(const Value& id);
+    ClassBuilder<T>& tag(const char* name);
 
     /**
      * \brief Declare a new tag with value
      *
-     * \param id Identifier of the new tag (must be unique within the metaclass)
+     * \param name Name of the tag (must be unique within the metaclass), must stay valid as long as this instance exists
      * \param value Value associated to the tag. It can be a static value, or a function
-     *              which will be evaluated each time the tag will be requested
+     *              which will be evaluated each time the tag will be requested.
      *
      * \return Reference to this, in order to chain other calls
      */
     template <typename U>
-    ClassBuilder<T>& tag(const Value& id, const U& value);
+    ClassBuilder<T>& tag(const char* name, const U& value);
 
     /**
      * \brief Set the readable state of the current property with a static value

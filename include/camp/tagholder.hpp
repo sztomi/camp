@@ -35,7 +35,7 @@
 
 #include <camp/detail/getter.hpp>
 #include <camp/value.hpp>
-#include <map>
+#include <vector>
 
 
 namespace camp
@@ -48,7 +48,7 @@ class UserObject;
  *
  * TagHolder defines an interface for accessing custom tags stored into instances.
  *
- * A tag is an identifier which can be of any supported type (it is stored in a camp::Value).
+ * A tag is an identifier.
  * It can also be associated to a value, either constant (static tags) or evaluated each
  * time the tag is requested (dynamic tags).
  *
@@ -93,30 +93,30 @@ public:
     /**
      * \brief Check the existence of a tag
      *
-     * \param id Identifier of the tag to check
+     * \param id Identifier (result of tag name string hashing) of the tag to check, no reference by intent
      *
      * \return True if the tag exists, false otherwise
      */
-    bool hasTag(const Value& id) const;
+    bool hasTag(StringId id) const;
 
     /**
      * \brief Get the value associated to a tag
      *
-     * \param id Identifier of the tag to get
+     * \param id Identifier (result of tag name string hashing) of the tag to get, no reference by intent
      *
      * \return Value associated to the tag, or Value::nothing if the tag doesn't exist
      */
-    const Value& tag(const Value& id) const;
+    const Value& tag(StringId id) const;
 
     /**
      * \brief Get the value associated to a dynamic tag
      *
-     * \param id Identifier of the tag to get
+     * \param id Identifier (result of tag name string hashing) of the tag to get, no reference by intent
      * \param object User object for which to get the tag value 
      *
      * \return Value associated to the tag for \a object, or Value::nothing if the tag doesn't exist
      */
-    Value tag(const Value& id, const UserObject& object) const;
+    Value tag(StringId id, const UserObject& object) const;
 
 protected:
 
@@ -129,9 +129,28 @@ private:
 
     template <typename T> friend class ClassBuilder;
 
-    typedef std::map<Value, detail::Getter<Value> > TagsTable;
+    struct TagEntry
+    {
+        StringId id; ///< The ID (result of tag name string hashing) of the metaclass
+        const char* name; ///< Name of the metatag, must stay valid as long as this instance exists
+        detail::Getter<Value> value;
+        TagEntry(StringId _id, const char* _name, const detail::Getter<Value>& _value) :
+            id(_id),
+            name(_name),
+            value(_value)
+        {}
+    };
 
-    TagsTable m_tags; ///< Table of tags / values
+    struct OrderByTagId
+    {
+        inline bool operator()(const TagHolder::TagEntry& left, uint32_t right) const
+        {
+            return (left.id < right);
+        }
+    };
+
+    typedef std::vector<TagEntry> SortedTagVector; ///< Tag ID sorted vector storing tags
+    SortedTagVector m_tags;
 };
 
 } // namespace camp
