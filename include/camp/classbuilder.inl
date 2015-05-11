@@ -249,7 +249,7 @@ ClassBuilder<T>& ClassBuilder<T>::callable(F function)
 template <typename T>
 ClassBuilder<T>& ClassBuilder<T>::constructor0()
 {
-    m_target->m_constructors.push_back(new detail::ConstructorImpl0<T>);
+    addConstructor(new detail::ConstructorImpl0<T>);
     return *this;
 }
 
@@ -258,7 +258,7 @@ template <typename T>
 template <typename A0>
 ClassBuilder<T>& ClassBuilder<T>::constructor1()
 {
-    m_target->m_constructors.push_back(new detail::ConstructorImpl1<T, A0>);
+    addConstructor(new detail::ConstructorImpl1<T, A0>);
     return *this;
 }
 
@@ -267,7 +267,7 @@ template <typename T>
 template <typename A0, typename A1>
 ClassBuilder<T>& ClassBuilder<T>::constructor2()
 {
-    m_target->m_constructors.push_back(new detail::ConstructorImpl2<T, A0, A1>);
+    addConstructor(new detail::ConstructorImpl2<T, A0, A1>);
     return *this;
 }
 
@@ -276,7 +276,7 @@ template <typename T>
 template <typename A0, typename A1, typename A2>
 ClassBuilder<T>& ClassBuilder<T>::constructor3()
 {
-    m_target->m_constructors.push_back(new detail::ConstructorImpl3<T, A0, A1, A2>);
+    addConstructor(new detail::ConstructorImpl3<T, A0, A1, A2>);
     return *this;
 }
 
@@ -285,7 +285,7 @@ template <typename T>
 template <typename A0, typename A1, typename A2, typename A3>
 ClassBuilder<T>& ClassBuilder<T>::constructor4()
 {
-    m_target->m_constructors.push_back(new detail::ConstructorImpl4<T, A0, A1, A2, A3>);
+    addConstructor(new detail::ConstructorImpl4<T, A0, A1, A2, A3>);
     return *this;
 }
 
@@ -294,7 +294,7 @@ template <typename T>
 template <typename A0, typename A1, typename A2, typename A3, typename A4>
 ClassBuilder<T>& ClassBuilder<T>::constructor5()
 {
-    m_target->m_constructors.push_back(new detail::ConstructorImpl5<T, A0, A1, A2, A3, A4>);
+    addConstructor(new detail::ConstructorImpl5<T, A0, A1, A2, A3, A4>);
     return *this;
 }
 
@@ -306,18 +306,20 @@ ClassBuilder<T>& ClassBuilder<T>::external()
     // Create an instance of the mapper
     U<T> mapper;
 
-    // Retrieve the properties
-    std::size_t propertyCount = mapper.propertyCount();
-    for (std::size_t i = 0; i < propertyCount; ++i)
-    {
-        addProperty(mapper.property(i));
+    { // Retrieve the properties
+        const std::size_t propertyCount = mapper.propertyCount();
+        for (std::size_t i = 0; i < propertyCount; ++i)
+        {
+            addProperty(mapper.property(i));
+        }
     }
 
-    // Retrieve the functions
-    std::size_t functionCount = mapper.functionCount();
-    for (std::size_t i = 0; i < functionCount; ++i)
-    {
-        addFunction(mapper.function(i));
+    { // Retrieve the functions
+        const std::size_t functionCount = mapper.functionCount();
+        for (std::size_t i = 0; i < functionCount; ++i)
+        {
+            addFunction(mapper.function(i));
+        }
     }
 
     // Done

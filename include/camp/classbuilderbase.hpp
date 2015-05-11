@@ -43,6 +43,7 @@ class Class;
 class Property;
 class Function;
 class TagHolder;
+class Constructor;
 
 /**
  * \brief Class builder base class
@@ -73,6 +74,13 @@ protected:
      * \param offset Offset of the base class to add
      */
     void addBase(const Class& baseClass, int offset);
+
+    /**
+     * \brief Add a new constructor to the target class
+     *
+     * \param constructor Constructor to add
+     */
+    void addConstructor(Constructor* constructor);
 
     /**
      * \brief Add a new property to the target class

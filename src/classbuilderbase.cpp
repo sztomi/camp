@@ -99,6 +99,12 @@ void ClassBuilderBase::addBase(const Class& baseClass, int offset)
 }
 
 //-------------------------------------------------------------------------------------------------
+void ClassBuilderBase::addConstructor(Constructor* constructor)
+{
+    m_target->m_constructors.push_back(constructor);
+}
+
+//-------------------------------------------------------------------------------------------------
 void ClassBuilderBase::addProperty(Property* property)
 {
     // Retrieve the class' properties sorted by ID
