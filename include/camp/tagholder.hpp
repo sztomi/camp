@@ -40,7 +40,6 @@
 
 namespace camp
 {
-template <typename T> class ClassBuilder;
 class UserObject;
 
 /**

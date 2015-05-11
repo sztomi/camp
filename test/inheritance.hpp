@@ -33,6 +33,7 @@
 
 #include <camp/camptype.hpp>
 #include <camp/class.hpp>
+#include <camp/classbuilder.hpp>
 
 namespace InheritanceTest
 {

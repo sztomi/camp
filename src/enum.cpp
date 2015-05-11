@@ -105,13 +105,13 @@ long Enum::value(const std::string& name) const
 //-------------------------------------------------------------------------------------------------
 bool Enum::operator==(const Enum& other) const
 {
-    return m_name == other.m_name;
+    return (m_id == other.m_id);
 }
 
 //-------------------------------------------------------------------------------------------------
 bool Enum::operator!=(const Enum& other) const
 {
-    return m_name != other.m_name;
+    return (m_id != other.m_id);
 }
 
 //-------------------------------------------------------------------------------------------------

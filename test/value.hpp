@@ -38,6 +38,7 @@
 #include <camp/valuevisitor.hpp>
 #include <camp/enumobject.hpp>
 #include <camp/userobject.hpp>
+#include <camp/classbuilder.hpp>
 
 namespace ValueTest
 {

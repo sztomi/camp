@@ -34,6 +34,7 @@
 #include <camp/camptype.hpp>
 #include <camp/class.hpp>
 #include <camp/enum.hpp>
+#include <camp/classbuilder.hpp>
 #include <string>
 
 namespace ConstructorTest
