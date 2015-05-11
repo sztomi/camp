@@ -99,6 +99,8 @@ set(CAMP_SRCS
     include/camp/config.hpp
     include/camp/classget.hpp
     include/camp/classget.inl
+    include/camp/classbuilderbase.hpp
+    src/classbuilderbase.cpp
     include/camp/classbuilder.hpp
     include/camp/classbuilder.inl
     include/camp/arraymapper.hpp

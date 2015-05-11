@@ -134,6 +134,7 @@ public:
 protected:
 
     template <typename T> friend class ClassBuilder;
+    friend class ClassBuilderBase;
     friend class UserObject;
 
     /**

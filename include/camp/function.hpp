@@ -135,6 +135,7 @@ public:
 protected:
 
     template <typename T> friend class ClassBuilder;
+    friend class ClassBuilderBase;
 
     /**
      * \brief Construct the function from its description

@@ -34,11 +34,8 @@ namespace camp
 {
 //-------------------------------------------------------------------------------------------------
 template <typename T>
-ClassBuilder<T>::ClassBuilder(Class& target)
-    : m_target(&target)
-    , m_currentTagHolder(m_target)
-    , m_currentProperty(nullptr)
-    , m_currentFunction(nullptr)
+ClassBuilder<T>::ClassBuilder(Class& target) :
+    ClassBuilderBase(target)
 {
 }
 
@@ -47,57 +44,15 @@ template <typename T>
 template <typename U>
 ClassBuilder<T>& ClassBuilder<T>::base()
 {
-    // Retrieve the base metaclass
-    const Class& baseClass = classByType<U>();
-
-    #ifdef _DEBUG
-    {
-        // First make sure that the base class is not already a base of the current class
-        const uint32_t baseId = baseClass.id();
-        const Class::BaseVector& bases = m_target->m_bases;
-        const size_t numberOfBases = bases.size();
-        for (size_t i = 0; i < numberOfBases; ++i)
-        {
-            assert(bases[i].base->id() != baseId);
-        }
-    }
-    #endif
-
     // Compute the offset to apply for pointer conversions
     T* asDerived = reinterpret_cast<T*>(1);
     U* asBase = static_cast<U*>(asDerived);
     int offset = static_cast<int>(reinterpret_cast<char*>(asBase) - reinterpret_cast<char*>(asDerived));
 
-    // Add the base metaclass to the bases of the current class
-    Class::BaseInfo baseInfos;
-    baseInfos.base = &baseClass;
-    baseInfos.offset = offset;
-    m_target->m_bases.push_back(baseInfos);
+    // Add the base class
+    addBase(classByType<U>(), offset);
 
-    { // Copy all properties of the base class into the current class
-        Class::SortedPropertyVector& targetProperties = m_target->m_properties;
-        const Class::SortedPropertyVector& baseProperties = baseClass.m_properties;
-        const size_t numberOfProperties = baseProperties.size();
-        for (size_t i = 0; i < numberOfProperties; ++i)
-        {
-            const Class::PropertyPtr& propertyPtr = baseProperties[i];
-            Class::SortedPropertyVector::const_iterator iterator = std::lower_bound(targetProperties.cbegin(), targetProperties.cend(), propertyPtr->id(), Class::OrderByPropertyId());
-            targetProperties.insert(iterator, propertyPtr);
-        }
-    }
-
-    { // Copy all functions of the base class into the current class
-        Class::SortedFunctionVector& targetFunctions = m_target->m_functions;
-        const Class::SortedFunctionVector& baseFunctions = baseClass.m_functions;
-        const size_t numberOfFunctions = baseFunctions.size();
-        for (size_t i = 0; i < numberOfFunctions; ++i)
-        {
-            const Class::FunctionPtr& functionPtr = baseFunctions[i];
-            Class::SortedFunctionVector::const_iterator iterator = std::lower_bound(targetFunctions.cbegin(), targetFunctions.cend(), functionPtr->id(), Class::OrderByFunctionId());
-            targetFunctions.insert(iterator, functionPtr);
-        }
-    }
-
+    // Done
     return *this;
 }
 
@@ -110,7 +65,10 @@ ClassBuilder<T>& ClassBuilder<T>::property(const char* name, F accessor)
     typedef detail::PropertyFactory1<T, F> Factory;
 
     // Construct and add the metaproperty
-    return addProperty(Factory::get(name, accessor));
+    addProperty(Factory::get(name, accessor));
+
+    // Done
+    return *this;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -122,7 +80,10 @@ ClassBuilder<T>& ClassBuilder<T>::property(const char* name, F1 accessor1, F2 ac
     typedef detail::PropertyFactory2<T, F1, F2> Factory;
 
     // Construct and add the metaproperty
-    return addProperty(Factory::get(name, accessor1, accessor2));
+    addProperty(Factory::get(name, accessor1, accessor2));
+
+    // Done
+    return *this;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -134,7 +95,10 @@ ClassBuilder<T>& ClassBuilder<T>::property(const char* name, F1 accessor1, F2 ac
     typedef detail::PropertyFactory3<T, F1, F2, F3> Factory;
 
     // Construct and add the metaproperty
-    return addProperty(Factory::get(name, accessor1, accessor2, accessor3));
+    addProperty(Factory::get(name, accessor1, accessor2, accessor3));
+
+    // Done
+    return *this;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -146,7 +110,10 @@ ClassBuilder<T>& ClassBuilder<T>::function(const char* name, F function)
     typedef typename boost::function_types::function_type<F>::type Signature;
 
     // Construct and add the metafunction
-    return addFunction(new detail::FunctionImpl<Signature>(name, function));
+    addFunction(new detail::FunctionImpl<Signature>(name, function));
+
+    // Done
+    return *this;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -154,7 +121,10 @@ template <typename T>
 template <typename F>
 ClassBuilder<T>& ClassBuilder<T>::function(const char* name, boost::function<F> function)
 {
-    return addFunction(new detail::FunctionImpl<F>(name, function));
+    addFunction(new detail::FunctionImpl<F>(name, function));
+
+    // Done
+    return *this;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -167,7 +137,10 @@ ClassBuilder<T>& ClassBuilder<T>::function(const char* name, F1 function1, F2 fu
     typedef typename boost::function_types::function_type<F2>::type Signature2;
 
     // Construct and add the metafunction
-    return addFunction(new detail::FunctionImpl<Signature1, Signature2>(name, function1, function2));
+    addFunction(new detail::FunctionImpl<Signature1, Signature2>(name, function1, function2));
+
+    // Done
+    return *this;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -361,67 +334,7 @@ ClassBuilder<T>& ClassBuilder<T>::external()
         addFunction(mapper.function(i));
     }
 
-    return *this;
-}
-
-//-------------------------------------------------------------------------------------------------
-template <typename T>
-Class& ClassBuilder<T>::getClass()
-{
-    return *m_target;
-}
-
-//-------------------------------------------------------------------------------------------------
-template <typename T>
-ClassBuilder<T>& ClassBuilder<T>::addProperty(Property* property)
-{
-    // Retrieve the class' properties sorted by ID
-    Class::SortedPropertyVector& properties = m_target->m_properties;
-
-    // Replace any property that already exists with the same ID
-    const uint32_t id = property->id();
-    Class::SortedPropertyVector::const_iterator iterator = std::lower_bound(properties.cbegin(), properties.cend(), id, Class::OrderByPropertyId());
-    if (iterator != properties.end() && (*iterator._Ptr)->id() == id)
-    {
-        // Found, so just replace property
-        *iterator._Ptr = Class::PropertyPtr(property);
-    }
-    else
-    {
-        // Not found, insert new property
-        properties.insert(iterator, Class::PropertyPtr(property));
-    }
-
-    m_currentTagHolder = m_currentProperty = property;
-    m_currentFunction = nullptr;
-
-    return *this;
-}
-
-//-------------------------------------------------------------------------------------------------
-template <typename T>
-ClassBuilder<T>& ClassBuilder<T>::addFunction(Function* function)
-{
-    // Retrieve the class' functions sorted by ID
-    Class::SortedFunctionVector& functions = m_target->m_functions;
-
-    // Replace any function that already exists with the same ID
-    const uint32_t id = function->id();
-    Class::SortedFunctionVector::const_iterator iterator = std::lower_bound(functions.cbegin(), functions.cend(), id, Class::OrderByFunctionId());
-    if (iterator != functions.end() && (*iterator._Ptr)->id() == id)
-    {
-        // Found, so just replace function
-        *iterator._Ptr = Class::FunctionPtr(function);
-    }
-    else
-    {
-        // Not found, insert new function
-        functions.insert(iterator, Class::FunctionPtr(function));
-    }
-
-    m_currentTagHolder = m_currentFunction = function;
-    m_currentProperty = nullptr;
-
+    // Done
     return *this;
 }
 

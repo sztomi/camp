@@ -34,6 +34,7 @@
 
 
 #include <camp/type.hpp>
+#include <camp/classbuilderbase.hpp>
 #include <camp/classget.hpp>
 #include <camp/detail/functionimpl.hpp>
 #include <camp/detail/functiontraits.hpp>
@@ -61,7 +62,7 @@ namespace camp
  * need to split the metaclass creation in multiple parts.
  */
 template <typename T>
-class ClassBuilder
+class ClassBuilder : public ClassBuilderBase
 {
 public:
 
@@ -456,37 +457,6 @@ public:
      */
     template <template <typename> class U>
     ClassBuilder<T>& external();
-
-    /**
-    * \brief Return the target metaclass to fill
-    *
-    * \return Reference to the target metaclass to fill
-    */
-    Class& getClass();
-private:
-
-    /**
-     * \brief Add a new property to the target class
-     *
-     * \param property Property to add
-     *
-     * \return Reference to this, in order to chain other calls
-     */
-    ClassBuilder<T>& addProperty(Property* property);
-
-    /**
-     * \brief Add a new function to the target class
-     *
-     * \param function Function to add
-     *
-     * \return Reference to this, in order to chain other calls
-     */
-    ClassBuilder<T>& addFunction(Function* function);
-
-    Class* m_target; ///< Target metaclass to fill
-    TagHolder* m_currentTagHolder; ///< Last tag holder which has been declared
-    Property* m_currentProperty; ///< Last metaproperty which has been declared
-    Function* m_currentFunction; ///< Last function which has been declared
 };
 
 } // namespace camp
