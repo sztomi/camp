@@ -45,9 +45,9 @@ template <typename U>
 ClassBuilder<T>& ClassBuilder<T>::base()
 {
     // Compute the offset to apply for pointer conversions
-    T* asDerived = reinterpret_cast<T*>(1);
-    U* asBase = static_cast<U*>(asDerived);
-    int offset = static_cast<int>(reinterpret_cast<char*>(asBase) - reinterpret_cast<char*>(asDerived));
+    const T* asDerived = reinterpret_cast<const T*>(1);
+    const U* asBase = static_cast<const U*>(asDerived);
+    const int offset = static_cast<int>(reinterpret_cast<const char*>(asBase) - reinterpret_cast<const char*>(asDerived));
 
     // Add the base class
     addBase(classByType<U>(), offset);
@@ -147,7 +147,11 @@ ClassBuilder<T>& ClassBuilder<T>::function(const char* name, F1 function1, F2 fu
 template <typename T>
 ClassBuilder<T>& ClassBuilder<T>::tag(const char* name)
 {
-    return tag(name, Value::nothing);
+    // Add the tag
+    addTag(name, Value::nothing);
+
+    // Done
+    return *this;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -155,30 +159,12 @@ template <typename T>
 template <typename U>
 ClassBuilder<T>& ClassBuilder<T>::tag(const char* name, const U& value)
 {
-    assert(m_currentTagHolder);
-
     // For the special case of Getter<Value>, the ambiguity between both constructors
     // cannot be automatically solved, so let's do it manually
     typedef typename boost::mpl::if_c<detail::FunctionTraits<U>::isFunction, boost::function<Value (T&)>, Value>::type Type;
 
-    // Retrieve the tag holders tags sorted by ID
-    const StringId id(name);
-    TagHolder::SortedTagVector& tags = m_currentTagHolder->m_tags;
-
-    // Replace any tag that already exists with the same ID
-    TagHolder::SortedTagVector::const_iterator iterator = std::lower_bound(tags.cbegin(), tags.cend(), id, TagHolder::OrderByTagId());
-    if (iterator != tags.end() && iterator._Ptr->id == id)
-    {
-        // Found, so just replace tag value
-        // -> Should not happen for efficiency reasons
-        assert(false);
-        iterator._Ptr->value = detail::Getter<Value>(Type(value));
-    }
-    else
-    {
-        // Not found, insert new tag
-        tags.emplace(iterator, TagHolder::TagEntry(id, name, detail::Getter<Value>(Type(value))));
-    }
+    // Add the tag
+    addTag(name, detail::Getter<Value>(Type(value)));
 
     // Done
     return *this;

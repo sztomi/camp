@@ -126,7 +126,7 @@ protected:
 
 private:
 
-    template <typename T> friend class ClassBuilder;
+    friend class ClassBuilderBase;
 
     struct TagEntry
     {

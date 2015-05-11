@@ -33,7 +33,8 @@
 #pragma once
 
 
-#include <camp/config.hpp>
+#include <camp/value.hpp>
+#include <camp/detail/getter.hpp>
 
 
 namespace camp
@@ -86,6 +87,14 @@ protected:
      * \param function Function to add
      */
     void addFunction(Function* function);
+
+    /**
+     * \brief Add a new tag to the target class
+     *
+     * \param name Name of the tag (must be unique within the metaclass), must stay valid as long as this instance exists
+     * \param value Tag value
+     */
+    void addTag(const char* name, const detail::Getter<Value>& value);
 
     Class* m_target; ///< Target metaclass to fill
     TagHolder* m_currentTagHolder; ///< Last tag holder which has been declared

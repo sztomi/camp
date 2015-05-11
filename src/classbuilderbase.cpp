@@ -146,4 +146,30 @@ void ClassBuilderBase::addFunction(Function* function)
     m_currentProperty = nullptr;
 }
 
+//-------------------------------------------------------------------------------------------------
+void ClassBuilderBase::addTag(const char* name, const detail::Getter<Value>& value)
+{
+    assert(m_currentTagHolder);
+
+    // Retrieve the tag holders tags sorted by ID
+    const StringId id(name);
+    TagHolder::SortedTagVector& tags = m_currentTagHolder->m_tags;
+
+    // Replace any tag that already exists with the same ID
+    TagHolder::SortedTagVector::const_iterator iterator = std::lower_bound(tags.cbegin(), tags.cend(), id, TagHolder::OrderByTagId());
+    if (iterator != tags.end() && iterator._Ptr->id == id)
+    {
+        // Found, so just replace tag value
+        // -> Should not happen for efficiency reasons
+        assert(false);
+        iterator._Ptr->value = value;
+    }
+    else
+    {
+        // Not found, insert new tag
+        tags.emplace(iterator, TagHolder::TagEntry(id, name, value));
+    }
+}
+
+
 } // namespace camp
