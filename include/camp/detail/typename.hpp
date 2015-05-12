@@ -48,9 +48,9 @@ namespace detail
  * which hasn't been registered with the CAMP_TYPE macro.
  */
 template <typename T>
-struct StaticTypeId
+struct StaticTypeName
 {
-    static uint32_t get(bool = true)
+    static const char* get(bool = true)
     {
         // If you get this error, it means you didn't register
         // your class/enum T with the CAMP_TYPE macro
@@ -68,28 +68,28 @@ struct StaticTypeId
  * \brief Utility class to check if a type has a CAMP id (i.e. has been registered with CAMP_TYPE)
  */
 template <typename T>
-struct HasStaticTypeId
+struct HasStaticTypeName
 {
     enum
     {
-        value = StaticTypeId<typename RawType<T>::Type>::defined
+        value = StaticTypeName<typename RawType<T>::Type>::defined
     };
 };
 
 /**
  * \brief Return the static type identifier of a C++ type T
  */
-template <typename T> uint32_t staticTypeId()         {return StaticTypeId<typename RawType<T>::Type>::get();}
-template <typename T> uint32_t staticTypeId(const T&) {return StaticTypeId<typename RawType<T>::Type>::get();}
+template <typename T> const char* staticTypeName()         {return StaticTypeName<typename RawType<T>::Type>::get();}
+template <typename T> const char* staticTypeName(const T&) {return StaticTypeName<typename RawType<T>::Type>::get();}
 
 /**
  * \brief Utility class used to check at compile-time if a type T implements the CAMP RTTI
  */
 template <typename T>
-struct HasCampRttiId
+struct HasCampRttiName
 {
-    template <typename U, uint32_t (U::*)() const> struct TestForMember {};
-    template <typename U> static TypeYes check(TestForMember<U, &U::campClassId>*);
+    template <typename U, const char* (U::*)() const> struct TestForMember {};
+    template <typename U> static TypeYes check(TestForMember<U, &U::campClassName>*);
     template <typename U> static TypeNo  check(...);
 
     enum {value = sizeof(check<typename RawType<T>::Type>(0)) == sizeof(TypeYes)};
@@ -104,83 +104,83 @@ struct HasCampRttiId
  * the true dynamic type of the object.
  */
 template <typename T, typename E = void>
-struct DynamicTypeId
+struct DynamicTypeName
 {
     typedef ObjectTraits<const T&> Traits;
 
-    static uint32_t get(const T& object)
+    static const char* get(const T& object)
     {
         typename Traits::PointerType pointer = Traits::getPointer(object);
-        return pointer ? pointer->campClassId() : staticTypeId<T>();
+        return pointer ? pointer->campClassName() : staticTypeName<T>();
     }
 };
 
 /**
- * Specialization of DynamicTypeId for types that don't implement CAMP RTTI
+ * Specialization of DynamicTypeName for types that don't implement CAMP RTTI
  */
 template <typename T>
-struct DynamicTypeId<T, typename boost::disable_if<HasCampRttiId<T> >::type>
+struct DynamicTypeName<T, typename boost::disable_if<HasCampRttiName<T> >::type>
 {
-    static uint32_t get(const T&)
+    static const char* get(const T&)
     {
-        return staticTypeId<T>();
+        return staticTypeName<T>();
     }
 };
 
 /**
  * \brief Return the dynamic type identifier of a C++ object
  */
-template <typename T> uint32_t typeId()                {return staticTypeId<T>();}
-template <typename T> uint32_t typeId(const T& object) {return DynamicTypeId<T>::get(object);}
+template <typename T> const char* typeName()                {return staticTypeName<T>();}
+template <typename T> const char* typeName(const T& object) {return DynamicTypeName<T>::get(object);}
 
 /**
  * \brief Utility class to get a valid CAMP identifier from a C++ type even if the type wasn't declared
  */
 template <typename T, typename E = void>
-struct SafeTypeId
+struct SafeTypeName
 {
-    static uint32_t get()
+    static const char* get()
     {
-        return typeId<T>();
+        return typeName<T>();
     }
 
-    static uint32_t get(const T& object)
+    static const char* get(const T& object)
     {
-        return typeId(object);
+        return typeName(object);
     }
 };
 
 /**
- * Specialization of SafeTypeId for types that have no CAMP id
+ * Specialization of SafeTypeName for types that have no CAMP name
  */
 template <typename T>
-struct SafeTypeId<T, typename boost::disable_if<HasStaticTypeId<T> >::type>
+struct SafeTypeName<T, typename boost::disable_if<HasStaticTypeName<T> >::type>
 {
-    static uint32_t get()
+    static const char* get()
     {
-        return 0;
+        return "";
     }
 
-    static uint32_t get(const T&)
+    static const char* get(const T&)
     {
-        return 0;
+        return "";
     }
 };
 
 /**
- * Specialization of SafeTypeId needed because "const void&" is not a valid expression
+ * Specialization of SafeTypeName needed because "const void&" is not a valid expression
  */
 template <>
-struct SafeTypeId<void>
+struct SafeTypeName<void>
 {
-    static uint32_t get() {return 0;}
+    static const char* get() {return "";}
 };
 
 /**
  * \brief Return the dynamic type identifier of a C++ object even if it doesn't exist (i.e. it can't fail)
  */
-template <typename T> uint32_t safeTypeId()                {return SafeTypeId<typename RawType<T>::Type>::get();}
-template <typename T> uint32_t safeTypeId(const T& object) {return SafeTypeId<T>::get(object);}
+template <typename T> const char* safeTypeName()                {return SafeTypeName<typename RawType<T>::Type>::get();}
+template <typename T> const char* safeTypeName(const T& object) {return SafeTypeName<T>::get(object);}
 
 } // namespace detail
 

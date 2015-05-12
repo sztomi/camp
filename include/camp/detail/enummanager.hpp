@@ -70,11 +70,12 @@ public:
      * This is the entry point for every metaenum creation. This
      * function also notifies registered observers after successful creations.
      *
+     * \param id ID (result of "camp::StringId(camp::Enum::name())") of the metaenum, no reference by intent
      * \param name Name of the metaenum to create (must be unique), must stay valid as long as this instance exists
      *
      * \return Reference to the new metaenum
      */
-    Enum& addClass(const char* name);
+    Enum& addClass(StringId id, const char* name);
 
     /**
      * \brief Get the total number of metaenums

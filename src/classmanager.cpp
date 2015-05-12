@@ -43,10 +43,9 @@ ClassManager& ClassManager::instance()
 }
 
 //-------------------------------------------------------------------------------------------------
-Class& ClassManager::addClass(const char* name)
+Class& ClassManager::addClass(StringId id, const char* name)
 {
     // First make sure that the class doesn't already exist
-    const StringId id(name);
     SortedClassVector::const_iterator iterator = std::lower_bound(m_classes.cbegin(), m_classes.cend(), id, OrderByClassId());
     if (iterator != m_classes.end() && iterator._Ptr->id == id)
     {
@@ -54,7 +53,7 @@ Class& ClassManager::addClass(const char* name)
     }
 
     // Create the new class
-    Class* newClass = new Class(name);
+    Class* newClass = new Class(id, name);
 
     // Insert it into the sorted vector
     m_classes.emplace(iterator, ClassEntry(id, newClass));

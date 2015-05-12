@@ -40,6 +40,7 @@
 #include <camp/tagholder.hpp>
 #include <camp/userobject.hpp>
 #include <camp/detail/typeid.hpp>
+#include <camp/detail/typename.hpp>
 #include <boost/noncopyable.hpp>
 
 namespace camp
@@ -349,9 +350,10 @@ private:
     /**
      * \brief Construct the metaclass from its name
      *
+     * \param id ID (result of "camp::StringId(camp::Class::name())") of the metaclass, no reference by intent
      * \param name Name of the metaclass, must stay valid as long as this instance exists
      */
-    explicit Class(const char* name);
+    explicit Class(StringId id, const char* name);
 
     /**
      * \brief Destructor

@@ -110,6 +110,7 @@ set(CAMP_SRCS
     include/camp/detail/userpropertyimpl.hpp
     include/camp/detail/userpropertyimpl.inl
     include/camp/detail/typeid.hpp
+    include/camp/detail/typename.hpp
     include/camp/detail/simplepropertyimpl.hpp
     include/camp/detail/simplepropertyimpl.inl
     include/camp/detail/returntype.hpp

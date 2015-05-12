@@ -225,8 +225,8 @@ bool Class::operator!=(const Class& other) const
 }
 
 //-------------------------------------------------------------------------------------------------
-Class::Class(const char* name)
-    : m_id(name)
+Class::Class(StringId id, const char* name)
+    : m_id(id)
     , m_name(name)
 {
 }

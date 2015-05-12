@@ -54,21 +54,21 @@ inline const Class& classById(StringId id)
 template <typename T>
 const Class& classByObject(const T& object)
 {
-    return detail::ClassManager::instance().getById(StringId(detail::typeId(object)));
+    return detail::ClassManager::instance().getById(detail::typeId(object));
 }
 
 //-------------------------------------------------------------------------------------------------
 template <typename T>
 const Class& classByType()
 {
-    return detail::ClassManager::instance().getById(StringId(detail::typeId<T>()));
+    return detail::ClassManager::instance().getById(detail::typeId<T>());
 }
 
 //-------------------------------------------------------------------------------------------------
 template <typename T>
 const Class* classByTypeSafe()
 {
-    return detail::ClassManager::instance().getByIdSafe(StringId(detail::safeTypeId<T>()));
+    return detail::ClassManager::instance().getByIdSafe(detail::safeTypeId<T>());
 }
 
 } // namespace camp

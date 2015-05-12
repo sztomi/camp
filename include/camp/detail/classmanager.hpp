@@ -70,13 +70,14 @@ public:
      * This is the entry point for every metaclass creation. This
      * function also notifies registered observers after successful creations.
      *
+     * \param id ID (result of "camp::StringId(camp::Class::name())") of the metaclass, no reference by intent
      * \param name Name of the metaclass to create (must be unique), must stay valid as long as this instance exists
      *
      * \return Reference to the new metaclass
      *
      * \throw ClassAlreadyCreated \a name already exists
      */
-    Class& addClass(const char* name);
+    Class& addClass(StringId id, const char* name);
 
     /**
      * \brief Get the total number of metaclasses

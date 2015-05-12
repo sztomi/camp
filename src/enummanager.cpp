@@ -46,10 +46,9 @@ EnumManager& EnumManager::instance()
 }
 
 //-------------------------------------------------------------------------------------------------
-Enum& EnumManager::addClass(const char* name)
+Enum& EnumManager::addClass(StringId id, const char* name)
 {
     // First make sure that the enum doesn't already exist
-    const StringId id(name);
     SortedEnumVector::const_iterator iterator = std::lower_bound(m_enums.cbegin(), m_enums.cend(), id, OrderByEnumId());
     if (iterator != m_enums.end() && iterator._Ptr->id == id)
     {
@@ -57,7 +56,7 @@ Enum& EnumManager::addClass(const char* name)
     }
 
     // Create the new class
-    Enum* newEnum = new Enum(name);
+    Enum* newEnum = new Enum(id, name);
 
     // Insert it into the sorted vector
     m_enums.emplace(iterator, EnumEntry(id, newEnum));

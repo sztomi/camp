@@ -35,14 +35,16 @@
 
 #include <camp/config.hpp>
 #include <camp/stringid.hpp>
-
+#include <camp/detail/typeid.hpp>
+#include <camp/detail/typename.hpp>
 
 namespace camp
 {
 namespace detail
 {
 template <typename T> struct StaticTypeId;
-template <typename T> const char* staticTypeId(const T&);
+template <typename T> uint32_t staticTypeId(const T&);
+template <typename T> const char* staticTypeName(const T&);
 CAMP_API void ensureTypeRegistered(StringId id, void (*registerFunc)());
 }
 
@@ -70,6 +72,11 @@ CAMP_API void ensureTypeRegistered(StringId id, void (*registerFunc)());
         namespace detail \
         { \
             template <> struct StaticTypeId<type> \
+            { \
+                static uint32_t get(bool = true) {return StringId(#type);} \
+                enum {defined = true, copyable = true}; \
+            }; \
+            template <> struct StaticTypeName<type> \
             { \
                 static const char* get(bool = true) {return #type;} \
                 enum {defined = true, copyable = true}; \
@@ -113,6 +120,16 @@ CAMP_API void ensureTypeRegistered(StringId id, void (*registerFunc)());
         namespace detail \
         { \
             template <> struct StaticTypeId<type> \
+            { \
+                static uint32_t get(bool checkRegister = true) \
+                { \
+                    if (checkRegister) \
+                        detail::ensureTypeRegistered(StringId(#type), registerFunc); \
+                    return StringId(#type); \
+                } \
+                enum {defined = true, copyable = true}; \
+            }; \
+            template <> struct StaticTypeName<type> \
             { \
                 static const char* get(bool checkRegister = true) \
                 { \
@@ -167,6 +184,11 @@ CAMP_API void ensureTypeRegistered(StringId id, void (*registerFunc)());
         { \
             template <> struct StaticTypeId<type> \
             { \
+                static uint32_t get(bool = true) {return StringId(#type);} \
+                enum {defined = true, copyable = false}; \
+            }; \
+            template <> struct StaticTypeName<type> \
+            { \
                 static const char* get(bool = true) {return #type;} \
                 enum {defined = true, copyable = false}; \
             }; \
@@ -191,6 +213,16 @@ CAMP_API void ensureTypeRegistered(StringId id, void (*registerFunc)());
         namespace detail \
         { \
             template <> struct StaticTypeId<type> \
+            { \
+                static uint32_t get(bool checkRegister = true) \
+                { \
+                    if (checkRegister) \
+                        detail::ensureTypeRegistered(StringId(#type), registerFunc); \
+                    return StringId(#type); \
+                } \
+                enum {defined = true, copyable = false}; \
+            }; \
+            template <> struct StaticTypeName<type> \
             { \
                 static const char* get(bool checkRegister = true) \
                 { \
@@ -228,7 +260,8 @@ CAMP_API void ensureTypeRegistered(StringId id, void (*registerFunc)());
  * \endcode
  */
 #define CAMP_RTTI() \
-    public: virtual const char* campClassId() const {return camp::detail::staticTypeId(this);} \
+    public: virtual uint32_t campClassId() const { return camp::detail::staticTypeId(this); } \
+    public: virtual const char* campClassName() const {return camp::detail::staticTypeName(this);} \
     private:
 
 } // namespace camp

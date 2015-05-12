@@ -207,9 +207,10 @@ private:
     /**
      * \brief Construct the metaenum from its name
      *
+     * \param id ID (result of "camp::StringId(camp::Enum::name())") of the metaenum, no reference by intent
      * \param name Name of the metaenum, must stay valid as long as this instance exists
      */
-    explicit Enum(const char* name);
+    explicit Enum(StringId id, const char* name);
 
     struct Id;
     struct Val;

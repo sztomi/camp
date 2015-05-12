@@ -45,7 +45,7 @@ namespace detail
 template <typename T>
 ClassBuilder<T> Class::declare()
 {
-    Class& newClass = detail::ClassManager::instance().addClass(detail::StaticTypeId<T>::get(false));
+    Class& newClass = detail::ClassManager::instance().addClass(detail::StaticTypeId<T>::get(false), detail::StaticTypeName<T>::get(false));
     newClass.m_destructor = &detail::destroy<T>;
     return ClassBuilder<T>(newClass);
 }

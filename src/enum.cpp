@@ -115,8 +115,8 @@ bool Enum::operator!=(const Enum& other) const
 }
 
 //-------------------------------------------------------------------------------------------------
-Enum::Enum(const char* name)
-    : m_id(name)
+Enum::Enum(StringId id, const char* name)
+    : m_id(id)
     , m_name(name)
 {
 }
