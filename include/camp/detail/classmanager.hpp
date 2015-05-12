@@ -144,8 +144,23 @@ public:
     virtual ~ClassManager();
 
 private:
-
-    typedef std::vector<Class*> SortedClassVector; ///< Class ID sorted vector storing classes, no need for shared pointers in here, we're the one and only instance holder
+    struct ClassEntry
+    {
+        uint32_t id;
+        Class* classPtr;
+        ClassEntry(uint32_t _id, Class* _classPtr) :
+            id(_id),
+            classPtr(_classPtr)
+        {}
+    };
+    struct OrderByClassId
+    {
+        inline bool operator()(const ClassEntry& left, uint32_t right) const
+        {
+            return (left.id < right);
+        }
+    };
+    typedef std::vector<ClassEntry> SortedClassVector; ///< Class ID sorted vector storing classes (for CPU cache efficient searches, "camp::ClassManager::ClassEntry" instead of a direct "camp::Class*" is used)
     SortedClassVector m_classes;
 };
 

@@ -36,17 +36,6 @@ namespace camp
 {
 namespace detail
 {
-    namespace detail
-    {
-        struct OrderByClassId
-        {
-            inline bool operator()(const Class* left, uint32_t right) const
-            {
-                return (left->id() < right);
-            }
-        };
-    }
-
 //-------------------------------------------------------------------------------------------------
 ClassManager& ClassManager::instance()
 {
@@ -58,8 +47,8 @@ Class& ClassManager::addClass(const char* name)
 {
     // First make sure that the class doesn't already exist
     const StringId id(name);
-    SortedClassVector::const_iterator iterator = std::lower_bound(m_classes.cbegin(), m_classes.cend(), id, detail::OrderByClassId());
-    if (iterator != m_classes.end() && (*iterator._Ptr)->id() == id)
+    SortedClassVector::const_iterator iterator = std::lower_bound(m_classes.cbegin(), m_classes.cend(), id, OrderByClassId());
+    if (iterator != m_classes.end() && iterator._Ptr->id == id)
     {
         CAMP_ERROR(ClassAlreadyCreated(name));
     }
@@ -68,7 +57,7 @@ Class& ClassManager::addClass(const char* name)
     Class* newClass = new Class(name);
 
     // Insert it into the sorted vector
-    m_classes.insert(iterator, newClass);
+    m_classes.emplace(iterator, ClassEntry(id, newClass));
 
     // Notify observers
     notifyClassAdded(*newClass);
@@ -90,17 +79,17 @@ const Class& ClassManager::getByIndex(std::size_t index) const
     if (index >= m_classes.size())
         CAMP_ERROR(OutOfRange(index, m_classes.size()));
 
-    return *m_classes[index];
+    return *m_classes[index].classPtr;
 }
 
 //-------------------------------------------------------------------------------------------------
 const Class& ClassManager::getById(StringId id) const
 {
-    SortedClassVector::const_iterator iterator = std::lower_bound(m_classes.cbegin(), m_classes.cend(), id, detail::OrderByClassId());
-    if (iterator != m_classes.end() && (*iterator._Ptr)->id() == id)
+    SortedClassVector::const_iterator iterator = std::lower_bound(m_classes.cbegin(), m_classes.cend(), id, OrderByClassId());
+    if (iterator != m_classes.end() && iterator._Ptr->id == id)
     {
         // Found
-        return **iterator._Ptr;
+        return *iterator._Ptr->classPtr;
     }
     else
     {
@@ -112,15 +101,15 @@ const Class& ClassManager::getById(StringId id) const
 //-------------------------------------------------------------------------------------------------
 const Class* ClassManager::getByIdSafe(StringId id) const
 {
-    SortedClassVector::const_iterator iterator = std::lower_bound(m_classes.cbegin(), m_classes.cend(), id, detail::OrderByClassId());
-    return (iterator != m_classes.end() && (*iterator._Ptr)->id() == id) ? *iterator._Ptr : nullptr;
+    SortedClassVector::const_iterator iterator = std::lower_bound(m_classes.cbegin(), m_classes.cend(), id, OrderByClassId());
+    return (iterator != m_classes.end() && iterator._Ptr->id == id) ? iterator._Ptr->classPtr : nullptr;
 }
 
 //-------------------------------------------------------------------------------------------------
 bool ClassManager::classExists(StringId id) const
 {
-    SortedClassVector::const_iterator iterator = std::lower_bound(m_classes.cbegin(), m_classes.cend(), id, detail::OrderByClassId());
-    return (iterator != m_classes.end() && (*iterator._Ptr)->id() == id);
+    SortedClassVector::const_iterator iterator = std::lower_bound(m_classes.cbegin(), m_classes.cend(), id, OrderByClassId());
+    return (iterator != m_classes.end() && iterator._Ptr->id == id);
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -135,7 +124,7 @@ ClassManager::~ClassManager()
     const size_t numberOfClasses = m_classes.size();
     for (size_t i = 0; i < numberOfClasses; ++i)
     {
-        Class* classPtr = m_classes[i];
+        Class* classPtr = m_classes[i].classPtr;
         notifyClassRemoved(*classPtr);
         delete classPtr;
     }

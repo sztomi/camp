@@ -121,21 +121,40 @@ public:
     static ClassBuilder<T> declare();
 
     typedef std::shared_ptr<Function> FunctionPtr;
+    struct FunctionEntry
+    {
+        uint32_t id;
+        FunctionPtr functionPtr;
+        FunctionEntry(uint32_t _id, FunctionPtr _functionPtr) :
+            id(_id),
+            functionPtr(_functionPtr)
+        {}
+    };
+
     typedef std::shared_ptr<Property> PropertyPtr;
+    struct PropertyEntry
+    {
+        uint32_t id;
+        PropertyPtr propertyPtr;
+        PropertyEntry(uint32_t _id, PropertyPtr _propertyPtr) :
+            id(_id),
+            propertyPtr(_propertyPtr)
+        {}
+    };
 
     struct OrderByFunctionId
     {
-        inline bool operator()(const FunctionPtr& left, uint32_t right) const
+        inline bool operator()(const FunctionEntry& left, uint32_t right) const
         {
-            return (left->id() < right);
+            return (left.id < right);
         }
     };
 
     struct OrderByPropertyId
     {
-        inline bool operator()(const PropertyPtr& left, uint32_t right) const
+        inline bool operator()(const PropertyEntry& left, uint32_t right) const
         {
-            return (left->id() < right);
+            return (left.id < right);
         }
     };
 
@@ -361,8 +380,8 @@ private:
 
     typedef std::vector<Constructor*> ConstructorVector;
     typedef std::vector<BaseInfo> BaseVector;
-    typedef std::vector<FunctionPtr> SortedFunctionVector; ///< Function ID sorted vector storing functions
-    typedef std::vector<PropertyPtr> SortedPropertyVector; ///< Property ID sorted vector storing properties
+    typedef std::vector<FunctionEntry> SortedFunctionVector; ///< Function ID sorted vector storing functions (for CPU cache efficient searches, "camp::Class::FunctionEntry" instead of a direct "camp::Class::FunctionPtr" is used)
+    typedef std::vector<PropertyEntry> SortedPropertyVector; ///< Property ID sorted vector storing properties (for CPU cache efficient searches, "camp::Class::PropertyEntry" instead of a direct "camp::Class::PropertyPtr" is used)
     typedef void (*Destructor)(const UserObject&);
 
     StringId m_id; ///< The ID (result of "camp::StringId(camp::Class::name())") of the metaclass

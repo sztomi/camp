@@ -72,7 +72,7 @@ std::size_t Class::functionCount() const
 bool Class::hasFunction(StringId id) const
 {
     SortedFunctionVector::const_iterator iterator = std::lower_bound(m_functions.cbegin(), m_functions.cend(), id, OrderByFunctionId());
-    return (iterator != m_functions.end() && (*iterator._Ptr)->id() == id);
+    return (iterator != m_functions.end() && iterator._Ptr->id == id);
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -82,17 +82,17 @@ const Function& Class::function(std::size_t index) const
     if (index >= m_functions.size())
         CAMP_ERROR(OutOfRange(index, m_functions.size()));
 
-    return *m_functions[index];
+    return *m_functions[index].functionPtr;
 }
 
 //-------------------------------------------------------------------------------------------------
 const Function& Class::function(StringId id) const
 {
     SortedFunctionVector::const_iterator iterator = std::lower_bound(m_functions.cbegin(), m_functions.cend(), id, OrderByFunctionId());
-    if (iterator != m_functions.end() && (*iterator._Ptr)->id() == id)
+    if (iterator != m_functions.end() && iterator._Ptr->id == id)
     {
         // Found
-        return **iterator._Ptr;
+        return *iterator._Ptr->functionPtr;
     }
     else
     {
@@ -111,7 +111,7 @@ std::size_t Class::propertyCount() const
 bool Class::hasProperty(StringId id) const
 {
     SortedPropertyVector::const_iterator iterator = std::lower_bound(m_properties.cbegin(), m_properties.cend(), id, OrderByPropertyId());
-    return (iterator != m_properties.end() && (*iterator._Ptr)->id() == id);
+    return (iterator != m_properties.end() && iterator._Ptr->id == id);
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -121,17 +121,17 @@ const Property& Class::property(std::size_t index) const
     if (index >= m_properties.size())
         CAMP_ERROR(OutOfRange(index, m_properties.size()));
 
-    return *m_properties[index];
+    return *m_properties[index].propertyPtr;
 }
 
 //-------------------------------------------------------------------------------------------------
 const Property& Class::property(StringId id) const
 {
     SortedPropertyVector::const_iterator iterator = std::lower_bound(m_properties.cbegin(), m_properties.cend(), id, OrderByPropertyId());
-    if (iterator != m_properties.end() && (*iterator._Ptr)->id() == id)
+    if (iterator != m_properties.end() && iterator._Ptr->id == id)
     {
         // Found
-        return **iterator._Ptr;
+        return *iterator._Ptr->propertyPtr;
     }
     else
     {
@@ -178,7 +178,7 @@ void Class::visit(ClassVisitor& visitor) const
         const size_t numberOfProperties = m_properties.size();
         for (size_t i = 0; i < numberOfProperties; ++i)
         {
-            m_properties[i]->accept(visitor);
+            m_properties[i].propertyPtr->accept(visitor);
         }
     }
 
@@ -186,7 +186,7 @@ void Class::visit(ClassVisitor& visitor) const
         const size_t numberOfFunctions = m_functions.size();
         for (size_t i = 0; i < numberOfFunctions; ++i)
         {
-            m_functions[i]->accept(visitor);
+            m_functions[i].functionPtr->accept(visitor);
         }
     }
 }

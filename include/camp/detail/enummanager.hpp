@@ -143,7 +143,23 @@ private:
      */
     ~EnumManager();
 
-    typedef std::vector<Enum*> SortedEnumVector; ///< Enum ID sorted vector storing enums, no need for shared pointers in here, we're the one and only instance holder
+    struct EnumEntry
+    {
+        uint32_t id;
+        Enum* enumPtr;
+        EnumEntry(uint32_t _id, Enum* _enumPtr) :
+            id(_id),
+            enumPtr(_enumPtr)
+        {}
+    };
+    struct OrderByEnumId
+    {
+        inline bool operator()(const EnumEntry& left, uint32_t right) const
+        {
+            return (left.id < right);
+        }
+    };
+    typedef std::vector<EnumEntry> SortedEnumVector; ///< Enum ID sorted vector storing enums (for CPU cache efficient searches, "camp::EnumManager::EnumEntry" instead of a direct "camp::Enum*" is used)
     SortedEnumVector m_enums;
 };
 
