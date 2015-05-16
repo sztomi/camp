@@ -45,13 +45,13 @@ std::size_t TagHolder::tagCount() const
 }
 
 //-------------------------------------------------------------------------------------------------
-const Value& TagHolder::tagId(std::size_t index) const
+const TagHolder::TagEntry& TagHolder::getTagEntryByIndex(std::size_t index) const
 {
     // Make sure that the index is not out of range
     if (index >= m_tags.size())
         CAMP_ERROR(OutOfRange(index, m_tags.size()));
 
-    return m_tags[index].value.get();
+    return m_tags[index];
 }
 
 //-------------------------------------------------------------------------------------------------

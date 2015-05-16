@@ -66,6 +66,18 @@ class CAMP_API TagHolder
 {
 public:
 
+    struct TagEntry
+    {
+        StringId id; ///< The ID (result of tag name string hashing) of the metaclass
+        const char* name; ///< Name of the metatag, must stay valid as long as this instance exists
+        detail::Getter<Value> value;
+        TagEntry(StringId _id, const char* _name, const detail::Getter<Value>& _value) :
+            id(_id),
+            name(_name),
+            value(_value)
+        {}
+    };
+
     /**
      * \brief Destructor
      */
@@ -79,7 +91,7 @@ public:
     std::size_t tagCount() const;
 
     /**
-     * \brief Get a tag by its index
+     * \brief Get a tag entry by its index
      *
      * \param index Index of the tag to retrieve, please note that the tag order does not match the metatag declaration order
      *
@@ -87,7 +99,7 @@ public:
      *
      * \throw OutOfRange index is out of range
      */
-    const Value& tagId(std::size_t index) const;
+    const TagEntry& getTagEntryByIndex(std::size_t index) const;
 
     /**
      * \brief Check the existence of a tag
@@ -127,18 +139,6 @@ protected:
 private:
 
     friend class ClassBuilderBase;
-
-    struct TagEntry
-    {
-        StringId id; ///< The ID (result of tag name string hashing) of the metaclass
-        const char* name; ///< Name of the metatag, must stay valid as long as this instance exists
-        detail::Getter<Value> value;
-        TagEntry(StringId _id, const char* _name, const detail::Getter<Value>& _value) :
-            id(_id),
-            name(_name),
-            value(_value)
-        {}
-    };
 
     struct OrderByTagId
     {
