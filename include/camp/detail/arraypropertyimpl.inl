@@ -44,6 +44,14 @@ ArrayPropertyImpl<A>::ArrayPropertyImpl(const char* name, const A& accessor)
 
 //-------------------------------------------------------------------------------------------------
 template <typename A>
+Value ArrayPropertyImpl<A>::provideDefault() const
+{
+    ValueProvider<ElementType> provider;
+    return Value(provider());
+}
+
+//-------------------------------------------------------------------------------------------------
+template <typename A>
 std::size_t ArrayPropertyImpl<A>::getSize(const UserObject& object) const
 {
     return Mapper::size(array(object));

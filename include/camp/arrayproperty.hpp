@@ -167,6 +167,11 @@ public:
     void remove(const UserObject& object, std::size_t index) const;
 
     /**
+     * \brief Construct a default value instance
+     */
+	virtual Value provideDefault() const = 0;
+
+    /**
      * \brief Accept the visitation of a ClassVisitor
      *
      * \param visitor Visitor to accept

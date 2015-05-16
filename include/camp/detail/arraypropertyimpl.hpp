@@ -68,6 +68,11 @@ public:
      */
     ArrayPropertyImpl(const char* name, const A& accessor);
 
+    /**
+     * \see ArrayProperty::provideDefault
+     */
+    virtual Value provideDefault() const override;
+
 protected:
 
     /**
