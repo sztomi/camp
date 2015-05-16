@@ -79,9 +79,21 @@ void ClassBuilderBase::addBase(const Class& baseClass, int offset)
         const size_t numberOfProperties = baseProperties.size();
         for (size_t i = 0; i < numberOfProperties; ++i)
         {
-            const Class::PropertyEntry& propertyEntry = baseProperties[i];
-            Class::SortedPropertyVector::const_iterator iterator = std::lower_bound(targetProperties.cbegin(), targetProperties.cend(), propertyEntry.id, Class::OrderByPropertyId());
-            targetProperties.emplace(iterator, Class::PropertyEntry(propertyEntry.id, propertyEntry.propertyPtr));
+            const Class::PropertyEntry& basePropertyEntry = baseProperties[i];
+
+            // Replace any property that already exists with the same ID
+            const uint32_t id = basePropertyEntry.id;
+            Class::SortedPropertyVector::const_iterator iterator = std::lower_bound(targetProperties.cbegin(), targetProperties.cend(), id, Class::OrderByPropertyId());
+            if (iterator != targetProperties.end() && iterator._Ptr->id == id)
+            {
+                // Found, so just replace property
+                iterator._Ptr->propertyPtr = basePropertyEntry.propertyPtr;
+            }
+            else
+            {
+                // Not found, insert new property
+                targetProperties.emplace(iterator, Class::PropertyEntry(id, basePropertyEntry.propertyPtr));
+            }
         }
     }
 
@@ -91,9 +103,21 @@ void ClassBuilderBase::addBase(const Class& baseClass, int offset)
         const size_t numberOfFunctions = baseFunctions.size();
         for (size_t i = 0; i < numberOfFunctions; ++i)
         {
-            const Class::FunctionEntry& functionEntry = baseFunctions[i];
-            Class::SortedFunctionVector::const_iterator iterator = std::lower_bound(targetFunctions.cbegin(), targetFunctions.cend(), functionEntry.id, Class::OrderByFunctionId());
-            targetFunctions.emplace(iterator, Class::FunctionEntry(functionEntry.id, functionEntry.functionPtr));
+            const Class::FunctionEntry& baseFunctionEntry = baseFunctions[i];
+
+            // Replace any function that already exists with the same ID
+            const uint32_t id = baseFunctionEntry.id;
+            Class::SortedFunctionVector::const_iterator iterator = std::lower_bound(targetFunctions.cbegin(), targetFunctions.cend(), id, Class::OrderByFunctionId());
+            if (iterator != targetFunctions.end() && iterator._Ptr->id == id)
+            {
+                // Found, so just replace function
+                iterator._Ptr->functionPtr = baseFunctionEntry.functionPtr;
+            }
+            else
+            {
+                // Not found, insert new function
+                targetFunctions.emplace(iterator, Class::FunctionEntry(id, baseFunctionEntry.functionPtr));
+            }
         }
     }
 }
