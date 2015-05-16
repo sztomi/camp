@@ -82,6 +82,7 @@ set(CAMP_SRCS
     include/camp/value.hpp
     include/camp/value.inl
     src/value.cpp
+    include/camp/detail/singleton.hpp
     include/camp/detail/classmanager.hpp
     src/classmanager.cpp
     include/camp/detail/enummanager.hpp
@@ -212,6 +213,24 @@ write_basic_package_version_file(
 ###############################
 # installing
 ###############################
+
+set_target_properties(camp PROPERTIES
+	COMPILE_PDB_NAME_RELWITHDEBINFO camp
+	COMPILE_PDB_NAME_DEBUG campd
+)
+
+if(MSVC)
+	if(BUILD_SHARED_LIBS)
+		install(FILES "${CMAKE_CURRENT_BINARY_DIR}/camp.pdb" DESTINATION bin CONFIGURATIONS RelWithDebInfo)
+		install(FILES "${CMAKE_CURRENT_BINARY_DIR}/campd.pdb" DESTINATION bin CONFIGURATIONS Debug)
+	else(BUILD_SHARED_LIBS)
+		# Since COMPILE_PDB_* was added in 3.1, we don't support correctly generated pdbs for static libraries in earlier CMake versions
+		if(NOT "${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_LESS "3.1")
+			install(FILES "${CMAKE_CURRENT_BINARY_DIR}/camp.pdb" DESTINATION lib CONFIGURATIONS RelWithDebInfo)
+			install(FILES "${CMAKE_CURRENT_BINARY_DIR}/campd.pdb" DESTINATION lib CONFIGURATIONS Debug)
+		endif()
+	endif(BUILD_SHARED_LIBS)
+endif(MSVC)
 
 install(DIRECTORY include
     DESTINATION .

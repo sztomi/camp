@@ -36,37 +36,10 @@
 
 if(APPLE AND NOT NON_NATIVE_TARGET)
     if(NOT OSX_CONFIG_HAS_BEEN_RUN_BEFORE)
-    
-        # Make sure the version of CMake is compatible with this script
-    
-        if(${CMAKE_MAJOR_VERSION} EQUAL 2 AND ${CMAKE_MINOR_VERSION} EQUAL 4 
-            AND ${CMAKE_PATCH_VERSION} LESS 7)
-            message(STATUS
-                        "Warning: A critical CMake bug exists in 2.4.6 and below.  "
-                        "Trying to build Universal Binaries will result in a compile "
-                        "error that seems unrelated.  Either avoid building Universal "
-                        "Binaries by changing the CMAKE_OSX_ARCHITECTURES field to list "
-                        "only your architecture, or upgrade to a newer version of CMake.")
-        endif()
-            
-        # Determine the correct SDK
-            
-        if(NOT FORCE_32BIT AND (EXISTS /Developer/SDKs/10.5.sdk OR EXISTS /Developer/SDKs/MacOSX10.6.sdk))
-            set(CMAKE_OSX_ARCHITECTURES "i386;x86_64" 
-                 CACHE STRING "Build architectures for OSX" FORCE)
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mmacosx-version-min=10.5"
-                 CACHE STRING "Flags used by the compiler during all build types." FORCE)
-        else()
-            if(EXISTS /Developer/SDKs/MacOSX10.4u.sdk OR FORCE_32BIT)
-                set(CMAKE_OSX_ARCHITECTURES "i386" 
-                     CACHE STRING "Build architectures for OSX" FORCE)
-                set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mmacosx-version-min=10.4 -m32"
-                     CACHE STRING "Flags used by the compiler during all build types." FORCE)
-            else()
-                # No Universal Binary support
-            endif()
-        endif()
-        set(OSX_CONFIG_HAS_BEEN_RUN_BEFORE TRUE)
+      set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "Build architectures for OSX" FORCE)
+			set(CMAKE_OSX_DEPLOYMENT_TARGET "10.10")
+      set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++ ${CMAKE_CXX_FLAGS}" CACHE STRING "Flags used by the compiler during all build types." FORCE)
+      set(OSX_CONFIG_HAS_BEEN_RUN_BEFORE TRUE)
     endif(NOT OSX_CONFIG_HAS_BEEN_RUN_BEFORE)
 endif(APPLE AND NOT NON_NATIVE_TARGET)
 
