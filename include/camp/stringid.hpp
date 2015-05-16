@@ -51,6 +51,19 @@
 	*    - Do only use this when you really have to, usually it's best to let the compiler decide by using the standard keyword "inline"
 	*/
 	#define FORCEINLINE __attribute__((always_inline))
+#elif __APPLE__
+	/**
+	*  @brief
+	*    Force the compiler to inline something
+	*
+	*  @note
+	*    - Do only use this when you really have to, usually it's best to let the compiler decide by using the standard keyword "inline"
+	*/
+	#if __has_attribute(always_inline)
+		#define FORCEINLINE inline __attribute__((always_inline))
+	#else
+		#define FORCEINLINE inline
+	#endif
 #else
 	#error "Unsupported platform"
 #endif
