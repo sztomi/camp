@@ -74,7 +74,8 @@ void ClassBuilderBase::addBase(const Class& baseClass, int offset)
     m_target->m_bases.push_back(baseInfos);
 
     { // Copy all properties of the base class into the current class
-        Class::SortedPropertyVector& targetProperties = m_target->m_propertiesById;
+        Class::SortedPropertyVector& targetPropertiesByIndex = m_target->m_propertiesByIndex;
+        Class::SortedPropertyVector& targetPropertiesById = m_target->m_propertiesById;
         const Class::SortedPropertyVector& baseProperties = baseClass.m_propertiesById;
         const size_t numberOfProperties = baseProperties.size();
         for (size_t i = 0; i < numberOfProperties; ++i)
@@ -83,16 +84,18 @@ void ClassBuilderBase::addBase(const Class& baseClass, int offset)
 
             // Replace any property that already exists with the same ID
             const uint32_t id = basePropertyEntry.id;
-            Class::SortedPropertyVector::const_iterator iterator = std::lower_bound(targetProperties.cbegin(), targetProperties.cend(), id, Class::OrderByPropertyId());
-            if (iterator != targetProperties.end() && iterator._Ptr->id == id)
+            Class::SortedPropertyVector::const_iterator iterator = std::lower_bound(targetPropertiesById.cbegin(), targetPropertiesById.cend(), id, Class::OrderByPropertyId());
+            if (iterator != targetPropertiesById.end() && iterator._Ptr->id == id)
             {
                 // Found, so just replace property
+                std::find_if(targetPropertiesByIndex.begin(), targetPropertiesByIndex.end(), [id](const Class::PropertyEntry& other) { return (other.id == id); })._Ptr->propertyPtr = basePropertyEntry.propertyPtr;
                 iterator._Ptr->propertyPtr = basePropertyEntry.propertyPtr;
             }
             else
             {
                 // Not found, insert new property
-                targetProperties.emplace(iterator, Class::PropertyEntry(id, basePropertyEntry.propertyPtr));
+                targetPropertiesByIndex.emplace_back(Class::PropertyEntry(id, basePropertyEntry.propertyPtr));
+                targetPropertiesById.emplace(iterator, Class::PropertyEntry(id, basePropertyEntry.propertyPtr));
             }
         }
     }
@@ -131,21 +134,41 @@ void ClassBuilderBase::addConstructor(Constructor* constructor)
 //-------------------------------------------------------------------------------------------------
 void ClassBuilderBase::addProperty(Property* property)
 {
-    // Retrieve the class' properties sorted by ID
-    Class::SortedPropertyVector& properties = m_target->m_propertiesById;
+    const uint32_t id = property->id();
+    Class::PropertyPtr propertyPtr(property);
 
     // Replace any property that already exists with the same ID
-    const uint32_t id = property->id();
-    Class::SortedPropertyVector::const_iterator iterator = std::lower_bound(properties.cbegin(), properties.cend(), id, Class::OrderByPropertyId());
-    if (iterator != properties.end() && iterator._Ptr->id == id)
-    {
-        // Found, so just replace property
-        iterator._Ptr->propertyPtr = Class::PropertyPtr(property);
+    { // Sorted by index
+        // Retrieve the class' properties sorted by ID
+        Class::SortedPropertyVector& properties = m_target->m_propertiesByIndex;
+
+        Class::SortedPropertyVector::const_iterator iterator = std::find_if(properties.begin(), properties.end(), [id](const Class::PropertyEntry& other) { return (other.id == id); });
+        if (iterator != properties.end())
+        {
+            // Found, so just replace property
+            iterator._Ptr->propertyPtr = propertyPtr;
+        }
+        else
+        {
+            // Not found, insert new property
+            properties.emplace_back(Class::PropertyEntry(id, propertyPtr));
+        }
     }
-    else
-    {
-        // Not found, insert new property
-        properties.emplace(iterator, Class::PropertyEntry(id, Class::PropertyPtr(property)));
+    { // Sorted by ID
+        // Retrieve the class' properties sorted by ID
+        Class::SortedPropertyVector& properties = m_target->m_propertiesById;
+
+        Class::SortedPropertyVector::const_iterator iterator = std::lower_bound(properties.cbegin(), properties.cend(), id, Class::OrderByPropertyId());
+        if (iterator != properties.end() && iterator._Ptr->id == id)
+        {
+            // Found, so just replace property
+            iterator._Ptr->propertyPtr = propertyPtr;
+        }
+        else
+        {
+            // Not found, insert new property
+            properties.emplace(iterator, Class::PropertyEntry(id, propertyPtr));
+        }
     }
 
     m_currentTagHolder = m_currentProperty = property;

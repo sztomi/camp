@@ -250,7 +250,7 @@ public:
     /**
      * \brief Get a property from its index in this metaclass
      *
-     * \param index Index of the property to get
+     * \param index Index of the property to get, please note that the property order matches the metaproperty declaration order
      *
      * \return Reference to the property
      *
@@ -383,13 +383,14 @@ private:
     typedef std::vector<Constructor*> ConstructorVector;
     typedef std::vector<BaseInfo> BaseVector;
     typedef std::vector<FunctionEntry> SortedFunctionVector; ///< Function ID sorted vector storing functions (for CPU cache efficient searches, "camp::Class::FunctionEntry" instead of a direct "camp::Class::FunctionPtr" is used)
-    typedef std::vector<PropertyEntry> SortedPropertyVector; ///< Property ID sorted vector storing properties (for CPU cache efficient searches, "camp::Class::PropertyEntry" instead of a direct "camp::Class::PropertyPtr" is used)
+    typedef std::vector<PropertyEntry> SortedPropertyVector;
     typedef void (*Destructor)(const UserObject&);
 
     StringId m_id; ///< The ID (result of "camp::StringId(camp::Class::name())") of the metaclass
     const char* m_name; ///< Name of the metaclass, must stay valid as long as this instance exists
     SortedFunctionVector m_functions;
-    SortedPropertyVector m_propertiesById;
+    SortedPropertyVector m_propertiesByIndex; ///< Property index sorted vector storing properties (for CPU cache efficient searches, "camp::Class::PropertyEntry" instead of a direct "camp::Class::PropertyPtr" is used)
+    SortedPropertyVector m_propertiesById;    ///< Property ID sorted vector storing properties (for CPU cache efficient searches, "camp::Class::PropertyEntry" instead of a direct "camp::Class::PropertyPtr" is used)
     BaseVector m_bases; ///< List of base metaclasses
     ConstructorVector m_constructors; ///< List of metaconstructors
     Destructor m_destructor; ///< Destructor (function that is able to delete an abstract object)

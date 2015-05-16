@@ -121,7 +121,7 @@ const Property& Class::getPropertyByIndex(std::size_t index) const
     if (index >= m_propertiesById.size())
         CAMP_ERROR(OutOfRange(index, m_propertiesById.size()));
 
-    return *m_propertiesById[index].propertyPtr;
+    return *m_propertiesByIndex[index].propertyPtr;
 }
 
 //-------------------------------------------------------------------------------------------------
