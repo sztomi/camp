@@ -201,8 +201,8 @@ BOOST_AUTO_TEST_CASE(abstractClass)
 //-----------------------------------------------------------------------------
 BOOST_AUTO_TEST_CASE(composedObjects)
 {
-    const camp::UserProperty& p1 = static_cast<const camp::UserProperty&>(camp::classByType<Composed1>().property("p"));
-    const camp::UserProperty& p2 = static_cast<const camp::UserProperty&>(camp::classByType<Composed2>().property("p"));
+    const camp::UserProperty& p1 = static_cast<const camp::UserProperty&>(camp::classByType<Composed1>().getPropertyById("p"));
+    const camp::UserProperty& p2 = static_cast<const camp::UserProperty&>(camp::classByType<Composed2>().getPropertyById("p"));
 
     Composed1 composed1;
     camp::UserObject composed2(composed1, p1);

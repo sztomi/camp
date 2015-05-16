@@ -44,7 +44,7 @@ struct PropertyFixture
         for (int i = 1; i < 25; ++i)
         {
             if (i != 7 && i != 8 && i != 22) // remove when fixed
-                properties[i] = &metaclass.property(camp::StringId(("p" + std::to_string(i)).c_str()));
+                properties[i] = &metaclass.getPropertyById(camp::StringId(("p" + std::to_string(i)).c_str()));
         }
     }
 

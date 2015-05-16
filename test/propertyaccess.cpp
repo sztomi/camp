@@ -57,60 +57,60 @@ BOOST_FIXTURE_TEST_SUITE(PROPERTYACCESS, PropertyAccessFixture)
 //-----------------------------------------------------------------------------
 BOOST_AUTO_TEST_CASE(readableImplicit)
 {
-    BOOST_CHECK_EQUAL(metaclass->property("p8").readable(object_t), true);
-    BOOST_CHECK_EQUAL(metaclass->property("p8").readable(object_f), true);
-    BOOST_CHECK_EQUAL(metaclass->property("p9").readable(object_t), true);
-    BOOST_CHECK_EQUAL(metaclass->property("p9").readable(object_f), true);
-    BOOST_CHECK_EQUAL(metaclass->property("p10").readable(object_t), true);
-    BOOST_CHECK_EQUAL(metaclass->property("p10").readable(object_f), true);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p8").readable(object_t), true);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p8").readable(object_f), true);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p9").readable(object_t), true);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p9").readable(object_f), true);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p10").readable(object_t), true);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p10").readable(object_f), true);
 }
 
 //-----------------------------------------------------------------------------
 BOOST_AUTO_TEST_CASE(readableStatic)
 {
-    BOOST_CHECK_EQUAL(metaclass->property("p0").readable(object_t), false);
-    BOOST_CHECK_EQUAL(metaclass->property("p0").readable(object_f), false);
-    BOOST_CHECK_EQUAL(metaclass->property("p1").readable(object_t), true);
-    BOOST_CHECK_EQUAL(metaclass->property("p1").readable(object_f), true);
-    BOOST_CHECK_EQUAL(metaclass->property("p2").readable(object_t), false);
-    BOOST_CHECK_EQUAL(metaclass->property("p2").readable(object_f), false);
-    BOOST_CHECK_EQUAL(metaclass->property("p3").readable(object_t), true);
-    BOOST_CHECK_EQUAL(metaclass->property("p3").readable(object_f), true);
-    BOOST_CHECK_EQUAL(metaclass->property("p4").readable(object_t), false);
-    BOOST_CHECK_EQUAL(metaclass->property("p4").readable(object_f), false);
-    BOOST_CHECK_EQUAL(metaclass->property("p5").readable(object_t), true);
-    BOOST_CHECK_EQUAL(metaclass->property("p5").readable(object_f), true);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p0").readable(object_t), false);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p0").readable(object_f), false);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p1").readable(object_t), true);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p1").readable(object_f), true);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p2").readable(object_t), false);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p2").readable(object_f), false);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p3").readable(object_t), true);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p3").readable(object_f), true);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p4").readable(object_t), false);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p4").readable(object_f), false);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p5").readable(object_t), true);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p5").readable(object_f), true);
 }
 
 //-----------------------------------------------------------------------------
 BOOST_AUTO_TEST_CASE(readableDynamic)
 {
-    BOOST_CHECK_EQUAL(metaclass->property("p6").readable(object_t), true);
-    BOOST_CHECK_EQUAL(metaclass->property("p6").readable(object_f), false);
-    BOOST_CHECK_EQUAL(metaclass->property("p7").readable(object_t), true);
-    BOOST_CHECK_EQUAL(metaclass->property("p7").readable(object_f), false);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p6").readable(object_t), true);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p6").readable(object_f), false);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p7").readable(object_t), true);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p7").readable(object_f), false);
 }
 
 //-----------------------------------------------------------------------------
 BOOST_AUTO_TEST_CASE(writableImplicit)
 {
-    BOOST_CHECK_EQUAL(metaclass->property("p8").writable(object_t), false);
-    BOOST_CHECK_EQUAL(metaclass->property("p8").writable(object_f), false);
-    BOOST_CHECK_EQUAL(metaclass->property("p9").writable(object_t), true);
-    BOOST_CHECK_EQUAL(metaclass->property("p9").writable(object_f), true);
-    BOOST_CHECK_EQUAL(metaclass->property("p10").writable(object_t), true);
-    BOOST_CHECK_EQUAL(metaclass->property("p10").writable(object_f), true);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p8").writable(object_t), false);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p8").writable(object_f), false);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p9").writable(object_t), true);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p9").writable(object_f), true);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p10").writable(object_t), true);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p10").writable(object_f), true);
 }
 
 //-----------------------------------------------------------------------------
 BOOST_AUTO_TEST_CASE(writableStatic)
 {
-    BOOST_CHECK_EQUAL(metaclass->property("p0").writable(object_t), true);
-    BOOST_CHECK_EQUAL(metaclass->property("p0").writable(object_f), true);
-    BOOST_CHECK_EQUAL(metaclass->property("p1").writable(object_t), false);
-    BOOST_CHECK_EQUAL(metaclass->property("p1").writable(object_f), false);
-    BOOST_CHECK_EQUAL(metaclass->property("p2").writable(object_t), false);
-    BOOST_CHECK_EQUAL(metaclass->property("p2").writable(object_f), false);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p0").writable(object_t), true);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p0").writable(object_f), true);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p1").writable(object_t), false);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p1").writable(object_f), false);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p2").writable(object_t), false);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("p2").writable(object_f), false);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

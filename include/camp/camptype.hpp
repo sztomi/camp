@@ -169,8 +169,8 @@ CAMP_API void ensureTypeRegistered(StringId id, void (*registerFunc)());
  * MyClass c;
  * const camp::Class& m1 = camp::classByObject(c);
  * const camp::Class& m2 = camp::classByObject(c.nc);
- * const camp::Property& p1 = m1.property("nc");
- * const camp::Property& p2 = m2.property("x");
+ * const camp::Property& p1 = m1.getPropertyById("nc");
+ * const camp::Property& p2 = m2.getPropertyById("x");
  * p1.set(c, NonCopyable()); // ERROR
  * p2.set(p1.get(c).to<camp::UserObject>(), 10); // OK
  * \endcode

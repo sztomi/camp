@@ -64,18 +64,18 @@ BOOST_AUTO_TEST_CASE(regularFunctions)
     MyClass3 object3;
     MyClass4 object4;
 
-    BOOST_CHECK_EQUAL(class1->function("f1").call(object1, camp::Args::empty), camp::Value(1));
-    BOOST_CHECK_EQUAL(class3->function("f1").call(object3, camp::Args::empty), camp::Value(1));
-    BOOST_CHECK_EQUAL(class4->function("f1").call(object4, camp::Args::empty), camp::Value(1));
+    BOOST_CHECK_EQUAL(class1->getFunctionById("f1").call(object1, camp::Args::empty), camp::Value(1));
+    BOOST_CHECK_EQUAL(class3->getFunctionById("f1").call(object3, camp::Args::empty), camp::Value(1));
+    BOOST_CHECK_EQUAL(class4->getFunctionById("f1").call(object4, camp::Args::empty), camp::Value(1));
 
-    BOOST_CHECK_EQUAL(class2->function("f2").call(object2, camp::Args::empty), camp::Value(2));
-    BOOST_CHECK_EQUAL(class3->function("f2").call(object3, camp::Args::empty), camp::Value(2));
-    BOOST_CHECK_EQUAL(class4->function("f2").call(object4, camp::Args::empty), camp::Value(2));
+    BOOST_CHECK_EQUAL(class2->getFunctionById("f2").call(object2, camp::Args::empty), camp::Value(2));
+    BOOST_CHECK_EQUAL(class3->getFunctionById("f2").call(object3, camp::Args::empty), camp::Value(2));
+    BOOST_CHECK_EQUAL(class4->getFunctionById("f2").call(object4, camp::Args::empty), camp::Value(2));
 
-    BOOST_CHECK_EQUAL(class3->function("f3").call(object3, camp::Args::empty), camp::Value(3));
-    BOOST_CHECK_EQUAL(class4->function("f3").call(object4, camp::Args::empty), camp::Value(3));
+    BOOST_CHECK_EQUAL(class3->getFunctionById("f3").call(object3, camp::Args::empty), camp::Value(3));
+    BOOST_CHECK_EQUAL(class4->getFunctionById("f3").call(object4, camp::Args::empty), camp::Value(3));
 
-    BOOST_CHECK_EQUAL(class4->function("f4").call(object4, camp::Args::empty), camp::Value(4));
+    BOOST_CHECK_EQUAL(class4->getFunctionById("f4").call(object4, camp::Args::empty), camp::Value(4));
 }
 
 //-----------------------------------------------------------------------------
@@ -86,13 +86,13 @@ BOOST_AUTO_TEST_CASE(virtualFunctions)
     MyClass3 object3;
     MyClass4 object4;
 
-    BOOST_CHECK_EQUAL(class2->function("virtual").call(object2, camp::Args::empty), camp::Value(20));
-    BOOST_CHECK_EQUAL(class3->function("virtual").call(object3, camp::Args::empty), camp::Value(30));
-    BOOST_CHECK_EQUAL(class4->function("virtual").call(object4, camp::Args::empty), camp::Value(40));
+    BOOST_CHECK_EQUAL(class2->getFunctionById("virtual").call(object2, camp::Args::empty), camp::Value(20));
+    BOOST_CHECK_EQUAL(class3->getFunctionById("virtual").call(object3, camp::Args::empty), camp::Value(30));
+    BOOST_CHECK_EQUAL(class4->getFunctionById("virtual").call(object4, camp::Args::empty), camp::Value(40));
 
-    BOOST_CHECK_EQUAL(class2->function("virtual").call(object2, camp::Args::empty), camp::Value(20));
-    BOOST_CHECK_EQUAL(class2->function("virtual").call(object3, camp::Args::empty), camp::Value(30));
-    BOOST_CHECK_EQUAL(class2->function("virtual").call(object4, camp::Args::empty), camp::Value(40));
+    BOOST_CHECK_EQUAL(class2->getFunctionById("virtual").call(object2, camp::Args::empty), camp::Value(20));
+    BOOST_CHECK_EQUAL(class2->getFunctionById("virtual").call(object3, camp::Args::empty), camp::Value(30));
+    BOOST_CHECK_EQUAL(class2->getFunctionById("virtual").call(object4, camp::Args::empty), camp::Value(40));
 }
 
 //-----------------------------------------------------------------------------
@@ -103,18 +103,18 @@ BOOST_AUTO_TEST_CASE(properties)
     MyClass3 object3;
     MyClass4 object4;
 
-    BOOST_CHECK_EQUAL(class1->property("p1").get(object1), camp::Value(10));
-    BOOST_CHECK_EQUAL(class3->property("p1").get(object3), camp::Value(10));
-    BOOST_CHECK_EQUAL(class4->property("p1").get(object4), camp::Value(10));
+    BOOST_CHECK_EQUAL(class1->getPropertyById("p1").get(object1), camp::Value(10));
+    BOOST_CHECK_EQUAL(class3->getPropertyById("p1").get(object3), camp::Value(10));
+    BOOST_CHECK_EQUAL(class4->getPropertyById("p1").get(object4), camp::Value(10));
 
-    BOOST_CHECK_EQUAL(class2->property("p2").get(object2), camp::Value(20));
-    BOOST_CHECK_EQUAL(class3->property("p2").get(object3), camp::Value(20));
-    BOOST_CHECK_EQUAL(class4->property("p2").get(object4), camp::Value(20));
+    BOOST_CHECK_EQUAL(class2->getPropertyById("p2").get(object2), camp::Value(20));
+    BOOST_CHECK_EQUAL(class3->getPropertyById("p2").get(object3), camp::Value(20));
+    BOOST_CHECK_EQUAL(class4->getPropertyById("p2").get(object4), camp::Value(20));
 
-    BOOST_CHECK_EQUAL(class3->property("p3").get(object3), camp::Value(30));
-    BOOST_CHECK_EQUAL(class4->property("p3").get(object4), camp::Value(30));
+    BOOST_CHECK_EQUAL(class3->getPropertyById("p3").get(object3), camp::Value(30));
+    BOOST_CHECK_EQUAL(class4->getPropertyById("p3").get(object4), camp::Value(30));
 
-    BOOST_CHECK_EQUAL(class4->property("p4").get(object4), camp::Value(40));
+    BOOST_CHECK_EQUAL(class4->getPropertyById("p4").get(object4), camp::Value(40));
 }
 
 //-----------------------------------------------------------------------------
@@ -126,13 +126,13 @@ BOOST_AUTO_TEST_CASE(castWithPointerOffset)
     MyClass2* base3 = &object3;
     MyClass3* base4 = &object4;
 
-    BOOST_CHECK_EQUAL(class2->property("p2").get(base3), camp::Value(20));
-    BOOST_CHECK_EQUAL(class2->property("p2").get(base4), camp::Value(20));
+    BOOST_CHECK_EQUAL(class2->getPropertyById("p2").get(base3), camp::Value(20));
+    BOOST_CHECK_EQUAL(class2->getPropertyById("p2").get(base4), camp::Value(20));
 
-    BOOST_CHECK_EQUAL(class3->property("p3").get(base3), camp::Value(30));
-    BOOST_CHECK_EQUAL(class3->property("p3").get(base4), camp::Value(30));
+    BOOST_CHECK_EQUAL(class3->getPropertyById("p3").get(base3), camp::Value(30));
+    BOOST_CHECK_EQUAL(class3->getPropertyById("p3").get(base4), camp::Value(30));
 
-    BOOST_CHECK_EQUAL(class4->property("p4").get(base4), camp::Value(40));
+    BOOST_CHECK_EQUAL(class4->getPropertyById("p4").get(base4), camp::Value(40));
 }
 
 //-----------------------------------------------------------------------------
@@ -143,14 +143,14 @@ BOOST_AUTO_TEST_CASE(overriddenFunction)
     MyClass3 object3;
     MyClass4 object4;
 
-    BOOST_CHECK_EQUAL(class1->function("overridden").call(object1, camp::Args::empty), camp::Value(1));
-    BOOST_CHECK_EQUAL(class2->function("overridden").call(object2, camp::Args::empty), camp::Value(2));
-    BOOST_CHECK_EQUAL(class3->function("overridden").call(object3, camp::Args::empty), camp::Value(3));
-    BOOST_CHECK_EQUAL(class4->function("overridden").call(object4, camp::Args::empty), camp::Value(4));
+    BOOST_CHECK_EQUAL(class1->getFunctionById("overridden").call(object1, camp::Args::empty), camp::Value(1));
+    BOOST_CHECK_EQUAL(class2->getFunctionById("overridden").call(object2, camp::Args::empty), camp::Value(2));
+    BOOST_CHECK_EQUAL(class3->getFunctionById("overridden").call(object3, camp::Args::empty), camp::Value(3));
+    BOOST_CHECK_EQUAL(class4->getFunctionById("overridden").call(object4, camp::Args::empty), camp::Value(4));
 
-    BOOST_CHECK_EQUAL(class4->function("overridden").call(object1, camp::Args::empty), camp::Value(4));
-    BOOST_CHECK_EQUAL(class4->function("overridden").call(object2, camp::Args::empty), camp::Value(4));
-    BOOST_CHECK_EQUAL(class4->function("overridden").call(object3, camp::Args::empty), camp::Value(4));
+    BOOST_CHECK_EQUAL(class4->getFunctionById("overridden").call(object1, camp::Args::empty), camp::Value(4));
+    BOOST_CHECK_EQUAL(class4->getFunctionById("overridden").call(object2, camp::Args::empty), camp::Value(4));
+    BOOST_CHECK_EQUAL(class4->getFunctionById("overridden").call(object3, camp::Args::empty), camp::Value(4));
 }
 
 //-----------------------------------------------------------------------------
@@ -164,17 +164,17 @@ BOOST_AUTO_TEST_CASE(overriddenProperty)
     // Here, the result should always depend on the metaclass, not the object
     // (just like in C++ where non-virtual functions are resolved using the static type)
 
-    BOOST_CHECK_EQUAL(class1->property("overridden").get(object1), camp::Value(10));
-    BOOST_CHECK_EQUAL(class2->property("overridden").get(object2), camp::Value(20));
-    BOOST_CHECK_EQUAL(class3->property("overridden").get(object3), camp::Value(30));
-    BOOST_CHECK_EQUAL(class4->property("overridden").get(object4), camp::Value(40));
+    BOOST_CHECK_EQUAL(class1->getPropertyById("overridden").get(object1), camp::Value(10));
+    BOOST_CHECK_EQUAL(class2->getPropertyById("overridden").get(object2), camp::Value(20));
+    BOOST_CHECK_EQUAL(class3->getPropertyById("overridden").get(object3), camp::Value(30));
+    BOOST_CHECK_EQUAL(class4->getPropertyById("overridden").get(object4), camp::Value(40));
 
-    BOOST_CHECK_EQUAL(class1->property("overridden").get(object3), camp::Value(10));
-    BOOST_CHECK_EQUAL(class2->property("overridden").get(object3), camp::Value(20));
+    BOOST_CHECK_EQUAL(class1->getPropertyById("overridden").get(object3), camp::Value(10));
+    BOOST_CHECK_EQUAL(class2->getPropertyById("overridden").get(object3), camp::Value(20));
 
-    BOOST_CHECK_EQUAL(class1->property("overridden").get(object4), camp::Value(10));
-    BOOST_CHECK_EQUAL(class2->property("overridden").get(object4), camp::Value(20));
-    BOOST_CHECK_EQUAL(class3->property("overridden").get(object4), camp::Value(30));
+    BOOST_CHECK_EQUAL(class1->getPropertyById("overridden").get(object4), camp::Value(10));
+    BOOST_CHECK_EQUAL(class2->getPropertyById("overridden").get(object4), camp::Value(20));
+    BOOST_CHECK_EQUAL(class3->getPropertyById("overridden").get(object4), camp::Value(30));
 }
 
 BOOST_AUTO_TEST_SUITE_END()

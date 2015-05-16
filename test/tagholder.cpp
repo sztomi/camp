@@ -53,8 +53,8 @@ BOOST_FIXTURE_TEST_SUITE(TAGHOLDER, TagHolderFixture)
 BOOST_AUTO_TEST_CASE(declare)
 {
     BOOST_CHECK_EQUAL(metaclass->tagCount(), 16);
-    BOOST_CHECK_EQUAL(metaclass->property("prop").tagCount(), 2);
-    BOOST_CHECK_EQUAL(metaclass->function("func").tagCount(), 2);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("prop").tagCount(), 2);
+    BOOST_CHECK_EQUAL(metaclass->getFunctionById("func").tagCount(), 2);
 }
 
 //-----------------------------------------------------------------------------

@@ -103,21 +103,21 @@ const Class& UserObject::getClass() const
 Value UserObject::get(StringId id) const
 {
     assert(nullptr != m_class);
-    return m_class->property(id).get(*this);
+    return m_class->getPropertyById(id).get(*this);
 }
 
 //-------------------------------------------------------------------------------------------------
 void UserObject::set(StringId id, const Value& value) const
 {
     assert(nullptr != m_class);
-    m_class->property(id).set(*this, value);
+    m_class->getPropertyById(id).set(*this, value);
 }
 
 //-------------------------------------------------------------------------------------------------
 Value UserObject::call(StringId id, const Args& args) const
 {
     assert(nullptr != m_class);
-    return m_class->function(id).call(*this, args);
+    return m_class->getFunctionById(id).call(*this, args);
 }
 
 //-------------------------------------------------------------------------------------------------

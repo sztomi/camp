@@ -41,7 +41,7 @@ struct EnumPropertyFixture
     EnumPropertyFixture()
     {
         const camp::Class& metaclass = camp::classByType<MyClass>();
-        property = &static_cast<const camp::EnumProperty&>(metaclass.property("x"));
+        property = &static_cast<const camp::EnumProperty&>(metaclass.getPropertyById("x"));
     }
 
     const camp::EnumProperty* property;

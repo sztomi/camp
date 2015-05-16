@@ -83,8 +83,8 @@ class ClassVisitor;
  * \code
  * const camp::Class& metaclass = camp::classByType<MyClass>();
  *
- * const camp::Property& prop = metaclass.property("prop");
- * const camp::Function& func = metaclass.function("func");
+ * const camp::Property& prop = metaclass.getPropertyById"prop");
+ * const camp::Function& func = metaclass.getFunctionById("func");
  * \endcode
  *
  * Another way to inspect a class, which is more type-safe, is to use a ClassVisitor.
@@ -218,7 +218,7 @@ public:
      *
      * \throw OutOfRange index is out of range
      */
-    const Function& function(std::size_t index) const;
+    const Function& getFunctionByIndex(std::size_t index) const;
 
     /**
      * \brief Get a function from its ID
@@ -229,7 +229,7 @@ public:
      *
      * \throw FunctionNotFound \a ID is not a function of the metaclass
      */
-    const Function& function(StringId id) const;
+    const Function& getFunctionById(StringId id) const;
 
     /**
      * \brief Return the total number of properties of this metaclass
@@ -256,7 +256,7 @@ public:
      *
      * \throw OutOfRange index is out of range
      */
-    const Property& property(std::size_t index) const;
+    const Property& getPropertyByIndex(std::size_t index) const;
 
     /**
      * \brief Get a property from its ID
@@ -267,7 +267,7 @@ public:
      *
      * \throw PropertyNotFound \a ID is not a property of the metaclass
      */
-    const Property& property(StringId id) const;
+    const Property& getPropertyById(StringId id) const;
 
     /**
     * \brief Return the total number of constructors of this metaclass

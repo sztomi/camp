@@ -57,25 +57,25 @@ BOOST_FIXTURE_TEST_SUITE(FUNCTIONACCESS, FunctionAccessFixture)
 //-----------------------------------------------------------------------------
 BOOST_AUTO_TEST_CASE(callableStatic)
 {
-    BOOST_CHECK_EQUAL(metaclass->function("f0").callable(object_t), false);
-    BOOST_CHECK_EQUAL(metaclass->function("f0").callable(object_f), false);
-    BOOST_CHECK_EQUAL(metaclass->function("f1").callable(object_t), true);
-    BOOST_CHECK_EQUAL(metaclass->function("f1").callable(object_f), true);
-    BOOST_CHECK_EQUAL(metaclass->function("f2").callable(object_t), true);
-    BOOST_CHECK_EQUAL(metaclass->function("f2").callable(object_f), true);
-    BOOST_CHECK_EQUAL(metaclass->function("f3").callable(object_t), false);
-    BOOST_CHECK_EQUAL(metaclass->function("f3").callable(object_f), false);
-    BOOST_CHECK_EQUAL(metaclass->function("f4").callable(object_t), true);
-    BOOST_CHECK_EQUAL(metaclass->function("f4").callable(object_f), true);
+    BOOST_CHECK_EQUAL(metaclass->getFunctionById("f0").callable(object_t), false);
+    BOOST_CHECK_EQUAL(metaclass->getFunctionById("f0").callable(object_f), false);
+    BOOST_CHECK_EQUAL(metaclass->getFunctionById("f1").callable(object_t), true);
+    BOOST_CHECK_EQUAL(metaclass->getFunctionById("f1").callable(object_f), true);
+    BOOST_CHECK_EQUAL(metaclass->getFunctionById("f2").callable(object_t), true);
+    BOOST_CHECK_EQUAL(metaclass->getFunctionById("f2").callable(object_f), true);
+    BOOST_CHECK_EQUAL(metaclass->getFunctionById("f3").callable(object_t), false);
+    BOOST_CHECK_EQUAL(metaclass->getFunctionById("f3").callable(object_f), false);
+    BOOST_CHECK_EQUAL(metaclass->getFunctionById("f4").callable(object_t), true);
+    BOOST_CHECK_EQUAL(metaclass->getFunctionById("f4").callable(object_f), true);
 }
 
 //-----------------------------------------------------------------------------
 BOOST_AUTO_TEST_CASE(callableDynamic)
 {
-    BOOST_CHECK_EQUAL(metaclass->function("f5").callable(object_t), true);
-    BOOST_CHECK_EQUAL(metaclass->function("f5").callable(object_f), false);
-    BOOST_CHECK_EQUAL(metaclass->function("f6").callable(object_t), true);
-    BOOST_CHECK_EQUAL(metaclass->function("f6").callable(object_f), false);
+    BOOST_CHECK_EQUAL(metaclass->getFunctionById("f5").callable(object_t), true);
+    BOOST_CHECK_EQUAL(metaclass->getFunctionById("f5").callable(object_f), false);
+    BOOST_CHECK_EQUAL(metaclass->getFunctionById("f6").callable(object_t), true);
+    BOOST_CHECK_EQUAL(metaclass->getFunctionById("f6").callable(object_f), false);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

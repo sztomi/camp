@@ -40,10 +40,10 @@ struct ArrayPropertyFixture
     ArrayPropertyFixture()
     {
         const camp::Class& metaclass = camp::classByType<MyClass>();
-        bools   = &static_cast<const camp::ArrayProperty&>(metaclass.property("bools"));
-        ints    = &static_cast<const camp::ArrayProperty&>(metaclass.property("ints"));
-        strings = &static_cast<const camp::ArrayProperty&>(metaclass.property("strings"));
-        objects = &static_cast<const camp::ArrayProperty&>(metaclass.property("objects"));
+        bools   = &static_cast<const camp::ArrayProperty&>(metaclass.getPropertyById("bools"));
+        ints    = &static_cast<const camp::ArrayProperty&>(metaclass.getPropertyById("ints"));
+        strings = &static_cast<const camp::ArrayProperty&>(metaclass.getPropertyById("strings"));
+        objects = &static_cast<const camp::ArrayProperty&>(metaclass.getPropertyById("objects"));
     }
 
     const camp::ArrayProperty* bools;

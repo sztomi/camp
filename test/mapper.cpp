@@ -59,14 +59,14 @@ BOOST_AUTO_TEST_CASE(count)
 //-----------------------------------------------------------------------------
 BOOST_AUTO_TEST_CASE(types)
 {
-    BOOST_CHECK_EQUAL(metaclass->property(0u).type(), camp::intType);
-    BOOST_CHECK_EQUAL(metaclass->function(0).returnType(), camp::stringType);
+    BOOST_CHECK_EQUAL(metaclass->getPropertyByIndex(0).type(), camp::intType);
+    BOOST_CHECK_EQUAL(metaclass->getFunctionByIndex(0).returnType(), camp::stringType);
 }
 
 //-----------------------------------------------------------------------------
 BOOST_AUTO_TEST_CASE(argCount)
 {
-    BOOST_CHECK_EQUAL(metaclass->function(0).argCount(), 0);
+    BOOST_CHECK_EQUAL(metaclass->getFunctionByIndex(0).argCount(), 0);
 }
 
 //-----------------------------------------------------------------------------
@@ -74,11 +74,11 @@ BOOST_AUTO_TEST_CASE(propertyGet)
 {
     MyClass object;
 
-    BOOST_CHECK_EQUAL(metaclass->property("prop0").get(object), camp::Value(object.prop("prop0")));
-    BOOST_CHECK_EQUAL(metaclass->property("prop1").get(object), camp::Value(object.prop("prop1")));
-    BOOST_CHECK_EQUAL(metaclass->property("prop2").get(object), camp::Value(object.prop("prop2")));
-    BOOST_CHECK_EQUAL(metaclass->property("prop3").get(object), camp::Value(object.prop("prop3")));
-    BOOST_CHECK_EQUAL(metaclass->property("prop4").get(object), camp::Value(object.prop("prop4")));
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("prop0").get(object), camp::Value(object.prop("prop0")));
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("prop1").get(object), camp::Value(object.prop("prop1")));
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("prop2").get(object), camp::Value(object.prop("prop2")));
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("prop3").get(object), camp::Value(object.prop("prop3")));
+    BOOST_CHECK_EQUAL(metaclass->getPropertyById("prop4").get(object), camp::Value(object.prop("prop4")));
 }
 
 //-----------------------------------------------------------------------------
@@ -86,11 +86,11 @@ BOOST_AUTO_TEST_CASE(propertySet)
 {
     MyClass object;
 
-    metaclass->property("prop0").set(object, 0);
-    metaclass->property("prop1").set(object, 100);
-    metaclass->property("prop2").set(object, 200);
-    metaclass->property("prop3").set(object, 300);
-    metaclass->property("prop4").set(object, 400);
+    metaclass->getPropertyById("prop0").set(object, 0);
+    metaclass->getPropertyById("prop1").set(object, 100);
+    metaclass->getPropertyById("prop2").set(object, 200);
+    metaclass->getPropertyById("prop3").set(object, 300);
+    metaclass->getPropertyById("prop4").set(object, 400);
 
     BOOST_CHECK_EQUAL(object.prop("prop0"), 0);
     BOOST_CHECK_EQUAL(object.prop("prop1"), 100);
@@ -104,9 +104,9 @@ BOOST_AUTO_TEST_CASE(functionCall)
 {
     MyClass object;
 
-    BOOST_CHECK_EQUAL(metaclass->function("func0").call(object, camp::Args::empty), camp::Value(object.func("func0")));
-    BOOST_CHECK_EQUAL(metaclass->function("func1").call(object, camp::Args::empty), camp::Value(object.func("func1")));
-    BOOST_CHECK_EQUAL(metaclass->function("func2").call(object, camp::Args::empty), camp::Value(object.func("func2")));
+    BOOST_CHECK_EQUAL(metaclass->getFunctionById("func0").call(object, camp::Args::empty), camp::Value(object.func("func0")));
+    BOOST_CHECK_EQUAL(metaclass->getFunctionById("func1").call(object, camp::Args::empty), camp::Value(object.func("func1")));
+    BOOST_CHECK_EQUAL(metaclass->getFunctionById("func2").call(object, camp::Args::empty), camp::Value(object.func("func2")));
 }
 
 BOOST_AUTO_TEST_SUITE_END()

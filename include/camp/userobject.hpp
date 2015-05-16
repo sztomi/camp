@@ -137,7 +137,7 @@ public:
      * \brief Get the value of an object's property
      *
      * This function is defined for convenience, it is a shortcut
-     * for <tt>object.getClass().property(name).get(object);</tt>
+     * for <tt>object.getClass().getPropertyById(name).get(object);</tt>
      *
      * \param id ID (result of "camp::StringId(camp::Property::name())") of the property to get, no reference by intent
      *
@@ -152,7 +152,7 @@ public:
      * \brief Set the value of an object's property
      *
      * This function is defined for convenience, it is a shortcut
-     * for <tt>object.getClass().property(name).set(object, value);</tt>
+     * for <tt>object.getClass().getPropertyById(name).set(object, value);</tt>
      *
      * \param id ID (result of "camp::StringId(camp::Property::name())") of the property to set, no reference by intent
      * \param value Value to set
@@ -167,7 +167,7 @@ public:
      * \brief Call an object's function
      *
      * This function is defined for convenience, it is a shortcut
-     * for <tt>object.getClass().function(name).call(object, args);</tt>
+     * for <tt>object.getClass().getFunctionById(name).call(object, args);</tt>
      *
      * \param ID (result of "camp::StringId(camp::Function::name())") of the function to call, no reference by intent
      * \param args Arguments to pass to the function, for example "camp::Args::empty"
