@@ -81,7 +81,7 @@ public:
     /**
      * \brief Get a tag by its index
      *
-     * \param index Index of the tag to retrieve
+     * \param index Index of the tag to retrieve, please note that the tag order does not match the metatag declaration order
      *
      * \return index-th tag
      *

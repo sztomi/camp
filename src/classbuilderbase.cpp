@@ -74,8 +74,8 @@ void ClassBuilderBase::addBase(const Class& baseClass, int offset)
     m_target->m_bases.push_back(baseInfos);
 
     { // Copy all properties of the base class into the current class
-        Class::SortedPropertyVector& targetProperties = m_target->m_properties;
-        const Class::SortedPropertyVector& baseProperties = baseClass.m_properties;
+        Class::SortedPropertyVector& targetProperties = m_target->m_propertiesById;
+        const Class::SortedPropertyVector& baseProperties = baseClass.m_propertiesById;
         const size_t numberOfProperties = baseProperties.size();
         for (size_t i = 0; i < numberOfProperties; ++i)
         {
@@ -132,7 +132,7 @@ void ClassBuilderBase::addConstructor(Constructor* constructor)
 void ClassBuilderBase::addProperty(Property* property)
 {
     // Retrieve the class' properties sorted by ID
-    Class::SortedPropertyVector& properties = m_target->m_properties;
+    Class::SortedPropertyVector& properties = m_target->m_propertiesById;
 
     // Replace any property that already exists with the same ID
     const uint32_t id = property->id();

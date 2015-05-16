@@ -104,31 +104,31 @@ const Function& Class::getFunctionById(StringId id) const
 //-------------------------------------------------------------------------------------------------
 std::size_t Class::propertyCount() const
 {
-    return m_properties.size();
+    return m_propertiesById.size();
 }
 
 //-------------------------------------------------------------------------------------------------
 bool Class::hasProperty(StringId id) const
 {
-    SortedPropertyVector::const_iterator iterator = std::lower_bound(m_properties.cbegin(), m_properties.cend(), id, OrderByPropertyId());
-    return (iterator != m_properties.end() && iterator._Ptr->id == id);
+    SortedPropertyVector::const_iterator iterator = std::lower_bound(m_propertiesById.cbegin(), m_propertiesById.cend(), id, OrderByPropertyId());
+    return (iterator != m_propertiesById.end() && iterator._Ptr->id == id);
 }
 
 //-------------------------------------------------------------------------------------------------
 const Property& Class::getPropertyByIndex(std::size_t index) const
 {
     // Make sure that the index is not out of range
-    if (index >= m_properties.size())
-        CAMP_ERROR(OutOfRange(index, m_properties.size()));
+    if (index >= m_propertiesById.size())
+        CAMP_ERROR(OutOfRange(index, m_propertiesById.size()));
 
-    return *m_properties[index].propertyPtr;
+    return *m_propertiesById[index].propertyPtr;
 }
 
 //-------------------------------------------------------------------------------------------------
 const Property& Class::getPropertyById(StringId id) const
 {
-    SortedPropertyVector::const_iterator iterator = std::lower_bound(m_properties.cbegin(), m_properties.cend(), id, OrderByPropertyId());
-    if (iterator != m_properties.end() && iterator._Ptr->id == id)
+    SortedPropertyVector::const_iterator iterator = std::lower_bound(m_propertiesById.cbegin(), m_propertiesById.cend(), id, OrderByPropertyId());
+    if (iterator != m_propertiesById.end() && iterator._Ptr->id == id)
     {
         // Found
         return *iterator._Ptr->propertyPtr;
@@ -175,10 +175,10 @@ void Class::destroy(const UserObject& object) const
 void Class::visit(ClassVisitor& visitor) const
 {
     { // First visit properties
-        const size_t numberOfProperties = m_properties.size();
+        const size_t numberOfProperties = m_propertiesById.size();
         for (size_t i = 0; i < numberOfProperties; ++i)
         {
-            m_properties[i].propertyPtr->accept(visitor);
+            m_propertiesById[i].propertyPtr->accept(visitor);
         }
     }
 

@@ -212,7 +212,7 @@ public:
     /**
      * \brief Get a function from its index in this metaclass
      *
-     * \param index Index of the function to get
+     * \param index Index of the function to get, please note that the function order does not match the metafunction declaration order
      *
      * \return Reference to the function
      *
@@ -389,7 +389,7 @@ private:
     StringId m_id; ///< The ID (result of "camp::StringId(camp::Class::name())") of the metaclass
     const char* m_name; ///< Name of the metaclass, must stay valid as long as this instance exists
     SortedFunctionVector m_functions;
-    SortedPropertyVector m_properties;
+    SortedPropertyVector m_propertiesById;
     BaseVector m_bases; ///< List of base metaclasses
     ConstructorVector m_constructors; ///< List of metaconstructors
     Destructor m_destructor; ///< Destructor (function that is able to delete an abstract object)
