@@ -37,62 +37,68 @@ namespace camp
 const Args Args::empty;
 
 //-------------------------------------------------------------------------------------------------
-Args::Args()
+Args::Args() :
+    m_numberOfValues(0)
 {
 }
 
 //-------------------------------------------------------------------------------------------------
-Args::Args(const Value& a0)
+Args::Args(const Value& a0) :
+    m_numberOfValues(1)
 {
-    m_values.push_back(a0);
+    m_values[0] = a0;
 }
 
 //-------------------------------------------------------------------------------------------------
-Args::Args(const Value& a0, const Value& a1)
+Args::Args(const Value& a0, const Value& a1) :
+    m_numberOfValues(2)
 {
-    m_values.push_back(a0);
-    m_values.push_back(a1);
+    m_values[0] = a0;
+    m_values[1] = a1;
 }
 
 //-------------------------------------------------------------------------------------------------
-Args::Args(const Value& a0, const Value& a1, const Value& a2)
+Args::Args(const Value& a0, const Value& a1, const Value& a2) :
+    m_numberOfValues(3)
 {
-    m_values.push_back(a0);
-    m_values.push_back(a1);
-    m_values.push_back(a2);
+    m_values[0] = a0;
+    m_values[1] = a1;
+    m_values[2] = a2;
 }
 
 //-------------------------------------------------------------------------------------------------
-Args::Args(const Value& a0, const Value& a1, const Value& a2, const Value& a3)
+Args::Args(const Value& a0, const Value& a1, const Value& a2, const Value& a3) :
+    m_numberOfValues(4)
 {
-    m_values.push_back(a0);
-    m_values.push_back(a1);
-    m_values.push_back(a2);
-    m_values.push_back(a3);
+    m_values[0] = a0;
+    m_values[1] = a1;
+    m_values[2] = a2;
+    m_values[3] = a3;
 }
 
 //-------------------------------------------------------------------------------------------------
-Args::Args(const Value& a0, const Value& a1, const Value& a2, const Value& a3, const Value& a4)
+Args::Args(const Value& a0, const Value& a1, const Value& a2, const Value& a3, const Value& a4) :
+    m_numberOfValues(5)
 {
-    m_values.push_back(a0);
-    m_values.push_back(a1);
-    m_values.push_back(a2);
-    m_values.push_back(a3);
-    m_values.push_back(a4);
+    m_values[0] = a0;
+    m_values[1] = a1;
+    m_values[2] = a2;
+    m_values[3] = a3;
+    m_values[4] = a4;
 }
 
 //-------------------------------------------------------------------------------------------------
 std::size_t Args::count() const
 {
-    return m_values.size();
+    return m_numberOfValues;
 }
 
 //-------------------------------------------------------------------------------------------------
 const Value& Args::operator[](std::size_t index) const
 {
     // Make sure that the index is not out of range
-    if (index >= m_values.size())
-        CAMP_ERROR(OutOfRange(index, m_values.size()));
+    if (index >= m_numberOfValues)
+        CAMP_ERROR(OutOfRange(index, m_numberOfValues));
 
     return m_values[index];
 }
@@ -100,6 +106,9 @@ const Value& Args::operator[](std::size_t index) const
 //-------------------------------------------------------------------------------------------------
 Args Args::operator+(const Value& arg) const
 {
+    if (m_numberOfValues + 1 > 5)
+        CAMP_ERROR(OutOfRange(m_numberOfValues + 1, 5));
+
     Args newArgs(*this);
     newArgs += arg;
 
@@ -109,7 +118,11 @@ Args Args::operator+(const Value& arg) const
 //-------------------------------------------------------------------------------------------------
 Args& Args::operator+=(const Value& arg)
 {
-    m_values.push_back(arg);
+    if (m_numberOfValues + 1 > 5)
+        CAMP_ERROR(OutOfRange(m_numberOfValues + 1, 5));
+
+    m_values[m_numberOfValues] = arg;
+    ++m_numberOfValues;
 
     return *this;
 }

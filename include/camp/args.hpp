@@ -32,15 +32,13 @@
 
 
 #include <camp/config.hpp>
-#include <vector>
+#include <camp/value.hpp>
 
 
 namespace camp
 {
-class Value;
-
 /**
- * \brief Wrapper for packing an arbitrary number of arguments into a single object
+ * \brief Wrapper for packing up to five arguments into a single object
  *
  * camp::Args is defined as a list of arguments of any type (wrapped in camp::Value instances),
  * which can conveniently be passed to all the CAMP entities which may need an arbitrary number of arguments
@@ -163,7 +161,8 @@ public:
 
 private:
 
-    std::vector<Value> m_values; ///< List of the values
+    Value m_values[5]; ///< List of the values
+    std::size_t m_numberOfValues;
 };
 
 } // namespace camp
