@@ -102,6 +102,13 @@ const Function& Class::getFunctionById(StringId id) const
 }
 
 //-------------------------------------------------------------------------------------------------
+const Function* Class::tryGetFunctionById(StringId id) const
+{
+    SortedFunctionVector::const_iterator iterator = std::lower_bound(m_functions.cbegin(), m_functions.cend(), id, OrderByFunctionId());
+    return (iterator != m_functions.end() && iterator._Ptr->id == id) ? iterator._Ptr->functionPtr.get() : nullptr;
+}
+
+//-------------------------------------------------------------------------------------------------
 std::size_t Class::propertyCount() const
 {
     return m_propertiesById.size();
@@ -138,6 +145,13 @@ const Property& Class::getPropertyById(StringId id) const
         // Not found
         CAMP_ERROR(PropertyNotFound(id, m_name));
     }
+}
+
+//-------------------------------------------------------------------------------------------------
+const Property* Class::tryGetPropertyById(StringId id) const
+{
+    SortedPropertyVector::const_iterator iterator = std::lower_bound(m_propertiesById.cbegin(), m_propertiesById.cend(), id, OrderByPropertyId());
+    return (iterator != m_propertiesById.end() && iterator._Ptr->id == id) ? iterator._Ptr->propertyPtr.get() : nullptr;
 }
 
 //-------------------------------------------------------------------------------------------------

@@ -232,6 +232,15 @@ public:
     const Function& getFunctionById(StringId id) const;
 
     /**
+     * \brief Try to get a function from its ID
+     *
+     * \param id ID (result of "camp::StringId(camp::Function::name())") of the function to get, no reference by intent
+     *
+     * \return Pointer to the function, null pointer if the ID is not a function of the metaclass
+     */
+    const Function* tryGetFunctionById(StringId id) const;
+
+    /**
      * \brief Return the total number of properties of this metaclass
      *
      * \return Number of properties
@@ -268,6 +277,15 @@ public:
      * \throw PropertyNotFound \a ID is not a property of the metaclass
      */
     const Property& getPropertyById(StringId id) const;
+
+    /**
+     * \brief Try to get a property from its ID
+     *
+     * \param id ID (result of "camp::StringId(camp::Property::name())") of the property to get, no reference by intent
+     *
+     * \return Pointer to the property, null pointer if the ID is not a property of the metaclass
+     */
+    const Property* tryGetPropertyById(StringId id) const;
 
     /**
     * \brief Return the total number of constructors of this metaclass

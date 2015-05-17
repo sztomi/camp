@@ -129,6 +129,15 @@ public:
      */
     Value tag(StringId id, const UserObject& object) const;
 
+    /**
+     * \brief Try to get the value associated to a tag
+     *
+     * \param id Identifier (result of tag name string hashing) of the tag to get, no reference by intent
+     *
+     * \return Value associated to the tag, or null pointer if the tag doesn't exist
+     */
+    const Value* tryGetTagById(StringId id) const;
+
 protected:
 
     /**
