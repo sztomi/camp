@@ -73,7 +73,7 @@ protected:
      * \param baseClass Base class to add
      * \param offset Offset of the base class to add
      */
-    void addBase(const Class& baseClass, int offset);
+    void addBase(Class& baseClass, int offset);
 
     /**
      * \brief Add a new constructor to the target class

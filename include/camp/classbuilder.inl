@@ -50,7 +50,7 @@ ClassBuilder<T>& ClassBuilder<T>::base()
     const int offset = static_cast<int>(reinterpret_cast<const char*>(asBase) - reinterpret_cast<const char*>(asDerived));
 
     // Add the base class
-    addBase(classByType<U>(), offset);
+    addBase(const_cast<Class&>(classByType<U>()), offset);
 
     // Done
     return *this;
