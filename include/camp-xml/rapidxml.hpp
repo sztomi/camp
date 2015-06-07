@@ -15,10 +15,10 @@
 ** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 ** copies of the Software, and to permit persons to whom the Software is
 ** furnished to do so, subject to the following conditions:
-** 
+**
 ** The above copyright notice and this permission notice shall be included in
 ** all copies or substantial portions of the Software.
-** 
+**
 ** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 ** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 ** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -104,7 +104,7 @@ struct RapidXml
  * \param node Parent for the generated XML nodes
  * \param exclude Tag to exclude from the serialization process
  */
-inline void serialize(const UserObject& object, rapidxml::xml_node<>* node, const Value& exclude = Value::nothing)
+inline void serialize(const UserObject& object, rapidxml::xml_node<>* node, const char* exclude = nullptr)
 {
     detail::serialize<detail::RapidXml>(object, node, exclude);
 }
@@ -126,7 +126,7 @@ inline void serialize(const UserObject& object, rapidxml::xml_node<>* node, cons
  * \param node XML node to parse
  * \param exclude Tag to exclude from the deserialization process
  */
-inline void deserialize(const UserObject& object, rapidxml::xml_node<>* node, const Value& exclude = Value::nothing)
+inline void deserialize(const UserObject& object, rapidxml::xml_node<>* node, const char* exclude = nullptr)
 {
     detail::deserialize<detail::RapidXml>(object, node, exclude);
 }
