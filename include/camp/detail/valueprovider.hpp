@@ -84,7 +84,7 @@ struct ValueProviderImpl<T*, Type>
 template <typename T>
 struct ValueProviderImpl<T*, userType>
 {
-    T* operator()() {return classByType<T>().construct().template get<T*>();}
+    T* operator()() {return classByType<T>().construct(Args::empty).template get<T*>();}
 };
 
 /*
