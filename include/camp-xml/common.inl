@@ -15,10 +15,10 @@
 ** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 ** copies of the Software, and to permit persons to whom the Software is
 ** furnished to do so, subject to the following conditions:
-** 
+**
 ** The above copyright notice and this permission notice shall be included in
 ** all copies or substantial portions of the Software.
-** 
+**
 ** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 ** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 ** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -37,17 +37,17 @@ namespace detail
 {
 //-------------------------------------------------------------------------------------------------
 template <typename Proxy>
-void serialize(const UserObject& object, typename Proxy::NodeType node, const Value& exclude)
+void serialize(const UserObject& object, typename Proxy::NodeType node, const char* exclude)
 {
     // Iterate over the object's properties using its metaclass
     const Class& metaclass = object.getClass();
+
     for (std::size_t i = 0; i < metaclass.propertyCount(); ++i)
     {
-        const Property& property = metaclass.property(i);
+        const Property& property = metaclass.getPropertyByIndex(i);
 
         // If the property has the exclude tag, ignore it
-        if ((exclude != Value::nothing) && property.hasTag(exclude))
-            continue;
+        if (exclude && property.hasTag(StringId(exclude))) { continue; }
 
         // Create a child node for the new property
         typename Proxy::NodeType child = Proxy::addChild(node, property.name());
@@ -95,16 +95,16 @@ void serialize(const UserObject& object, typename Proxy::NodeType node, const Va
 
 //-------------------------------------------------------------------------------------------------
 template <typename Proxy>
-void deserialize(const UserObject& object, typename Proxy::NodeType node, const Value& exclude)
+void deserialize(const UserObject& object, typename Proxy::NodeType node, const char* exclude)
 {
     // Iterate over the object's properties using its metaclass
     const Class& metaclass = object.getClass();
     for (std::size_t i = 0; i < metaclass.propertyCount(); ++i)
     {
-        const Property& property = metaclass.property(i);
+        const Property& property = metaclass.getPropertyByIndex(i);
 
         // If the property has the exclude tag, ignore it
-        if ((exclude != Value::nothing) && property.hasTag(exclude))
+        if (exclude && property.hasTag(StringId(exclude)))
             continue;
 
         // Find the child node corresponding to the new property

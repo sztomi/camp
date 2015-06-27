@@ -33,6 +33,7 @@
 #pragma once
 
 
+#include <camp/args.hpp>
 #include <camp/function.hpp>
 #include <camp/detail/callhelper.hpp>
 #include <boost/bind.hpp>

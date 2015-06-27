@@ -159,6 +159,9 @@ configure_file(${CMAKE_SOURCE_DIR}/version.in ${CMAKE_BINARY_DIR}/version.hpp @O
 # instruct CMake to build a shared library from all of the source files
 add_library(camp ${CAMP_SRCS})
 
+# required standard level (needed to pass -std=c++11 to gcc and clang)
+set_property(TARGET camp PROPERTY CXX_STANDARD 11)
+
 # define the export macro
 if(BUILD_SHARED_LIBS)
     set_target_properties(camp PROPERTIES DEFINE_SYMBOL CAMP_EXPORTS)

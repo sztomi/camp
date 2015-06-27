@@ -52,7 +52,7 @@ Class& ClassBuilderBase::getClass()
 }
 
 //-------------------------------------------------------------------------------------------------
-void ClassBuilderBase::addBase(const Class& baseClass, int offset)
+void ClassBuilderBase::addBase(Class& baseClass, int offset)
 {
     #ifdef _DEBUG
     {
@@ -76,20 +76,20 @@ void ClassBuilderBase::addBase(const Class& baseClass, int offset)
     { // Copy all properties of the base class into the current class
         Class::SortedPropertyVector& targetPropertiesByIndex = m_target->m_propertiesByIndex;
         Class::SortedPropertyVector& targetPropertiesById = m_target->m_propertiesById;
-        const Class::SortedPropertyVector& baseProperties = baseClass.m_propertiesById;
+        Class::SortedPropertyVector& baseProperties = baseClass.m_propertiesById;
         const size_t numberOfProperties = baseProperties.size();
         for (size_t i = 0; i < numberOfProperties; ++i)
         {
-            const Class::PropertyEntry& basePropertyEntry = baseProperties[i];
+            Class::PropertyEntry& basePropertyEntry = baseProperties[i];
 
             // Replace any property that already exists with the same ID
             const uint32_t id = basePropertyEntry.id;
-            Class::SortedPropertyVector::const_iterator iterator = std::lower_bound(targetPropertiesById.cbegin(), targetPropertiesById.cend(), id, Class::OrderByPropertyId());
-            if (iterator != targetPropertiesById.end() && iterator._Ptr->id == id)
+            Class::SortedPropertyVector::iterator iterator = std::lower_bound(targetPropertiesById.begin(), targetPropertiesById.end(), id, Class::OrderByPropertyId());
+            if (iterator != targetPropertiesById.end() && iterator->id == id)
             {
                 // Found, so just replace property
-                std::find_if(targetPropertiesByIndex.begin(), targetPropertiesByIndex.end(), [id](const Class::PropertyEntry& other) { return (other.id == id); })._Ptr->propertyPtr = basePropertyEntry.propertyPtr;
-                iterator._Ptr->propertyPtr = basePropertyEntry.propertyPtr;
+                std::find_if(targetPropertiesByIndex.begin(), targetPropertiesByIndex.end(), [id](const Class::PropertyEntry& other) { return (other.id == id); })->propertyPtr = basePropertyEntry.propertyPtr;
+                iterator->propertyPtr = basePropertyEntry.propertyPtr;
             }
             else
             {
@@ -102,19 +102,19 @@ void ClassBuilderBase::addBase(const Class& baseClass, int offset)
 
     { // Copy all functions of the base class into the current class
         Class::SortedFunctionVector& targetFunctions = m_target->m_functions;
-        const Class::SortedFunctionVector& baseFunctions = baseClass.m_functions;
+        Class::SortedFunctionVector& baseFunctions = baseClass.m_functions;
         const size_t numberOfFunctions = baseFunctions.size();
         for (size_t i = 0; i < numberOfFunctions; ++i)
         {
-            const Class::FunctionEntry& baseFunctionEntry = baseFunctions[i];
+            Class::FunctionEntry& baseFunctionEntry = baseFunctions[i];
 
             // Replace any function that already exists with the same ID
             const uint32_t id = baseFunctionEntry.id;
-            Class::SortedFunctionVector::const_iterator iterator = std::lower_bound(targetFunctions.cbegin(), targetFunctions.cend(), id, Class::OrderByFunctionId());
-            if (iterator != targetFunctions.end() && iterator._Ptr->id == id)
+            Class::SortedFunctionVector::iterator iterator = std::lower_bound(targetFunctions.begin(), targetFunctions.end(), id, Class::OrderByFunctionId());
+            if (iterator != targetFunctions.end() && iterator->id == id)
             {
                 // Found, so just replace function
-                iterator._Ptr->functionPtr = baseFunctionEntry.functionPtr;
+                iterator->functionPtr = baseFunctionEntry.functionPtr;
             }
             else
             {
@@ -142,11 +142,11 @@ void ClassBuilderBase::addProperty(Property* property)
         // Retrieve the class' properties sorted by ID
         Class::SortedPropertyVector& properties = m_target->m_propertiesByIndex;
 
-        Class::SortedPropertyVector::const_iterator iterator = std::find_if(properties.begin(), properties.end(), [id](const Class::PropertyEntry& other) { return (other.id == id); });
+        Class::SortedPropertyVector::iterator iterator = std::find_if(properties.begin(), properties.end(), [id](const Class::PropertyEntry& other) { return (other.id == id); });
         if (iterator != properties.end())
         {
             // Found, so just replace property
-            iterator._Ptr->propertyPtr = propertyPtr;
+            iterator->propertyPtr = propertyPtr;
         }
         else
         {
@@ -158,11 +158,11 @@ void ClassBuilderBase::addProperty(Property* property)
         // Retrieve the class' properties sorted by ID
         Class::SortedPropertyVector& properties = m_target->m_propertiesById;
 
-        Class::SortedPropertyVector::const_iterator iterator = std::lower_bound(properties.cbegin(), properties.cend(), id, Class::OrderByPropertyId());
-        if (iterator != properties.end() && iterator._Ptr->id == id)
+        Class::SortedPropertyVector::iterator iterator = std::lower_bound(properties.begin(), properties.end(), id, Class::OrderByPropertyId());
+        if (iterator != properties.end() && iterator->id == id)
         {
             // Found, so just replace property
-            iterator._Ptr->propertyPtr = propertyPtr;
+            iterator->propertyPtr = propertyPtr;
         }
         else
         {
@@ -183,11 +183,11 @@ void ClassBuilderBase::addFunction(Function* function)
 
     // Replace any function that already exists with the same ID
     const uint32_t id = function->id();
-    Class::SortedFunctionVector::const_iterator iterator = std::lower_bound(functions.cbegin(), functions.cend(), id, Class::OrderByFunctionId());
-    if (iterator != functions.end() && iterator._Ptr->id == id)
+    Class::SortedFunctionVector::iterator iterator = std::lower_bound(functions.begin(), functions.end(), id, Class::OrderByFunctionId());
+    if (iterator != functions.end() && iterator->id == id)
     {
         // Found, so just replace function
-        iterator._Ptr->functionPtr = Class::FunctionPtr(function);
+        iterator->functionPtr = Class::FunctionPtr(function);
     }
     else
     {
@@ -209,13 +209,13 @@ void ClassBuilderBase::addTag(const char* name, const detail::Getter<Value>& val
     TagHolder::SortedTagVector& tags = m_currentTagHolder->m_tags;
 
     // Replace any tag that already exists with the same ID
-    TagHolder::SortedTagVector::const_iterator iterator = std::lower_bound(tags.cbegin(), tags.cend(), id, TagHolder::OrderByTagId());
-    if (iterator != tags.end() && iterator._Ptr->id == id)
+    TagHolder::SortedTagVector::iterator iterator = std::lower_bound(tags.begin(), tags.end(), id, TagHolder::OrderByTagId());
+    if (iterator != tags.end() && iterator->id == id)
     {
         // Found, so just replace tag value
         // -> Should not happen for efficiency reasons
         assert(false);
-        iterator._Ptr->value = value;
+        iterator->value = value;
     }
     else
     {

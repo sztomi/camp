@@ -47,7 +47,7 @@ Class& ClassManager::addClass(StringId id, const char* name)
 {
     // First make sure that the class doesn't already exist
     SortedClassVector::const_iterator iterator = std::lower_bound(m_classes.cbegin(), m_classes.cend(), id, OrderByClassId());
-    if (iterator != m_classes.end() && iterator._Ptr->id == id)
+    if (iterator != m_classes.end() && iterator->id == id)
     {
         CAMP_ERROR(ClassAlreadyCreated(name));
     }
@@ -85,10 +85,10 @@ const Class& ClassManager::getByIndex(std::size_t index) const
 const Class& ClassManager::getById(StringId id) const
 {
     SortedClassVector::const_iterator iterator = std::lower_bound(m_classes.cbegin(), m_classes.cend(), id, OrderByClassId());
-    if (iterator != m_classes.end() && iterator._Ptr->id == id)
+    if (iterator != m_classes.end() && iterator->id == id)
     {
         // Found
-        return *iterator._Ptr->classPtr;
+        return *iterator->classPtr;
     }
     else
     {
@@ -101,14 +101,14 @@ const Class& ClassManager::getById(StringId id) const
 const Class* ClassManager::getByIdSafe(StringId id) const
 {
     SortedClassVector::const_iterator iterator = std::lower_bound(m_classes.cbegin(), m_classes.cend(), id, OrderByClassId());
-    return (iterator != m_classes.end() && iterator._Ptr->id == id) ? iterator._Ptr->classPtr : nullptr;
+    return (iterator != m_classes.end() && iterator->id == id) ? iterator->classPtr : nullptr;
 }
 
 //-------------------------------------------------------------------------------------------------
 bool ClassManager::classExists(StringId id) const
 {
     SortedClassVector::const_iterator iterator = std::lower_bound(m_classes.cbegin(), m_classes.cend(), id, OrderByClassId());
-    return (iterator != m_classes.end() && iterator._Ptr->id == id);
+    return (iterator != m_classes.end() && iterator->id == id);
 }
 
 //-------------------------------------------------------------------------------------------------

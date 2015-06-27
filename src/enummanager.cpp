@@ -50,7 +50,7 @@ Enum& EnumManager::addClass(StringId id, const char* name)
 {
     // First make sure that the enum doesn't already exist
     SortedEnumVector::const_iterator iterator = std::lower_bound(m_enums.cbegin(), m_enums.cend(), id, OrderByEnumId());
-    if (iterator != m_enums.end() && iterator._Ptr->id == id)
+    if (iterator != m_enums.end() && iterator->id == id)
     {
         CAMP_ERROR(EnumAlreadyCreated(name));
     }
@@ -88,10 +88,10 @@ const Enum& EnumManager::getByIndex(std::size_t index) const
 const Enum& EnumManager::getById(StringId id) const
 {
     SortedEnumVector::const_iterator iterator = std::lower_bound(m_enums.cbegin(), m_enums.cend(), id, OrderByEnumId());
-    if (iterator != m_enums.end() && iterator._Ptr->id == id)
+    if (iterator != m_enums.end() && iterator->id == id)
     {
         // Found
-        return *iterator._Ptr->enumPtr;
+        return *iterator->enumPtr;
     }
     else
     {
@@ -104,14 +104,14 @@ const Enum& EnumManager::getById(StringId id) const
 const Enum* EnumManager::getByIdSafe(StringId id) const
 {
     SortedEnumVector::const_iterator iterator = std::lower_bound(m_enums.cbegin(), m_enums.cend(), id, OrderByEnumId());
-    return (iterator != m_enums.end() && iterator._Ptr->id == id) ? iterator._Ptr->enumPtr : nullptr;
+    return (iterator != m_enums.end() && iterator->id == id) ? iterator->enumPtr : nullptr;
 }
 
 //-------------------------------------------------------------------------------------------------
 bool EnumManager::enumExists(StringId id) const
 {
     SortedEnumVector::const_iterator iterator = std::lower_bound(m_enums.cbegin(), m_enums.cend(), id, OrderByEnumId());
-    return (iterator != m_enums.end() && iterator._Ptr->id == id);
+    return (iterator != m_enums.end() && iterator->id == id);
 }
 
 //-------------------------------------------------------------------------------------------------

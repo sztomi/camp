@@ -58,28 +58,28 @@ const TagHolder::TagEntry& TagHolder::getTagEntryByIndex(std::size_t index) cons
 bool TagHolder::hasTag(StringId id) const
 {
     SortedTagVector::const_iterator iterator = std::lower_bound(m_tags.cbegin(), m_tags.cend(), id, OrderByTagId());
-    return (iterator != m_tags.end() && iterator._Ptr->id == id);
+    return (iterator != m_tags.end() && iterator->id == id);
 }
 
 //-------------------------------------------------------------------------------------------------
 const Value& TagHolder::tag(StringId id) const
 {
     SortedTagVector::const_iterator iterator = std::lower_bound(m_tags.cbegin(), m_tags.cend(), id, OrderByTagId());
-    return (iterator != m_tags.end() && iterator._Ptr->id == id) ? iterator._Ptr->value.get() : Value::nothing;
+    return (iterator != m_tags.end() && iterator->id == id) ? iterator->value.get() : Value::nothing;
 }
 
 //-------------------------------------------------------------------------------------------------
 Value TagHolder::tag(StringId id, const UserObject& object) const
 {
     SortedTagVector::const_iterator iterator = std::lower_bound(m_tags.cbegin(), m_tags.cend(), id, OrderByTagId());
-    return (iterator != m_tags.end() && iterator._Ptr->id == id) ? iterator._Ptr->value.get(object) : Value::nothing;
+    return (iterator != m_tags.end() && iterator->id == id) ? iterator->value.get(object) : Value::nothing;
 }
 
 //-------------------------------------------------------------------------------------------------
 const Value* TagHolder::tryGetTagById(StringId id) const
 {
     SortedTagVector::const_iterator iterator = std::lower_bound(m_tags.cbegin(), m_tags.cend(), id, OrderByTagId());
-    return (iterator != m_tags.end() && iterator._Ptr->id == id) ? &iterator._Ptr->value.get() : nullptr;
+    return (iterator != m_tags.end() && iterator->id == id) ? &iterator->value.get() : nullptr;
 }
 
 //-------------------------------------------------------------------------------------------------

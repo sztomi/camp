@@ -33,7 +33,7 @@
 //[-------------------------------------------------------]
 //[ C++ compiler keywords                                 ]
 //[-------------------------------------------------------]
-#ifdef WIN32
+#if defined(_MSC_VER)
 	/**
 	*  @brief
 	*    Force the compiler to inline something
@@ -42,7 +42,7 @@
 	*    - Do only use this when you really have to, usually it's best to let the compiler decide by using the standard keyword "inline"
 	*/
 	#define FORCEINLINE __forceinline
-#elif LINUX
+#elif defined(__clang__) || defined(__GNUG__)
 	/**
 	*  @brief
 	*    Force the compiler to inline something
@@ -50,7 +50,7 @@
 	*  @note
 	*    - Do only use this when you really have to, usually it's best to let the compiler decide by using the standard keyword "inline"
 	*/
-	#define FORCEINLINE __attribute__((always_inline))
+	#define FORCEINLINE inline __attribute__((always_inline))
 #elif __APPLE__
 	/**
 	*  @brief
