@@ -208,7 +208,7 @@ struct ValueMapper<std::string>
 
     static std::string from(bool source)                    {return std::to_string(source);}
     static std::string from(long source)                    {return std::to_string(source);}
-    static std::string from(double source)                  {return std::to_string(source);}
+    static std::string from(double source)                  {return boost::lexical_cast<std::string>(source);}
     static std::string from(const std::string& source)      {return source;}
     static std::string from(const camp::EnumObject& source) {return source.name();}
     static std::string from(const camp::UserObject&)        {CAMP_ERROR(camp::BadType(camp::userType, camp::stringType));}
