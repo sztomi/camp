@@ -56,6 +56,26 @@ struct RapidXml
         return child;
     }
 
+    static bool hasAttribute(NodeType node, std::string const& attrName)
+    {
+        rapidxml::xml_attribute<>* attr = node->first_attribute(attrName.c_str());
+        return attr != nullptr;
+    }
+
+    static std::string getAttributeText(NodeType node, std::string const& attrName)
+    {
+        rapidxml::xml_attribute<>* attr = node->first_attribute(attrName.c_str());
+        return std::string(attr->value());
+    }
+
+    static void setAttributeText(NodeType node, std::string const& attrName, std::string const& value)
+    {
+        char* rx_attrName = node->document()->allocate_string(attrName.c_str());
+        char* rx_value = node->document()->allocate_string(value.c_str());
+        rapidxml::xml_attribute<>* attr = node->document()->allocate_attribute(rx_attrName, rx_value);
+        node->append_attribute(attr);
+    }
+
     static void setText(NodeType node, const std::string& text)
     {
         node->value(node->document()->allocate_string(text.c_str()));

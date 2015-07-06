@@ -29,6 +29,8 @@
 **
 ****************************************************************************/
 
+#include <camp/stringid.hpp>
+
 namespace camp
 {
 namespace xml
@@ -74,8 +76,12 @@ void serialize(const UserObject& object, typename Proxy::NodeType node, const ch
                 {
                     if (arrayProperty.elementType() == userType)
                     {
+                        auto obj = arrayProperty.get(object, j).to<UserObject>();
+                        auto className = obj.getClass().name();
                         // The array elements are composed objects: serialize them recursively
-                        serialize<Proxy>(arrayProperty.get(object, j).to<UserObject>(), item, exclude);
+                        serialize<Proxy>(obj, item, exclude);
+                        // Add the classname as a child node
+                        Proxy::setAttributeText(item, "class", className);
                     }
                     else
                     {
@@ -133,14 +139,25 @@ void deserialize(const UserObject& object, typename Proxy::NodeType node, const 
                 if (index >= count)
                 {
                     if (arrayProperty.dynamic())
+                    {
                         arrayProperty.resize(object, index + 1);
+                    }
                     else
+                    {
                         break;
+                    }
                 }
 
                 if (arrayProperty.elementType() == userType)
                 {
                     // The array elements are composed objects: deserialize them recursively
+                    if (Proxy::hasAttribute(item, "class"))
+                    {
+                        auto className = Proxy::getAttributeText(item, "class");
+                        auto& metaClass = camp::classById(StringId(className.c_str()));
+                        auto uObj = metaClass.construct(Args::empty);
+                        arrayProperty.set(object, index, uObj);
+                    }
                     deserialize<Proxy>(arrayProperty.get(object, index).to<UserObject>(), item, exclude);
                 }
                 else
